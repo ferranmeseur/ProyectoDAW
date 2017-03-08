@@ -1,0 +1,41 @@
+<link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+
+<script>
+    var titulo = $('#title');
+    var range = 500;
+
+    $(window).on('scroll', function () {
+
+        var scrollTop = $(this).scrollTop();
+        var offset = titulo.offset().top;
+        var height = titulo.outerHeight();
+        offset = offset + height / 2;
+        var calc = 1 - (scrollTop - offset + range) / range;
+
+        titulo.css({'opacity': calc});
+
+        if (calc > '1') {
+            titulo.css({'opacity': 1});
+        } else if (calc < '0') {
+            titulo.css({'opacity': 0});
+        }
+        console.log(calc);
+    });
+</script>
+<header >
+    <div class="center titulo">
+        <img style="width: 100%;top:0;left:0" src="Imagenes/HEADER_SIN_LETRAS.png" alt=""/>
+        <img id="title"  src="Imagenes/TITTLE.png" alt=""/>
+    </div>       
+    <div class="block ">
+        <div class="center margingbot_30px">
+            <a class="inline fonts border_right" href="HomePage.html">INICIO</a>
+            <a class="inline fonts border_right margingbot_30px" href="Concierto.html">CONCIERTOS</a>
+            <a class="inline fonts border_right" href="Musico.html">GRUPOS</a>
+            <a class="inline fonts border_right" href="Local.html">LOCALES</a>
+            <a class="inline fonts border_right" href="Ranking.html">RANKING</a>
+            <a class="inline fonts paddingleft10" href="Login.html">AREA PERSONAL</a>
+        </div>
+    </div>
+</header>

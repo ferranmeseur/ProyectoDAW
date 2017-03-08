@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Registro</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script>
+            $(function () {
+                $("#header").load("Header.html");
+                $("#footer").load("Footer.html");
+            });
+        </script> 
+        <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <div id="header"></div>
+        <div class="center">
+            Introduce los siguientes datos para darte de alta en Music and Seek:</br></br>
+            <div id="Registro" class="width_48 inline">
+                <div id="Labels" class="inline text_align_left ">
+                   
+                    <div id="Rol" class="center">
+                        <select>
+                            <option value="Musico">Musico</option>
+                            <option value="Local">Local</option>
+                            <option value="Fan">Fan</option>
+                        </select>
+                    </div>
+                    <div id="Usuario" class="padding5 align_right">
+                        <label>Usuario :</label>
+                        <input/>
+                    </div>
+                    <div id="Mail" class="padding5 align_right">
+                        <label>Email :</label>
+                        <input/>
+                    </div>
+                    <div id="Mail2" class="padding5 align_right">
+                        <label>Repite el Email :</label>
+                        <input/>
+                    </div>
+                    <div id="Pass" class="padding5 align_right">
+                        <label>Password :</label>
+                        <input/>
+                    </div>
+                    <div id="Pass2" class="padding align_right">
+                        <label>Repite el Password :</label>
+                        <input/>
+                    </div>
+                </div>
+            </div>
+            <div id="Foto_registro" class="inline width_48">
+                <div>
+                    <img class="img_default" src="Imagenes/image.jpeg" alt=""/>
+                </div>
+                <div>
+                    <button>Subir Foto</button>
+                </div>
+            </div>
+            <div id="Submits" style="padding: 40px;" class="inline width_90">
+                <div class="inline width_48">
+                    <button>Cancelar</button>
+                </div>
+                <div class="inline width_48">
+                    <button>Siguiente</button>
+                </div>
+            </div>
+        </div>
+        <div id="footer"></div>
+    </body>
+</html>
