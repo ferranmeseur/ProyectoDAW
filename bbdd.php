@@ -18,38 +18,47 @@ function CheckUsuarioConectado($sessionToken) {
 }
 
 //Busca por musicos, locales o conciertos
-function BusquedaLocal($nombre) {
+function BusquedaLocal($busqueda) {
     $conexion = conectar();
-    $sql = "SELECT * FROM USUARIO WHERE NOMBRE_LOCAL LIKE '%" . $nombre . "%'";
+    $sql = "SELECT * FROM USUARIO WHERE NOMBRE_LOCAL LIKE '%" . $busqueda . "%'";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
-        return $result;
-    } else {
-        return null;
+        echo "<table>";
+        echo '<tr><td>Local</td></tr>';
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr><td>" . $row['NOMBRE_LOCAL'] . "</td></tr> ";
+        }
+        echo "</table>";
     }
     desconectar($conexion);
 }
 
-function BusquedaArtista($nombre) {
+function BusquedaArtista($busqueda) {
     $conexion = conectar();
-    $sql = "SELECT * FROM USUARIO WHERE NOMBRE_ARTISTICO LIKE '%" . $nombre . "%'";
+    $sql = "SELECT * FROM USUARIO WHERE NOMBRE_ARTISTICO LIKE '%" . $busqueda . "%'";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
-        return $result;
-    } else {
-        return null;
+        echo "<table>";
+        echo '<tr><td>Artistas</td></tr>';
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr><td>" . $row['NOMBRE_ARTISTICO'] . "</td></tr> ";
+        }
+        echo "</table>";
     }
     desconectar($conexion);
 }
 
-function BusquedaConciertoPorArtista($nombre) {
+function BusquedaConciertoPorArtista($busqueda) {
     $conexion = conectar();
-    $sql = "SELECT * FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE USUARIO.NOMBRE_ARTISTICO LIKE '%" . $nombre . "%'";
+    $sql = "SELECT * FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE USUARIO.NOMBRE_ARTISTICO LIKE '%" . $busqueda . "%'";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
-        return $result;
-    } else {
-        return null;
+        echo "<table>";
+        echo '<tr><td>Concierto - Artistas</td></tr>';
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr><td>" . $row['ID_CONCIERTO'] . "</td></tr> ";
+        }
+        echo "</table>";
     }
     desconectar($conexion);
 }
@@ -59,9 +68,12 @@ function BusquedaConciertoPorLocal($nombre) {
     $sql = "SELECT * FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE USUARIO.NOMBRE_LOCAL LIKE '%" . $nombre . "%'";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
-        return $result;
-    } else {
-        return null;
+        echo "<table>";
+        echo '<tr><td>Concierto - Local</td></tr>';
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr><td>" . $row['ID_CONCIERTO'] . "</td></tr> ";
+        }
+        echo "</table>";
     }
     desconectar($conexion);
 }
@@ -83,8 +95,6 @@ function RankingMusicos() {
             echo "<td>" . $row["NOMBRE"] . "</td><td>" . $row["PUNTOS"] . "</td></br>";
             echo "</tr>";
         }
-    } else {
-        echo "0 results";
     }
     desconectar($conexion);
 }
@@ -92,7 +102,7 @@ function RankingMusicos() {
 /* RANKING POR GENERO */
 
 function ListaGeneros() {
-    $conexion = conectar("basket");
+    $conexion = conectar();
     $sql = "SELECT NOMBRE, ID_GENERO FROM GENERO ORDER BY NOMBRE ASC";
     $result = $conexion->query($sql);
     if ($result->num_rows) {
@@ -104,36 +114,59 @@ function ListaGeneros() {
 }
 
 function RankingPorGenero($genero) {
-    /* SELECT SUM(PUNTOS), ID_VOTADO FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO = USUARIO.ID_USUARIO WHERE id_genero = 'GENERO' GROUP BY ID_VOTADO; */
-    
-    
+    $conexion = conectar();
+    $sql = " SELECT USUARIO.NOMBRE_ARTISTICO,SUM(PUNTOS), ID_VOTADO FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO = USUARIO.ID_USUARIO WHERE id_genero = 'GENERO' GROUP BY ID_VOTADO";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo'<div class="center">
+            $row["NOMBRE_ARTISTICO"]</div>';
+        }
+    }
 }
 
 /* RANKING POR CIUDAD */
 
 function ListaCiudades() {
-    /* SELECT NOMBRE, ID_CIUDAD FROM CIUDAD ORDER BY NOMBRE ASC; */
+    $conexion = conectar();
+    $sql = "SELECT NOMBRE, ID_CIUDAD FROM CIUDAD ORDER BY NOMBRE ASC";
+    $result = $conexion->query($sql);
+    if ($result->num_rows) {
+        return $result;
+    } else {
+        return null;
+    }
+    desconectar($conexion);
 }
 
 function RankingPorciudad($ciudad) {
-    /* SELECT SUM(PUNTOS), ID_VOTADO FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO = USUARIO.ID_USUARIO WHERE ID_CIUDAD = 'CIUDAD' GROUP BY ID_VOTADO; */
+    $conexion = conectar();
+    $sql = "SELECT USUARIO.NOMBRE_ARTISTICO,SUM(PUNTOS), ID_VOTADO FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO = USUARIO.ID_USUARIO WHERE ID_CIUDAD = 'CIUDAD' GROUP BY ID_VOTAD";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo'<div class="center">
+            $row["NOMBRE_ARTISTICO"]</div>';
+        }
+    }
 }
+
 /*
-CONCIERTOS:
-SELECT * FROM CONCIERTOS;
-CONCIERTOS POR CIUDAD:
-SELECT NOMBRE, ID_CIUDAD FROM CIUDAD ORDER BY NOMBRE ASC;
-SELECT * FROM CONCIERTO RIGHT JOIN USUARIO ON CONCIERTO.ID_LOCAL = USUARIO.ID_USUARIO WHERE ID_CIUDAD = 'CIUDAD';
-CONCIERTOS POR GENERO:
-SELECT NOMBRE, ID_GENERO FROM GENERO ORDER BY NOMBRE ASC;
-SELECT * FROM CONCIERTO WHERE ID_GENERO = 'GENERO';
-CONCIERTOS POR GRUPO:
-SELECT NOMBRE, ID_USUARIO FROM USUARIO WHERE TIPO_USUARIO = 'MUSICO';
-SELECT * FROM CONCIERTO RIGHT JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE ID_USUARIO = 'ID_USUARIO';
-CONCIERTOS POR LOCAL:
-SELECT NOMBRE, ID_USUARIO FROM USUARIO WHERE TIPO_USUARIO = 'LOCAL';
-SELECT * FROM CONCIERTO RIGHT JOIN USUARIO ON CONCIERTO.ID_LOCAL = USUARIO.ID_USUARIO WHERE ID_USUARIO = 'ID_USUARIO';
- 
+  CONCIERTOS:
+  SELECT * FROM CONCIERTOS;
+  CONCIERTOS POR CIUDAD:
+  SELECT NOMBRE, ID_CIUDAD FROM CIUDAD ORDER BY NOMBRE ASC;
+  SELECT * FROM CONCIERTO RIGHT JOIN USUARIO ON CONCIERTO.ID_LOCAL = USUARIO.ID_USUARIO WHERE ID_CIUDAD = 'CIUDAD';
+  CONCIERTOS POR GENERO:
+  SELECT NOMBRE, ID_GENERO FROM GENERO ORDER BY NOMBRE ASC;
+  SELECT * FROM CONCIERTO WHERE ID_GENERO = 'GENERO';
+  CONCIERTOS POR GRUPO:
+  SELECT NOMBRE, ID_USUARIO FROM USUARIO WHERE TIPO_USUARIO = 'MUSICO';
+  SELECT * FROM CONCIERTO RIGHT JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE ID_USUARIO = 'ID_USUARIO';
+  CONCIERTOS POR LOCAL:
+  SELECT NOMBRE, ID_USUARIO FROM USUARIO WHERE TIPO_USUARIO = 'LOCAL';
+  SELECT * FROM CONCIERTO RIGHT JOIN USUARIO ON CONCIERTO.ID_LOCAL = USUARIO.ID_USUARIO WHERE ID_USUARIO = 'ID_USUARIO';
+
  */
 ?>
 

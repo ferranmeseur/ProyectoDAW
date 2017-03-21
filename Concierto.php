@@ -13,8 +13,5 @@
         </script> 
         <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
     </head>
-    <body>
-        <div id="header"></div> 
-        <div id="footer"></div>
-    </body>
+    <body class="width_100"><div id="header"></div><div id="footer"></div></body>
 </html>

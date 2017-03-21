@@ -21,58 +21,61 @@
                     ARTISTAS EN ALZA
                     <div class="center height_25 width_100"></div>
                 </div>
+                <?php
+                require_once 'bbdd.php';
+                RankingMusicos();
+                ?>
                 <div class="inline">
                     <div class="center">
-                        <select class="center">
-                            <option value="Rock">Rock</option>
-                            <option value="Pop">Pop</option>
-                            <option value="Grunge">Grunge</option>
-                        </select>
-                        <div class="center cursiva ">Escoge un genero para visualizar la clasificacion</div>
-                    </div>
-                    <div class="center">
-                        <div class="center contenedor_scroll">
-                            <div class="center">GRUPO 1</div>
-                            <div class="center">GRUPO 2</div>
-                            <div class="center">GRUPO 3</div>
-                            <div class="center">GRUPO 4</div>
-                            <div class="center">GRUPO 5</div>
-                            <div class="center">GRUPO 6</div>
-                            <div class="center">GRUPO 7</div>
-                            <div class="center">GRUPO 8</div>
-                            <div class="center">GRUPO 9</div>
-                            <div class="center">GRUPO 10</div>
-                            <div class="center">GRUPO 11</div>
-                            <div class="center">GRUPO 12</div>
-                            <div class="center">GRUPO 13</div>
-                        </div>
+                        <?php
+                        require_once 'bbdd.php';
+                        echo'<form action = "" method = "POST" >';
+                        $generos = ListaGeneros();
+                        echo'<select name="genero">';
+                        while ($fila2 = mysqli_fetch_array($generos)) {
+                            extract($fila2);
+                            echo"<option value=$NOMBRE>$NOMBRE</option>";
+                            if (isset($_POST["generosub"])) {
+                                echo'<div class="center">
+                                <div class="center contenedor_scroll">';
+                                $genero = $_POST["genero"];
+                                RankingPorGenero($genero);
+                            }
+                            echo'</div></div>';
+                        }
+                        echo'</select>';
+                        ?>
+                        <button id="generogrupos" class="center cursiva" name = "generosub">Escoge un genero para visualizar la clasificacion</button>
+                        </form>
                     </div>
                 </div>
                 <div class="inline">
                     <div class="center">
-                        <form><input value="Barcelona"></form>
-                        <div class="center cursiva ">Escoge un genero para visualizar la clasificacion</div>
-                    </div>
-                    <div class="center">
-                        <div class="center contenedor_scroll">
-                            <div class="center">GRUPO 1</div>
-                            <div class="center">GRUPO 2</div>
-                            <div class="center">GRUPO 3</div>
-                            <div class="center">GRUPO 4</div>
-                            <div class="center">GRUPO 5</div>
-                            <div class="center">GRUPO 6</div>
-                            <div class="center">GRUPO 7</div>
-                            <div class="center">GRUPO 8</div>
-                            <div class="center">GRUPO 9</div>
-                            <div class="center">GRUPO 10</div>
-                            <div class="center">GRUPO 11</div>
-                            <div class="center">GRUPO 12</div>
-                            <div class="center">GRUPO 13</div>
-                        </div>
+                        <?php
+                        require_once 'bbdd.php';
+                        echo'<form action = "" method = "POST" >';
+                        $ciudades = ListaCiudades();
+                        echo'<select name="ciudad">';
+                        while ($fila2 = mysqli_fetch_array($ciudades)) {
+                            extract($fila2);
+                            echo"<option value=$NOMBRE>$NOMBRE</option>";
+                            if (isset($_POST["ciudadsub"])) {
+                                echo'<div class="center">
+                                <div class="center contenedor_scroll">';
+                                $ciudad = $_POST["ciudad"];
+                                RankingPorciudad($ciudad);
+                            }
+                            echo'</div></div>';
+                        }
+                        echo'</select>';
+                        ?>
+                        <button id="generogrupos" class="center cursiva" name = "ciudadsub">Escoge una ciudad para visualizar la clasificacion</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="footer"></div>
-    </body>
+    </div>
+    <div id="footer"></div>
+</body>
 </html>

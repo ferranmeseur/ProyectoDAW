@@ -1,4 +1,14 @@
 <!DOCTYPE html>
+<?php
+            require_once 'bbdd.php';
+            if (isset($_POST["submit"])) {
+                $busqueda = $_POST["busqueda"];
+                BusquedaLocal($busqueda);
+                BusquedaArtista($busqueda);
+                BusquedaConciertoPorLocal($nombre);
+                BusquedaConciertoPorArtista($busqueda);
+            }
+            ?>
 <html>
     <head>
         <title>MusicAndSeek</title>
@@ -23,9 +33,9 @@
             <div class="center width_60 height_20 inline">NOTICIAS</div>
         </div>
         <div id="Search" class="height_40">
-            <form class="form-wrapper cf">
-                <input type="text" placeholder="Busca músicos, locales o conciertos" required>
-                <button type="submit">GO!</button>
+            <form class="form-wrapper cf" method = "POST">
+                <input type="text" name="busqueda" placeholder="Busca músicos, locales o conciertos" required>
+                <button type="submit" name = "submit">GO!</button>
             </form>
         </div>
         <div id="Secciones">
