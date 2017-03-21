@@ -151,23 +151,99 @@ function RankingPorciudad($ciudad) {
     }
 }
 
-/*
-  CONCIERTOS:
-  SELECT * FROM CONCIERTOS;
-  CONCIERTOS POR CIUDAD:
-  SELECT NOMBRE, ID_CIUDAD FROM CIUDAD ORDER BY NOMBRE ASC;
-  SELECT * FROM CONCIERTO RIGHT JOIN USUARIO ON CONCIERTO.ID_LOCAL = USUARIO.ID_USUARIO WHERE ID_CIUDAD = 'CIUDAD';
-  CONCIERTOS POR GENERO:
-  SELECT NOMBRE, ID_GENERO FROM GENERO ORDER BY NOMBRE ASC;
-  SELECT * FROM CONCIERTO WHERE ID_GENERO = 'GENERO';
-  CONCIERTOS POR GRUPO:
-  SELECT NOMBRE, ID_USUARIO FROM USUARIO WHERE TIPO_USUARIO = 'MUSICO';
-  SELECT * FROM CONCIERTO RIGHT JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE ID_USUARIO = 'ID_USUARIO';
-  CONCIERTOS POR LOCAL:
-  SELECT NOMBRE, ID_USUARIO FROM USUARIO WHERE TIPO_USUARIO = 'LOCAL';
-  SELECT * FROM CONCIERTO RIGHT JOIN USUARIO ON CONCIERTO.ID_LOCAL = USUARIO.ID_USUARIO WHERE ID_USUARIO = 'ID_USUARIO';
+/* CONCIERTOS: */
 
- */
+function ListaConciertos() {
+    $conexion = conectar();
+    $sql = "SELECT * FROM CONCIERTOS";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        echo'<div class="center">
+            $row["ID_GRUPO"]-$row["ID_LOCAL"]-$row["FECHA"]</div>';
+    }
+    desconectar($conexion);
+}
+
+/*
+  CONCIERTOS POR CIUDAD:
+  LISTA CIUDADES (HECHO ARRIBA)
+  TEN CUIDADO EN EL SELECT QUE BUSCAS POR ID (METE ID EN EL VALUE) */
+
+function ListaConciertosCiudad($ciudad) {
+    $conexion = conectar();
+    $sql = "SELECT CONCIERTO.ID_GRUPO,CONCIERTO.ID_LOCAL,CONCIERTO.FECHA FROM CONCIERTO RIGHT JOIN USUARIO ON CONCIERTO.ID_LOCAL = USUARIO.ID_USUARIO WHERE ID_CIUDAD = $ciudad";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        echo'<div class="center">
+            $row["ID_GRUPO"]-$row["ID_LOCAL"]-$row["FECHA"]</div>';
+    }
+    desconectar($conexion);
+}
+
+/* CONCIERTOS POR GENERO:
+  LISTA GENEROS (HECHO ARRIBA)
+  TEN CUIDADO EN EL SELECT QUE BUSCAS POR ID (METE ID EN EL VALUE) */
+
+function ListaConciertosGenero($ciudad) {
+    $conexion = conectar();
+    $sql = "SELECT * FROM CONCIERTO WHERE ID_GENERO =$genero";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        echo'<div class="center">
+            $row["ID_GRUPO"]-$row["ID_LOCAL"]-$row["FECHA"]</div>';
+    }
+    desconectar($conexion);
+}
+
+/* CONCIERTOS POR GRUPO: */
+
+function ListaGrupos() {
+    $conexion = conectar();
+    $sql = "SELECT NOMBRE_ARTISTICO FROM USUARIO WHERE TIPO_USUARIO = 'MUSICO'";
+    $result = $conexion->query($sql);
+    if ($result->num_rows) {
+        return $result;
+    }
+    desconectar($conexion);
+}
+
+/* TEN CUIDADO EN EL SELECT QUE BUSCAS POR ID (METE ID EN EL VALUE) */
+
+function ListaConciertosGrupo($grupo) {
+    $conexion = conectar();
+    $sql = "SELECT * FROM CONCIERTO RIGHT JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE ID_USUARIO = $grupo";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        echo'<div class="center">
+            $row["ID_GRUPO"]-$row["ID_LOCAL"]-$row["FECHA"]</div>';
+    }
+    desconectar($conexion);
+}
+
+/* CONCIERTOS POR LOCAL: */
+
+function ListaLocales() {
+    $conexion = conectar();
+    $sql = "SELECT NOMBRE, ID_USUARIO FROM USUARIO WHERE TIPO_USUARIO = 'LOCAL'";
+    $result = $conexion->query($sql);
+    if ($result->num_rows) {
+        return $result;
+    }
+    desconectar($conexion);
+}
+
+/* TEN CUIDADO EN EL SELECT QUE BUSCAS POR ID (METE ID EN EL VALUE) */
+
+function ListaConciertosLocal($local) {
+    $conexion = conectar();
+    $sql = "SELECT * FROM CONCIERTO RIGHT JOIN USUARIO ON CONCIERTO.ID_LOCAL = USUARIO.ID_USUARIO WHERE ID_USUARIO = $local";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        echo'<div class="center">
+            $row["ID_GRUPO"]-$row["ID_LOCAL"]-$row["FECHA"]</div>';
+    }
+    desconectar($conexion);
+}
 ?>
 
 
