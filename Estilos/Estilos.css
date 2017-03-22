@@ -144,7 +144,9 @@ footer,.footer{
     padding-right: 10px;
     padding-left: 10px;
 }
-paddingleft10{
+.paddingleft15{
+    border-right: 1px solid black ;
+    padding-right: 10px;
     padding-left: 10px;
 }
 a {

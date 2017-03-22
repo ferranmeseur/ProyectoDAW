@@ -24,7 +24,7 @@
         <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
     </head>
     <body class="center">
-        <div id="header"></div>      
+        <div id="header"></div></br> </br>  
         <div class="center fondocontent" id="Noticias">
             <div id="imagen_noticias" class="center height_40 width_60 inline">
                 <img class="img_default" src="Imagenes/image.jpeg" style="" alt=""/>
