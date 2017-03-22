@@ -8,9 +8,15 @@
 .center{
     text-align: center;
 }
+.centerHeader{
+    text-align: center;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
 .cursiva{
     font-style: italic;
 }
+
 
 
 .vertical_middle{
@@ -118,6 +124,9 @@ width_100{
 
 .padding5{
     padding: 5px;
+}
+.padding20{
+    padding: 20px;
 }
 input{
     padding: 3px;
@@ -289,9 +298,7 @@ header{
 .margin_left_100px{
     margin-left: 100px;
 }
-.fixed_top_left_0{
 
-}
 #titulo{
     position:fixed;
     left:50%;
