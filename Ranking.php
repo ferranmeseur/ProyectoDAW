@@ -29,23 +29,24 @@
                     <div class="center">
                         <?php
                         require_once 'bbdd.php';
+                        if (isset($_POST["generosub"])) {
+                            echo'<div class="center">
+                                <div class="center contenedor_scroll">';
+                            $genero = $_POST["genero"];
+                            RankingPorGenero($genero);
+                            echo'</div></div>';
+                        }
                         echo'<form action = "" method = "POST" >';
                         $generos = ListaGeneros();
                         echo'<select name="genero">';
                         while ($fila2 = mysqli_fetch_array($generos)) {
                             extract($fila2);
                             echo"<option value=$NOMBRE>$NOMBRE</option>";
-                            if (isset($_POST["generosub"])) {
-                                echo'<div class="center">
-                                <div class="center contenedor_scroll">';
-                                $genero = $_POST["genero"];
-                                RankingPorGenero($genero);
-                            }
-                            echo'</div></div>';
                         }
                         echo'</select>';
                         ?>
-                        <button id="generogrupos" class="center cursiva" name = "generosub">Escoge un genero para visualizar la clasificacion</button>
+                        <input type="submit" name="generosub" value="generosub">
+                        <!--<button id="generogrupos" class="center cursiva" name = "generosub">Escoge un genero para visualizar la clasificacion</button>-->
                         </form>
                     </div>
                 </div>
@@ -53,19 +54,20 @@
                     <div class="center">
                         <?php
                         require_once 'bbdd.php';
+                        if (isset($_POST["ciudadsub"])) {
+                            echo'<div class="center">
+                                <div class="center contenedor_scroll">';
+                            $ciudad = $_POST["ciudad"];
+                            RankingPorCiudad($ciudad);
+                            echo'</div></div>';
+                        }
                         echo'<form action = "" method = "POST" >';
                         $ciudades = ListaCiudades();
                         echo'<select name="ciudad">';
                         while ($fila2 = mysqli_fetch_array($ciudades)) {
                             extract($fila2);
                             echo"<option value=$NOMBRE>$NOMBRE</option>";
-                            if (isset($_POST["ciudadsub"])) {
-                                echo'<div class="center">
-                                <div class="center contenedor_scroll">';
-                                $ciudad = $_POST["ciudad"];
-                                RankingPorciudad($ciudad);
-                            }
-                            echo'</div></div>';
+                            
                         }
                         echo'</select>';
                         ?>
