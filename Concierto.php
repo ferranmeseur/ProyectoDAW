@@ -38,7 +38,7 @@
                 }
                 echo'</select>';
                 ?>
-                <input type="submit" name="ciudadsub" value="ciudadsub">
+                <input class="center cursiva" type="submit" name="ciudadsub" value="Buscar por ciudad">
                 <!--<button id="generogrupos" class="center cursiva" name = "ciudadsub">Escoge una ciudad para visualizar la clasificacion</button>-->
                 </form>
             </div>
@@ -63,7 +63,7 @@
                 }
                 echo'</select>';
                 ?>
-                <input type="submit" name="generosub" value="generosub">
+                <input class="center cursiva" type="submit" name="generosub" value="Buscar por genero">
                 <!--<button id="generogrupos" class="center cursiva" name = "generosub">Escoge un genero para visualizar l</button>-->
                 </form>
             </div>
@@ -88,7 +88,7 @@
                 }
                 echo'</select>';
                 ?>
-                <input type="submit" name="gruposub" value="gruposub">
+                <input class="center cursiva" type="submit" name="gruposub" value="Buscar por grupo">
                 <!--<button id="gruposconcierto" class="center cursiva" name = "gruposconcierto">Escoge un grupo para visualizar los conciertos</button>-->
                 </form>
             </div>
@@ -113,7 +113,7 @@
                 }
                 echo'</select>';
                 ?>
-                <input type="submit" name="localsub" value="localsub">
+                <input class="center cursiva" type="submit" name="localsub" value="Buscar por local">
                 <!--<button id="gruposconcierto" class="center cursiva" name = "gruposconcierto">Escoge un grupo para visualizar los conciertos</button>-->
                 </form>
             </div>

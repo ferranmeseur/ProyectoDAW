@@ -45,7 +45,7 @@
                         }
                         echo'</select>';
                         ?>
-                        <input type="submit" name="generosub" value="generosub">
+                        <input class="center cursiva" type="submit" name="generosub" value="Ranking por genero">
                         <!--<button id="generogrupos" class="center cursiva" name = "generosub">Escoge un genero para visualizar la clasificacion</button>-->
                         </form>
                     </div>
@@ -71,7 +71,7 @@
                         }
                         echo'</select>';
                         ?>
-                        <button id="generogrupos" class="center cursiva" name = "ciudadsub">Escoge una ciudad para visualizar la clasificacion</button>
+                        <button id="generogrupos" class="center cursiva" name = "ciudadsub">Ranking por ciudad</button>
                         </form>
                     </div>
                 </div>
