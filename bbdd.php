@@ -116,14 +116,12 @@ function ListaGeneros() {
 
 function RankingPorGenero($genero) {
     $conexion = conectar();
-    $sql = "SELECT USUARIO.NOMBRE_ARTISTICO,SUM(PUNTOS), ID_VOTADO FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO = USUARIO.ID_USUARIO WHERE ID_GENERO = (SELECT ID_GENERO FROM GENERO WHERE NOMBRE='" . $genero . "') GROUP BY ID_VOTADO";
+    $sql = "SELECT USUARIO.NOMBRE_ARTISTICO,SUM(PUNTOS) AS PUNTOS, ID_VOTADO FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO = USUARIO.ID_USUARIO WHERE ID_GENERO = (SELECT ID_GENERO FROM GENERO WHERE NOMBRE='" . $genero . "') GROUP BY ID_VOTADO";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
-        echo "<div>"
-        . "NOMBRE ARTISTICO"
-        . "</div>";
+
         while ($row = $result->fetch_assoc()) {
-            echo '<div>' . $row["NOMBRE_ARTISTICO"] . '</div>';
+            echo '<div>' . $row["NOMBRE_ARTISTICO"] . ' ' . $row["PUNTOS"] . '</div>';
         }
     }
 }
@@ -160,7 +158,7 @@ function RankingPorCiudad($ciudad) {
 
 function ListaConciertos() {
     $conexion = conectar();
-    $sql = "SELECT * FROM CONCIERTO";
+    $sql = "SELECT *,(SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=ID_LOCAL) AS LOCAL_NOMBRE FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
         echo "<table>"
@@ -168,10 +166,13 @@ function ListaConciertos() {
         . "<td>NOMBRE GRUPO</td>"
         . "<td>NOMBRE LOCAL</td>"
         . "<td>FECHA</td>"
+        . "<td>HORA</td>"
         . "</tr>";
         while ($row = $result->fetch_assoc()) {
+            $nuevaFecha = date("d-m-Y", strtotime($row["FECHA"]));
+            $nuevaHora = date("H:i", strtotime($row["FECHA"]));
             echo "<tr>";
-            echo "<td>" . $row["ID_GRUPO"] . "</td><td>" . $row["ID_LOCAL"] . "</td><td>" . $row["FECHA"] . "</td></br>";
+            echo "<td>" . $row["NOMBRE"] . "</td><td>" . $row["LOCAL_NOMBRE"] . "</td><td>" . $nuevaFecha . "</td><td>" . $nuevaHora . "</td></br>";
             echo "</tr>";
         }
     }
@@ -185,11 +186,13 @@ function ListaConciertos() {
 
 function ListaConciertosCiudad($ciudad) {
     $conexion = conectar();
-    $sql = "SELECT CONCIERTO.ID_GRUPO,CONCIERTO.ID_LOCAL,CONCIERTO.FECHA FROM CONCIERTO RIGHT JOIN USUARIO ON CONCIERTO.ID_LOCAL = USUARIO.ID_USUARIO WHERE CONCIERTO.ID_CIUDAD = (SELECT ID_CIUDAD FROM CIUDAD WHERE NOMBRE='" . $ciudad . "')";
+    $sql = "SELECT *, (SELECT NOMBRE_ARTISTICO FROM USUARIO WHERE ID_USUARIO = ID_GRUPO) AS GRUPO_NOMBRE FROM CONCIERTO RIGHT JOIN USUARIO ON CONCIERTO.ID_LOCAL = USUARIO.ID_USUARIO WHERE CONCIERTO.ID_CIUDAD = (SELECT ID_CIUDAD FROM CIUDAD WHERE NOMBRE='$ciudad')";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            echo'<div>' . $row["ID_GRUPO"] . ' ' . $row["ID_LOCAL"] . ' ' . $row["FECHA"] . '</div>';
+            $nuevaFecha = date("d-m-Y", strtotime($row["FECHA"]));
+            $nuevaHora = date("H:i", strtotime($row["FECHA"]));
+            echo "<div>" . $row["GRUPO_NOMBRE"] . " " . $row["NOMBRE"] . " " . $nuevaFecha . " " . $nuevaHora . "</div>";
         }
     }
     desconectar($conexion);
@@ -201,11 +204,13 @@ function ListaConciertosCiudad($ciudad) {
 
 function ListaConciertosGenero($genero) {
     $conexion = conectar();
-    $sql = "SELECT * FROM CONCIERTO WHERE ID_GENERO =(SELECT ID_GENERO FROM GENERO WHERE NOMBRE='" . $genero . "')";
+    $sql = "SELECT *, (SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=ID_LOCAL) AS LOCAL_NOMBRE FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO=USUARIO.ID_USUARIO WHERE CONCIERTO.ID_GENERO =(SELECT ID_GENERO FROM GENERO WHERE NOMBRE='$genero');";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            echo'<div>' . $row["ID_GRUPO"] . ' ' . $row["ID_LOCAL"] . ' ' . $row["FECHA"] . '</div>';
+            $nuevaFecha = date("d-m-Y", strtotime($row["FECHA"]));
+            $nuevaHora = date("H:i", strtotime($row["FECHA"]));
+            echo "<div>" . $row["NOMBRE"] . " " . $row["LOCAL_NOMBRE"] . " " . $nuevaFecha . " " . $nuevaHora . "</div>";
         }
     }
     desconectar($conexion);
@@ -215,7 +220,7 @@ function ListaConciertosGenero($genero) {
 
 function ListaGrupos() {
     $conexion = conectar();
-    $sql = "SELECT NOMBRE_ARTISTICO FROM USUARIO WHERE TIPO_USUARIO = 'MUSICO'";
+    $sql = "SELECT NOMBRE_ARTISTICO, ID_USUARIO FROM USUARIO WHERE TIPO_USUARIO = 'MUSICO'";
     $result = $conexion->query($sql);
     if ($result->num_rows) {
         return $result;
@@ -223,15 +228,16 @@ function ListaGrupos() {
     desconectar($conexion);
 }
 
-/* TEN CUIDADO EN EL SELECT QUE BUSCAS POR ID (METE ID EN EL VALUE) */
 
 function ListaConciertosGrupo($grupo) {
     $conexion = conectar();
-    $sql = "SELECT * FROM CONCIERTO RIGHT JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE CONCIERTO.ID_GRUPO = (SELECT ID_USUARIO FROM USUARIO WHERE NOMBRE_ARTISTICO='.$grupo.')";
+    $sql = "SELECT *, (SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=ID_LOCAL) AS LOCAL_NOMBRE FROM CONCIERTO RIGHT JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE USUARIO.ID_USUARIO=$grupo";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            echo'<div>' . $row["ID_GRUPO"] . ' ' . $row["ID_LOCAL"] . ' ' . $row["FECHA"] . '</div>';
+            $nuevaFecha = date("d-m-Y", strtotime($row["FECHA"]));
+            $nuevaHora = date("H:i", strtotime($row["FECHA"]));
+            echo "<div>" . $row["NOMBRE"] . " " . $row["LOCAL_NOMBRE"] . " " . $nuevaFecha . " " . $nuevaHora . "</div>";
         }
     }
     desconectar($conexion);
@@ -241,7 +247,7 @@ function ListaConciertosGrupo($grupo) {
 
 function ListaLocales() {
     $conexion = conectar();
-    $sql = "SELECT NOMBRE_LOCAL, ID_USUARIO FROM USUARIO WHERE TIPO_USUARIO = 'LOCAL'";
+    $sql = "SELECT NOMBRE_LOCAL, ID_USUARIO FROM USUARIO WHERE TIPO_USUARIO = 'LOCAL' GROUP BY NOMBRE_LOCAL";
     $result = $conexion->query($sql);
     if ($result->num_rows) {
         return $result;
@@ -253,11 +259,13 @@ function ListaLocales() {
 
 function ListaConciertosLocal($local) {
     $conexion = conectar();
-    $sql = "SELECT * FROM CONCIERTO RIGHT JOIN USUARIO ON CONCIERTO.ID_LOCAL = USUARIO.ID_USUARIO WHERE CONCIERTO.ID_LOCAL = (SELECT ID_USUARIO FROM USUARIO WHERE NOMBRE_LOCAL='.$local.')";
+    $sql = "SELECT *, (SELECT NOMBRE_ARTISTICO FROM USUARIO WHERE ID_USUARIO=ID_GRUPO) AS ARTISTICO_NOMBRE FROM CONCIERTO RIGHT JOIN USUARIO ON CONCIERTO.ID_LOCAL = USUARIO.ID_USUARIO WHERE CONCIERTO.ID_LOCAL =$local";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            echo'<div>' .$row["ID_GRUPO"] . '' . $row["ID_LOCAL"] . '' . $row["FECHA"] . '</div>';
+            $nuevaFecha = date("d-m-Y", strtotime($row["FECHA"]));
+            $nuevaHora = date("H:i", strtotime($row["FECHA"]));
+            echo "<div>" . $row["ARTISTICO_NOMBRE"] . " " . $row["NOMBRE"] . " " . $nuevaFecha . " " . $nuevaHora . "</div>";
         }
     }
     desconectar($conexion);
