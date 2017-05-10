@@ -21,7 +21,6 @@
                 <div id="Labels" class="inline text_align_left ">
                     <?php
                     require_once 'bbdd.php';
-                    showAlert("Irene cochina");
                     if (isset($_POST["enviar"])) {
                         $tipo = $_POST["tipo"];
                         $nombre = $_POST["nombre"];
@@ -30,11 +29,20 @@
                         $pas2 = $_POST["pas2"];
                         $mail1 = $_POST["mail1"];
                         $mail2 = $_POST["mail2"];
-                        if (checkUser($name) && checkPassword($pas1, $pas2)) {
-                            updatePassword($usu, $pas1, $old);
-                        } else {
-                            echo "Las constraseñas deben coincidir";
-                            //header("refresh:1;url=User1.php");
+                        if (!checkPassword($pas1, $pas2)) {
+                            showAlert("Las contraseñas deben coincidir");
+                        }
+                        if (!checkPassword($mail1, $mail2)) {
+                            showAlert("Los Emails deben coincidir");
+                        }
+                        if (!existMail($mail1)) {
+                            showAlert("El mail ya esta registrado");
+                        }
+                        if (!existUser($nombre)) {
+                            showAlert("El nombre ya esta registrado");
+                        }
+                        if (checkPassword($mail1, $mail2) && existUser($nombre) && checkPassword($pas1, $pas2) && existMail($mail1)) {
+                            Registro($tipo, $nombre, $apellido, $mail1, $pas1);
                         }
                     } else {
                         echo ' 

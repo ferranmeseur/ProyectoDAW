@@ -266,6 +266,7 @@ function ListaConciertosLocal($local) {
 
 /* UTILIDADES */
 
+
 function showAlert($alert) {
     echo '<script language="javascript">alert("' . $alert . '");</script>';
 }
@@ -275,7 +276,7 @@ function Registro($tipo, $nombre, $apellido, $email, $pswd) {
     $pass = password_hash($pswd, PASSWORD_DEFAULT);
     $insert = "insert into USUARIO (TIPO_USUARIO,NOMBRE,APELLIDOS,EMAIL,PASSWORD) values ('$tipo','$nombre','$apellido','$email','$pass')";
     if (mysqli_query($con, $insert)) {
-        header("refresh:2;url=index.php");
+        showAlert("Usuario registrado");
     } else {
         echo mysqli_error($con);
     }
@@ -289,7 +290,7 @@ function checkPassword($pas1, $pas2) {
         return false;
 }
 
-function checkUser($user) {
+function existUser($user) {
     $con = conectar();
     $sql = "select * from USUARIO where NOMBRE='$user'";
     $result = $con->query($sql);
@@ -301,7 +302,7 @@ function checkUser($user) {
     desconectar($con);
 }
 
-function checkMail($mail) {
+function existMail($mail) {
     $con = conectar();
     $sql = "select * from USUARIO where EMAIL='$mail'";
     $result = $con->query($sql);
