@@ -15,56 +15,64 @@
     </head>
     <body>
         <div id="header"></div>
-        <div class="center">
+        <div class="center"></br>
             Introduce los siguientes datos para darte de alta en Music and Seek:</br></br>
-            <div id="Registro" class="width_48 inline">
+            <div id="Registro" class="inline">
                 <div id="Labels" class="inline text_align_left ">
-                    <div id="Rol" class="center">
-                        <select>
+                    <?php
+                    require_once 'bbdd.php';
+                    showAlert("Irene cochina");
+                    if (isset($_POST["enviar"])) {
+                        $tipo = $_POST["tipo"];
+                        $nombre = $_POST["nombre"];
+                        $apellido = $_POST["apellido"];
+                        $pas1 = $_POST["pas1"];
+                        $pas2 = $_POST["pas2"];
+                        $mail1 = $_POST["mail1"];
+                        $mail2 = $_POST["mail2"];
+                        if (checkUser($name) && checkPassword($pas1, $pas2)) {
+                            updatePassword($usu, $pas1, $old);
+                        } else {
+                            echo "Las constraseñas deben coincidir";
+                            //header("refresh:1;url=User1.php");
+                        }
+                    } else {
+                        echo ' 
+        <form action = "" method = "POST">
+         <div id="Rol" class="center">
+                        Tipo de usuario : 
+                        <select name="tipo">
                             <option value="Musico">Musico</option>
                             <option value="Local">Local</option>
                             <option value="Fan">Fan</option>
                         </select>
                     </div>
-                    <div id="Usuario" class="padding5 align_right">
-                        <label>Usuario :</label>
-                        <input/>
+                    <div id="Nombre" class="align_right">
+                    Nombre :<input type = "text" name = "nombre" maxlength="20" minlength="3" required>
+                    </div>
+                    <div id="Apellido" class="padding5 align_right">
+                    Apellido :<input type = "text" name = "apellido" maxlength="20" minlength="3">
                     </div>
                     <div id="Mail" class="padding5 align_right">
-                        <label>Email :</label>
-                        <input/>
+                    Email :<input type = "text" name = "mail1" maxlength="50" minlength="5" required>
                     </div>
                     <div id="Mail2" class="padding5 align_right">
-                        <label>Repite el Email :</label>
-                        <input/>
+                    Confirma Email :<input type = "text" name = "mail2" maxlength="50" minlength="5" required>
                     </div>
                     <div id="Pass" class="padding5 align_right">
-                        <label>Password :</label>
-                        <input/>
+                    Contraseña :<input type = "password" name = "pas1" maxlength="10" minlength="5" required>
                     </div>
                     <div id="Pass2" class="padding align_right">
-                        <label>Repite el Password :</label>
-                        <input/>
+                    Confirma la contraseña : <input type = "password" name = "pas2" maxlength="10" minlength="5" required>
                     </div>
                 </div>
+            </div></br></br>
+            <input type = "submit" name = "enviar" value = "Siguiente">             
             </div>
-            <div id="Foto_registro" class="inline width_48">
-                <div>
-                    <img class="img_default" src="Imagenes/image.jpeg" alt=""/>
+        </form>';
+                    }
+                    ?>
                 </div>
-                <div>
-                    <button>Subir Foto</button>
-                </div>
-            </div>
-            <div id="Submits" style="padding: 40px;" class="inline width_90">
-                <div class="inline width_48">
-                    <button>Cancelar</button>
-                </div>
-                <div class="inline width_48">
-                    <button>Siguiente</button>
-                </div>
-            </div>
-        </div>
-        <div id="footer"></div>
-    </body>
-</html>
+                <div id="footer"></div>
+                </body>
+                </html>

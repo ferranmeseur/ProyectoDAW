@@ -13,111 +13,53 @@
         </script> 
         <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
     </head>
-    <body class="width_100"><div id="header"></div>
-        <?php
-        require_once 'bbdd.php';
-        ListaConciertos();
-        ?>
-        <div class="inline">
-            <div class="center">
+    <body class="width_100">
+        <div id="header"></div>
+        <div>&nbsp;</div>
+        <div class=" center">
+            <div class="center inline">
                 <?php
                 require_once 'bbdd.php';
-                if (isset($_POST["ciudadsub"])) {
-                    echo'<div class="center">
-                                <div class="center contenedor_scroll">';
-                    $ciudad = $_POST["ciudad"];
-                    ListaConciertosCiudad($ciudad);
-                    echo'</div></div>';
-                }
-                echo'<form action = "" method = "POST" >';
+                echo'<form class="center" action= "" method = "POST" >';
+                echo '<div class="inline" style="text-align:left;padding-right:10px;">Ciudad:</br>';
                 $ciudades = ListaCiudades();
-                echo'<select name="ciudad">';
+                echo'<select name="ciudad">
+                <option selected disabled>Todos</option>';
                 while ($fila2 = mysqli_fetch_array($ciudades)) {
                     extract($fila2);
                     echo"<option value=$NOMBRE>$NOMBRE</option>";
                 }
-                echo'</select>';
-                ?>
-                <input class="center cursiva" type="submit" name="ciudadsub" value="Buscar por ciudad">
-                <!--<button id="generogrupos" class="center cursiva" name = "ciudadsub">Escoge una ciudad para visualizar la clasificacion</button>-->
-                </form>
-            </div>
-        </div>
-        <div class="inline">
-            <div class="center">
-                <?php
-                require_once 'bbdd.php';
-                if (isset($_POST["generosub"])) {
-                    echo'<div class="center">
-                                <div class="center contenedor_scroll">';
-                    $genero = $_POST["genero"];
-                    ListaConciertosGenero($genero);
-                    echo'</div></div>';
-                }
-                echo'<form action = "" method = "POST" >';
+                echo'</select></div>';
+                echo '<div class="inline"style="text-align:left;padding-right:10px;">Genero:</br>';
                 $generos = ListaGeneros();
-                echo'<select name="genero">';
+                echo'<select name="genero">
+                <option selected disabled>Todos</option>';
                 while ($fila2 = mysqli_fetch_array($generos)) {
                     extract($fila2);
                     echo"<option value=$NOMBRE>$NOMBRE</option>";
                 }
-                echo'</select>';
-                ?>
-                <input class="center cursiva" type="submit" name="generosub" value="Buscar por genero">
-                <!--<button id="generogrupos" class="center cursiva" name = "generosub">Escoge un genero para visualizar l</button>-->
-                </form>
-            </div>
-        </div>
-        <div class="inline">
-            <div class="center">
-                <?php
-                require_once 'bbdd.php';
-                if (isset($_POST["gruposub"])) {
-                    echo'<div class="center">
-                                <div class="center contenedor_scroll">';
-                    $grupo = $_POST["grupo"];
-                    ListaConciertosGrupo($grupo);
-                    echo'</div></div>';
-                }
-                echo'<form action = "" method = "POST" >';
+                echo'</select></div>';
+                echo '<div class="inline"style="text-align:left;padding-right:10px;">Grupo:</br>';
                 $grupos = ListaGrupos();
-                echo'<select name="grupo">';
+                echo'<select name="grupo">
+                <option selected disabled>Todos</option>';
                 while ($fila2 = mysqli_fetch_array($grupos)) {
                     extract($fila2);
                     echo"<option value=$ID_USUARIO>$NOMBRE_ARTISTICO</option>";
                 }
-                echo'</select>';
-                ?>
-                <input class="center cursiva" type="submit" name="gruposub" value="Buscar por grupo">
-                <!--<button id="gruposconcierto" class="center cursiva" name = "gruposconcierto">Escoge un grupo para visualizar los conciertos</button>-->
-                </form>
-            </div>
-        </div>
-        <div class="inline">
-            <div class="center">
-                <?php
-                require_once 'bbdd.php';
-                if (isset($_POST["localsub"])) {
-                    echo'<div class="center">
-                                <div class="center contenedor_scroll">';
-                    $id_local = $_POST["id_local"];
-                    ListaConciertosLocal($id_local);
-                    echo'</div></div>';
-                }
-                echo'<form action = "" method = "POST" >';
+                echo'</select></div>';
+                echo '<div class="inline"style="text-align:left;">Locales:</br>';
                 $locales = ListaLocales();
-                echo'<select name="id_local">';
+                echo'<select name="id_local">
+                <option selected disabled>Todos</option>';
                 while ($fila2 = mysqli_fetch_array($locales)) {
                     extract($fila2);
                     echo"<option value=$ID_USUARIO>$NOMBRE_LOCAL</option>";
                 }
-                echo'</select>';
+                echo'<input class="center cursiva" type="submit" name="ciudadsub" value="Buscar...">
+                </select></div>';
                 ?>
-                <input class="center cursiva" type="submit" name="localsub" value="Buscar por local">
-                <!--<button id="gruposconcierto" class="center cursiva" name = "gruposconcierto">Escoge un grupo para visualizar los conciertos</button>-->
-                </form>
             </div>
         </div>
-
         <div id="footer"></div></body>
 </html>

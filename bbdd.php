@@ -254,7 +254,49 @@ function ListaConciertosLocal($local) {
 
 /*UTILIDADES*/
 
+function showAlert($alert){
+echo '<script language="javascript">alert("'.$alert.'");</script>';}
 
+function Registro($tipo,$nombre,$apellido,$email,$pswd){
+    $con = conectar();
+    $pass = password_hash($pswd, PASSWORD_DEFAULT);
+    $insert = "insert into USUARIO (TIPO_USUARIO,NOMBRE,APELLIDOS,EMAIL,PASSWORD) values ('$tipo','$nombre','$apellido','$email','$pass')";
+    if (mysqli_query($con, $insert)) {
+        header("refresh:2;url=index.php");
+    } else {
+        echo mysqli_error($con);
+    }
+    desconectar($con);
+}
+function checkPassword($pas1, $pas2) {
+    if ($pas1 == $pas2)
+        return true;
+    else
+        return false;
+}
+
+function checkUser($user) {
+    $con = conectar();
+    $sql = "select * from USUARIO where NOMBRE='$user'";
+    $result = $con->query($sql);
+    if ($result->num_rows > 0) {
+        return false;
+    } else {
+        return true;
+    }
+    desconectar($con);
+}
+function checkMail($mail) {
+    $con = conectar();
+    $sql = "select * from USUARIO where EMAIL='$mail'";
+    $result = $con->query($sql);
+    if ($result->num_rows > 0) {
+        return false;
+    } else {
+        return true;
+    }
+    desconectar($con);
+}
 
         
         
