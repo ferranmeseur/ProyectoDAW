@@ -23,12 +23,9 @@ function BusquedaLocal($busqueda) {
     $sql = "SELECT * FROM USUARIO WHERE NOMBRE_LOCAL LIKE '%" . $busqueda . "%'";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
-        echo "<table>";
-        echo '<tr><td>Local</td></tr>';
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr><td>" . $row['NOMBRE_LOCAL'] . "</td></tr> ";
-        }
-        echo "</table>";
+        return $result;
+    } else {
+        return null;
     }
     desconectar($conexion);
 }
@@ -38,42 +35,33 @@ function BusquedaArtista($busqueda) {
     $sql = "SELECT * FROM USUARIO WHERE NOMBRE_ARTISTICO LIKE '%" . $busqueda . "%'";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
-        echo "<table>";
-        echo '<tr><td>Artistas</td></tr>';
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr><td>" . $row['NOMBRE_ARTISTICO'] . "</td></tr> ";
-        }
-        echo "</table>";
+        return $result;
+    } else {
+        return null;
     }
     desconectar($conexion);
 }
 
 function BusquedaConciertoPorArtista($busqueda) {
     $conexion = conectar();
-    $sql = "SELECT * FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE USUARIO.NOMBRE_ARTISTICO LIKE '%" . $busqueda . "%'";
+    $sql = "SELECT *,(SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=CONCIERTO.ID_LOCAL) AS NOMBRE_LOCAL FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE USUARIO.NOMBRE_ARTISTICO LIKE '%$busqueda%'";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
-        echo "<table>";
-        echo '<tr><td>Concierto - Artistas</td></tr>';
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr><td>" . $row['ID_CONCIERTO'] . "</td></tr> ";
-        }
-        echo "</table>";
+        return $result;
+    }else{
+        return null;
     }
     desconectar($conexion);
 }
 
-function BusquedaConciertoPorLocal($nombre) {
+function BusquedaConciertoPorLocal($busqueda) {
     $conexion = conectar();
-    $sql = "SELECT * FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE USUARIO.NOMBRE_LOCAL LIKE '%" . $nombre . "%'";
+    $sql = "SELECT *,(SELECT NOMBRE_ARTISTICO FROM USUARIO WHERE ID_USUARIO=CONCIERTO.ID_GRUPO) AS NOMBRE_ARTISTICO FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_LOCAL = USUARIO.ID_USUARIO WHERE USUARIO.NOMBRE_LOCAL LIKE '%$busqueda%'";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
-        echo "<table>";
-        echo '<tr><td>Concierto - Local</td></tr>';
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr><td>" . $row['ID_CONCIERTO'] . "</td></tr> ";
-        }
-        echo "</table>";
+        return $result;
+    }else{
+        return null;
     }
     desconectar($conexion);
 }
@@ -85,18 +73,10 @@ function RankingMusicos() {
     $sql = "SELECT SUM(PUNTOS) AS PUNTOS, ID_VOTADO, NOMBRE FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO=USUARIO.ID_USUARIO WHERE USUARIO.TIPO_USUARIO = 'MUSICO' GROUP BY ID_VOTADO ORDER BY PUNTOS ASC";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
-        echo "<table>"
-        . "<tr>"
-        . "<td>NOMBRE</td>"
-        . "<td>PUNTOS</td>"
-        . "</tr>";
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr>";
-            echo "<td>" . $row["NOMBRE"] . "</td><td>" . $row["PUNTOS"] . "</td></br>";
-            echo "</tr>";
-        }
+        return result;
+    }else{
+        return 0;
     }
-    echo'</table>';
     desconectar($conexion);
 }
 
@@ -228,7 +208,6 @@ function ListaGrupos() {
     desconectar($conexion);
 }
 
-
 function ListaConciertosGrupo($grupo) {
     $conexion = conectar();
     $sql = "SELECT *, (SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=ID_LOCAL) AS LOCAL_NOMBRE FROM CONCIERTO RIGHT JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE USUARIO.ID_USUARIO=$grupo";
@@ -270,7 +249,12 @@ function ListaConciertosLocal($local) {
     }
     desconectar($conexion);
 }
-?>
 
 
 
+/*UTILIDADES*/
+
+
+
+        
+        

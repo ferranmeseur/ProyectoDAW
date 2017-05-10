@@ -19,8 +19,8 @@
             </br>
             <input  id="password" placeholder="Password" required="" type="password"></br>     
             <input name="email" placeholder="Email" required="" type="email"></br>
-            <a class="fontblack" href="Registro.html">Nuevo usuario?</a>
-            <a class="fontblack" href="RecuperarContraseña.html">Has olvidado tu contraseña?</a></br>
+            <a class="fontblack" href="Registro.php">Nuevo usuario?</a>
+            <a class="fontblack" href="RecuperarContrasenya.php">Has olvidado tu contraseña?</a></br>
             <button type="submit">Log in</button>
         </div>
         <div id="footer"></div>

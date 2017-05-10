@@ -23,20 +23,14 @@
             <div class="center width_60 height_20 inline">NOTICIAS</div>
         </div>
         <div id="Search" class="height_40">
-            <form class="form-wrapper cf" method = "POST">
+            <form class="form-wrapper cf" action="Busqueda.php" method="GET">
                 <input type="text" name="busqueda" placeholder="Busca músicos, locales o conciertos" required>
-                <button type="submit" name = "submit">GO!</button>
+                <button type="submit" value="submit" name="submit">GO!</button>
             </form>
         </div>
         <?php
             require_once 'bbdd.php';
-            if (isset($_POST["submit"])) {
-                $busqueda = $_POST["busqueda"];
-                BusquedaLocal($busqueda);
-                BusquedaArtista($busqueda);
-                BusquedaConciertoPorLocal($busqueda);
-                BusquedaConciertoPorArtista($busqueda);
-            }
+            
             ?>
         <div id="Secciones">
             <div id="Ranking" class="width_48 inline">
