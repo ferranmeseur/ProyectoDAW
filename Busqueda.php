@@ -29,7 +29,8 @@
                 echo "<table>";
                 echo '<tr><td>LOCALES</td></tr>';
                 while ($row = $locales->fetch_assoc()) {
-                    echo "<tr><td><a class='fontblack' href=InfoLocal.php?nombre=".$row['NOMBRE_LOCAL'].">" . $row['NOMBRE_LOCAL'] . "</a></td></tr>";
+                    $nombre_local = str_replace(" ", "+", $row['NOMBRE_LOCAL']);
+                    echo "<tr><td><a class='fontblack' href=InfoLocal.php?nombre=" . $nombre_local . ">" . $row['NOMBRE_LOCAL'] . "</a></td></tr>";
                 }
                 echo "</table>";
             }
@@ -37,23 +38,27 @@
                 echo "<table>";
                 echo '<tr><td>ARTISTAS</td></tr>';
                 while ($row = $artistas->fetch_assoc()) {
-                    echo "<tr><td><a class='fontblack' href=InfoGrupos.php?nombre=".$row['NOMBRE_ARTISTICO'].">" . $row['NOMBRE_ARTISTICO'] . "</a></td></tr> ";
+                    $nombre_artistico = str_replace(" ", "+", $row['NOMBRE_ARTISTICO']);
+                    echo "<tr><td><a class='fontblack' href=InfoGrupo.php?nombre=" . $nombre_artistico . ">" . $row['NOMBRE_ARTISTICO'] . "</a></td></tr> ";
                 }
                 echo "</table>";
             }
             if (isset($conciertoLocal)) {
                 echo "<table>";
-                echo '<tr><td>CONCIERTOS EN '.$busqueda.'</td></tr>';
+                echo '<tr><td>CONCIERTOS EN ' . $busqueda . '</td></tr>';
                 while ($row = $conciertoLocal->fetch_assoc()) {
-                    echo "<tr><td><a class='fontblack' href=InfoGrupo.php?nombre=".$row['NOMBRE_ARTISTICO'].">" . $row['NOMBRE_ARTISTICO'] . "</a> ".$row['FECHA']."</td></tr> ";
+                    $nombre_artistico = str_replace(" ", "+", $row['NOMBRE_ARTISTICO']);
+                    echo "<tr><td><a class='fontblack' href=InfoGrupo.php?nombre=" . $nombre_artistico . ">" . $row['NOMBRE_ARTISTICO'] . "</a> " . $row['FECHA'] . "</td></tr> ";
                 }
                 echo "</table>";
             }
             if (isset($conciertoArtista)) {
                 echo "<table>";
-                echo '<tr><td>CONCIERTOS DE '.$busqueda.'</td></tr>';
+                echo '<tr><td>CONCIERTOS DE ' . $busqueda . '</td></tr>';
                 while ($row = $conciertoArtista->fetch_assoc()) {
-                    echo "<tr><td><a class='fontblack' href=InfoLocal.php?nombre=".$row['NOMBRE_LOCAL'].">" . $row['NOMBRE_LOCAL'] . "</a></td></tr> ";
+                    list($año, $mes, $dia, $hora, $minuto) = split('[-:]', $row['FECHA']);
+                    $nombre_local = str_replace(" ", "+", $row['NOMBRE_LOCAL']);
+                    echo "<tr><td><a class='fontblack' href=InfoLocal.php?nombre=" . $nombre_local . ">" . $row['NOMBRE_LOCAL'] . "</a> el día $dia de $mes de $año a las $hora:$minuto</td></tr> ";
                 }
                 echo "</table>";
             }

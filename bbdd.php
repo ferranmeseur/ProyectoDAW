@@ -48,7 +48,7 @@ function BusquedaConciertoPorArtista($busqueda) {
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
         return $result;
-    }else{
+    } else {
         return null;
     }
     desconectar($conexion);
@@ -60,7 +60,21 @@ function BusquedaConciertoPorLocal($busqueda) {
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
         return $result;
-    }else{
+    } else {
+        return null;
+    }
+    desconectar($conexion);
+}
+
+/* INFORMACIONES */
+
+function InfoGrupo($nombre) {
+    $conexion = conectar();
+    $sql = "SELECT * FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO=USUARIO.ID_USUARIO WHERE USUARIO.NOMBRE_ARTISTICO = '$nombre'";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        return $result;
+    } else {
         return null;
     }
     desconectar($conexion);
@@ -73,8 +87,8 @@ function RankingMusicos() {
     $sql = "SELECT SUM(PUNTOS) AS PUNTOS, ID_VOTADO, NOMBRE FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO=USUARIO.ID_USUARIO WHERE USUARIO.TIPO_USUARIO = 'MUSICO' GROUP BY ID_VOTADO ORDER BY PUNTOS ASC";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
-        return result;
-    }else{
+        return $result;
+    } else {
         return 0;
     }
     desconectar($conexion);
@@ -250,14 +264,13 @@ function ListaConciertosLocal($local) {
     desconectar($conexion);
 }
 
+/* UTILIDADES */
 
+function showAlert($alert) {
+    echo '<script language="javascript">alert("' . $alert . '");</script>';
+}
 
-/*UTILIDADES*/
-
-function showAlert($alert){
-echo '<script language="javascript">alert("'.$alert.'");</script>';}
-
-function Registro($tipo,$nombre,$apellido,$email,$pswd){
+function Registro($tipo, $nombre, $apellido, $email, $pswd) {
     $con = conectar();
     $pass = password_hash($pswd, PASSWORD_DEFAULT);
     $insert = "insert into USUARIO (TIPO_USUARIO,NOMBRE,APELLIDOS,EMAIL,PASSWORD) values ('$tipo','$nombre','$apellido','$email','$pass')";
@@ -268,6 +281,7 @@ function Registro($tipo,$nombre,$apellido,$email,$pswd){
     }
     desconectar($con);
 }
+
 function checkPassword($pas1, $pas2) {
     if ($pas1 == $pas2)
         return true;
@@ -286,6 +300,7 @@ function checkUser($user) {
     }
     desconectar($con);
 }
+
 function checkMail($mail) {
     $con = conectar();
     $sql = "select * from USUARIO where EMAIL='$mail'";
@@ -297,6 +312,3 @@ function checkMail($mail) {
     }
     desconectar($con);
 }
-
-        
-        
