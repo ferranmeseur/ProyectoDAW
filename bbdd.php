@@ -276,7 +276,7 @@ function Registro($tipo, $nombre, $apellido, $email, $pswd) {
     $pass = password_hash($pswd, PASSWORD_DEFAULT);
     $insert = "insert into USUARIO (TIPO_USUARIO,NOMBRE,APELLIDOS,EMAIL,PASSWORD) values ('$tipo','$nombre','$apellido','$email','$pass')";
     if (mysqli_query($con, $insert)) {
-        showAlert("Usuario registrado");
+        showAlert("Usuario registrado correctamente");
     } else {
         echo mysqli_error($con);
     }
@@ -312,4 +312,7 @@ function existMail($mail) {
         return true;
     }
     desconectar($con);
+}
+function unsetVariable($variable){
+    unset($variable);
 }

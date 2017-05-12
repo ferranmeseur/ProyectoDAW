@@ -21,7 +21,8 @@
                 <div id="Labels" class="inline text_align_left ">
                     <?php
                     require_once 'bbdd.php';
-                    if (isset($_POST["enviar"])) {
+
+                    function check() {
                         $tipo = $_POST["tipo"];
                         $nombre = $_POST["nombre"];
                         $apellido = $_POST["apellido"];
@@ -31,19 +32,30 @@
                         $mail2 = $_POST["mail2"];
                         if (!checkPassword($pas1, $pas2)) {
                             showAlert("Las contraseñas deben coincidir");
-                        }
-                        if (!checkPassword($mail1, $mail2)) {
+                        } elseif (!checkPassword($mail1, $mail2)) {
                             showAlert("Los Emails deben coincidir");
-                        }
-                        if (!existMail($mail1)) {
+                        } elseif (!existMail($mail1)) {
                             showAlert("El mail ya esta registrado");
-                        }
-                        if (!existUser($nombre)) {
+                        } elseif (!existUser($nombre)) {
                             showAlert("El nombre ya esta registrado");
+                        } else {
+                            $_POST["valoresok"] = "submit";
                         }
-                        if (checkPassword($mail1, $mail2) && existUser($nombre) && checkPassword($pas1, $pas2) && existMail($mail1)) {
-                            Registro($tipo, $nombre, $apellido, $mail1, $pas1);
-                        }
+                    }
+
+                    if (isset($_POST["enviar"])) {
+                        check();
+                    }
+
+                    if (isset($_POST["valoresok"])) {
+                        $tipo = $_POST["tipo"];
+                        $nombre = $_POST["nombre"];
+                        $apellido = $_POST["apellido"];
+                        $pas1 = $_POST["pas1"];
+                        $pas2 = $_POST["pas2"];
+                        $mail1 = $_POST["mail1"];
+                        $mail2 = $_POST["mail2"];
+                        Registro($tipo, $nombre, $apellido, $mail1, $pas1);
                     } else {
                         echo ' 
         <form action = "" method = "POST">
