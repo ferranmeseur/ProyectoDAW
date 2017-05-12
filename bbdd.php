@@ -150,25 +150,49 @@ function RankingPorCiudad($ciudad) {
 
 /* CONCIERTOS: */
 
-function ListaConciertos() {
+function ListaConciertos($genero, $ciudad, $grupo, $local) {
     $conexion = conectar();
-    $sql = "SELECT *,(SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=ID_LOCAL) AS LOCAL_NOMBRE FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO";
+    if (empty($genero) && empty($ciudad) && empty($grupo) && empty($local)) {
+        $sql = "SELECT *,(SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=ID_LOCAL) AS NOMBRE_LOCAL, (SELECT NOMBRE_ARTISTICO FROM USUARIO WHERE ID_USUARIO = ID_GRUPO) AS NOMBRE_ARTISTICO FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO";
+        echo 'todo vacio';
+    } else {
+        $sql = "SELECT *,(SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=ID_LOCAL) AS NOMBRE_LOCAL, (SELECT NOMBRE_ARTISTICO FROM USUARIO WHERE ID_USUARIO = ID_GRUPO) AS NOMBRE_ARTISTICO FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO";
+        $concatIsFirst = true;
+
+        if (!empty($genero)) {
+            if ($concatIsFirst) {
+                $sql = $sql . " WHERE USUARIO.ID_GENERO = $genero ";
+                $concatIsFirst = false;
+            } else
+                $sql = $sql . ' AND GENERO = ' . $genero;
+        }
+        if (!empty($ciudad)) {
+            if ($concatIsFirst) {
+                $sql = $sql . " WHERE CONCIERTO.ID_CIUDAD = $ciudad ";
+                $concatIsFirst = false;
+            } else
+                $sql = $sql . " AND CONCIERTO.ID_CIUDAD = $ciudad ";
+        }
+        if (!empty($grupo)) {
+            if ($concatIsFirst) {
+                $sql = $sql . " WHERE CONCIERTO.ID_GRUPO = $grupo ";
+                $concatIsFirst = false;
+            } else
+                $sql = $sql . " AND CONCIERTO.ID_GRUPO = $grupo ";
+        }
+        if (!empty($local)) {
+            if ($concatIsFirst) {
+                $sql = $sql . " WHERE CONCIERTO.ID_LOCAL = $local";
+                $concatIsFirst = false;
+            } else
+                $sql = $sql .= " AND CONCIERTO.ID_LOCAL = $local";
+        }
+    }
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
-        echo "<table>"
-        . "<tr>"
-        . "<td>NOMBRE GRUPO</td>"
-        . "<td>NOMBRE LOCAL</td>"
-        . "<td>FECHA</td>"
-        . "<td>HORA</td>"
-        . "</tr>";
-        while ($row = $result->fetch_assoc()) {
-            $nuevaFecha = date("d-m-Y", strtotime($row["FECHA"]));
-            $nuevaHora = date("H:i", strtotime($row["FECHA"]));
-            echo "<tr>";
-            echo "<td>" . $row["NOMBRE"] . "</td><td>" . $row["LOCAL_NOMBRE"] . "</td><td>" . $nuevaFecha . "</td><td>" . $nuevaHora . "</td></br>";
-            echo "</tr>";
-        }
+        return $result;
+    }else{
+        echo mysqli_error($conexion);
     }
     desconectar($conexion);
 }
