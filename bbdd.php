@@ -98,7 +98,7 @@ function RankingMusicos() {
 
 function ListaGeneros() {
     $conexion = conectar();
-    $sql = "SELECT NOMBRE FROM GENERO ORDER BY NOMBRE ASC";
+    $sql = "SELECT * FROM GENERO ORDER BY NOMBRE ASC";
     $result = $conexion->query($sql);
     if ($result->num_rows) {
         return $result;
@@ -124,7 +124,7 @@ function RankingPorGenero($genero) {
 
 function ListaCiudades() {
     $conexion = conectar();
-    $sql = "SELECT NOMBRE FROM CIUDAD ORDER BY NOMBRE ASC";
+    $sql = "SELECT * FROM CIUDAD ORDER BY NOMBRE ASC";
     $result = $conexion->query($sql);
     if ($result->num_rows) {
         return $result;
@@ -271,10 +271,10 @@ function showAlert($alert) {
     echo '<script language="javascript">alert("' . $alert . '");</script>';
 }
 
-function Registro($tipo, $nombre, $apellido, $email, $pswd) {
+function Registro($tipo, $nombre, $apellido, $email, $pswd,$nombrelocal,$ciudad,$ubicacion,$telefono,$aforo,$imagen,$web,$nombreartistico,$genero,$componentes) {
     $con = conectar();
     $pass = password_hash($pswd, PASSWORD_DEFAULT);
-    $insert = "insert into USUARIO (TIPO_USUARIO,NOMBRE,APELLIDOS,EMAIL,PASSWORD) values ('$tipo','$nombre','$apellido','$email','$pass')";
+    $insert = "insert into USUARIO values ('null','$tipo','$nombre','$apellido','$ubicacion','$email','$telefono','$imagen','$nombrelocal','$nombreartistico','$componentes','$pass','$aforo','$web','$genero','$ciudad')";
     if (mysqli_query($con, $insert)) {
         showAlert("Usuario registrado correctamente");
     } else {
@@ -312,7 +312,4 @@ function existMail($mail) {
         return true;
     }
     desconectar($con);
-}
-function unsetVariable($variable){
-    unset($variable);
 }

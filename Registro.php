@@ -55,7 +55,13 @@
                         $pas2 = $_POST["pas2"];
                         $mail1 = $_POST["mail1"];
                         $mail2 = $_POST["mail2"];
-                        Registro($tipo, $nombre, $apellido, $mail1, $pas1);
+                        session_start();
+                        $_SESSION['tipo'] = $tipo;
+                        $_SESSION['mail'] = $mail1;
+                        $_SESSION['nombre'] = $nombre;
+                        $_SESSION['apellido'] = $apellido;
+                        $_SESSION['pas'] = $pas1;
+                        header("Location:RegistroExtra.php");
                     } else {
                         echo ' 
         <form action = "" method = "POST">
