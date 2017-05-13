@@ -191,7 +191,7 @@ function ListaConciertos($genero, $ciudad, $grupo, $local) {
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
         return $result;
-    }else{
+    } else {
         echo mysqli_error($conexion);
     }
     desconectar($conexion);
@@ -290,19 +290,27 @@ function ListaConciertosLocal($local) {
 
 /* UTILIDADES */
 
-
 function showAlert($alert) {
     echo '<script language="javascript">alert("' . $alert . '");</script>';
 }
 
-function Registro($tipo, $nombre, $apellido, $email, $pswd,$nombrelocal,$ciudad,$ubicacion,$telefono,$aforo,$imagen,$web,$nombreartistico,$genero,$componentes) {
+function Registro($tipo, $nombre, $apellido, $email, $pswd, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes) {
     $con = conectar();
     $pass = password_hash($pswd, PASSWORD_DEFAULT);
-
-    $insert = "insert into USUARIO values ('null','$tipo','$nombre','$apellido','$ubicacion','$email','$telefono','$imagen','$nombrelocal','$nombreartistico','$componentes','$pass','$aforo','$web',".
-            (($genero=='NULL')?"NULL":("'".$genero."'"))."
-            
-            ,'$ciudad')";
+    $insert = "insert into USUARIO values ('null','$tipo','$nombre',
+            " . (($apellido == 'NULL') ? "NULL" : ("'" . $apellido . "'")) . ",
+            " . (($ubicacion == 'NULL') ? "NULL" : ("'" . $ubicacion . "'")) . "
+            ,'$email',
+            " . (($telefono == 'NULL') ? "NULL" : ("'" . $telefono . "'")) . ",
+            " . (($imagen == 'NULL') ? "NULL" : ("'" . $imagen . "'")) . ",
+            " . (($nombrelocal == 'NULL') ? "NULL" : ("'" . $nombrelocal . "'")) . ", 
+            " . (($nombreartistico == 'NULL') ? "NULL" : ("'" . $nombreartistico . "'")) . ",
+            " . (($componentes == 'NULL') ? "NULL" : ("'" . $componentes . "'")) . "
+            ,'$pass',
+            " . (($aforo == 'NULL') ? "NULL" : ("'" . $aforo . "'")) . ", 
+            " . (($web == 'NULL') ? "NULL" : ("'" . $web . "'")) . ", 
+            " . (($genero == 'NULL') ? "NULL" : ("'" . $genero . "'")) . ",
+            ". (($ciudad == 'NULL') ? "NULL" : ("'" . $ciudad . "'")) . ")";
     if (mysqli_query($con, $insert)) {
         showAlert("Usuario registrado correctamente");
     } else {
@@ -317,20 +325,10 @@ function checkPassword($pas1, $pas2) {
     else
         return false;
 }
-function existNombreArtistico($nombre){
+
+function existNombreArtistico($nombre) {
     $con = conectar();
-    $sql = "select * from USUARIO where NOMBRE_ARTISTICO='$nombre'";
-    $result = $con->query($sql);
-    if ($result->num_rows > 0) {
-        return false;
-    } else {
-        return true;
-    }
-    desconectar($con);
-}
-function existNombreLocal($nombre){
-    $con = conectar();
-    $sql = "select * from USUARIO where NOMBRE_LOCAL='$nombre'";
+    $sql = "select * from USUARIO where NOMBRE_ARTISTICO = '$nombre'";
     $result = $con->query($sql);
     if ($result->num_rows > 0) {
         return false;
@@ -340,21 +338,33 @@ function existNombreLocal($nombre){
     desconectar($con);
 }
 
-function existTelefono($telefono){
+function existNombreLocal($nombre) {
     $con = conectar();
-    $sql = "select * from USUARIO where NUMERO_CONTACTO='$telefono'";
+    $sql = "select * from USUARIO where NOMBRE_LOCAL = '$nombre'";
     $result = $con->query($sql);
     if ($result->num_rows > 0) {
         return false;
     } else {
         return true;
     }
-    desconectar($con); 
+    desconectar($con);
+}
+
+function existTelefono($telefono) {
+    $con = conectar();
+    $sql = "select * from USUARIO where NUMERO_CONTACTO = '$telefono'";
+    $result = $con->query($sql);
+    if ($result->num_rows > 0) {
+        return false;
+    } else {
+        return true;
+    }
+    desconectar($con);
 }
 
 function existUser($user) {
     $con = conectar();
-    $sql = "select * from USUARIO where NOMBRE='$user'";
+    $sql = "select * from USUARIO where NOMBRE = '$user'";
     $result = $con->query($sql);
     if ($result->num_rows > 0) {
         return false;
@@ -366,7 +376,7 @@ function existUser($user) {
 
 function existMail($mail) {
     $con = conectar();
-    $sql = "select * from USUARIO where EMAIL='$mail'";
+    $sql = "select * from USUARIO where EMAIL = '$mail'";
     $result = $con->query($sql);
     if ($result->num_rows > 0) {
         return false;

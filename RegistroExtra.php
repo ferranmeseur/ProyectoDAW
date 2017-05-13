@@ -67,6 +67,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                     $nombre = $_SESSION['nombre'];
                     $apellido = $_SESSION['apellido'];
                     $pas = $_SESSION['pas'];
+
                     if (isset($_POST["enviar"])) {
                         $ciudad = $_POST["ciudad"];
                         $ubicacion = $_POST["ubicacion"];
