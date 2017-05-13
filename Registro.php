@@ -74,22 +74,22 @@
                         </select>
                     </div>
                     <div id="Nombre" class="align_right">
-                    Nombre :<input type = "text" name = "nombre" maxlength="20" minlength="3" required>
+                    <label style="color:red;">(*)</label>Nombre :<input type = "text" name = "nombre" maxlength="20" minlength="3" required>
                     </div>
                     <div id="Apellido" class="padding5 align_right">
                     Apellido :<input type = "text" name = "apellido" maxlength="20" minlength="3">
                     </div>
                     <div id="Mail" class="padding5 align_right">
-                    Email :<input type = "text" name = "mail1" maxlength="50" minlength="5" required>
+                    <label style="color:red;">(*)</label>Email :<input type = "text" name = "mail1" maxlength="50" minlength="5" required>
                     </div>
                     <div id="Mail2" class="padding5 align_right">
-                    Confirma Email :<input type = "text" name = "mail2" maxlength="50" minlength="5" required>
+                    <label style="color:red;">(*)</label> Confirma Email :<input type = "text" name = "mail2" maxlength="50" minlength="5" required>
                     </div>
                     <div id="Pass" class="padding5 align_right">
-                    Contraseña :<input type = "password" name = "pas1" maxlength="10" minlength="5" required>
+                    <label style="color:red;">(*)</label>Contraseña :<input type = "password" name = "pas1" maxlength="10" minlength="5" required>
                     </div>
                     <div id="Pass2" class="padding align_right">
-                    Confirma la contraseña : <input type = "password" name = "pas2" maxlength="10" minlength="5" required>
+                    <label style="color:red;">(*)</label>Confirma la contraseña : <input type = "password" name = "pas2" maxlength="10" minlength="5" required>
                     </div>
                 </div>
             </div></br></br>

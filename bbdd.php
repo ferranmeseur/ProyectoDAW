@@ -298,7 +298,11 @@ function showAlert($alert) {
 function Registro($tipo, $nombre, $apellido, $email, $pswd,$nombrelocal,$ciudad,$ubicacion,$telefono,$aforo,$imagen,$web,$nombreartistico,$genero,$componentes) {
     $con = conectar();
     $pass = password_hash($pswd, PASSWORD_DEFAULT);
-    $insert = "insert into USUARIO values ('null','$tipo','$nombre','$apellido','$ubicacion','$email','$telefono','$imagen','$nombrelocal','$nombreartistico','$componentes','$pass','$aforo','$web','$genero','$ciudad')";
+
+    $insert = "insert into USUARIO values ('null','$tipo','$nombre','$apellido','$ubicacion','$email','$telefono','$imagen','$nombrelocal','$nombreartistico','$componentes','$pass','$aforo','$web',".
+            (($genero=='NULL')?"NULL":("'".$genero."'"))."
+            
+            ,'$ciudad')";
     if (mysqli_query($con, $insert)) {
         showAlert("Usuario registrado correctamente");
     } else {
@@ -312,6 +316,40 @@ function checkPassword($pas1, $pas2) {
         return true;
     else
         return false;
+}
+function existNombreArtistico($nombre){
+    $con = conectar();
+    $sql = "select * from USUARIO where NOMBRE_ARTISTICO='$nombre'";
+    $result = $con->query($sql);
+    if ($result->num_rows > 0) {
+        return false;
+    } else {
+        return true;
+    }
+    desconectar($con);
+}
+function existNombreLocal($nombre){
+    $con = conectar();
+    $sql = "select * from USUARIO where NOMBRE_LOCAL='$nombre'";
+    $result = $con->query($sql);
+    if ($result->num_rows > 0) {
+        return false;
+    } else {
+        return true;
+    }
+    desconectar($con);
+}
+
+function existTelefono($telefono){
+    $con = conectar();
+    $sql = "select * from USUARIO where NUMERO_CONTACTO='$telefono'";
+    $result = $con->query($sql);
+    if ($result->num_rows > 0) {
+        return false;
+    } else {
+        return true;
+    }
+    desconectar($con); 
 }
 
 function existUser($user) {

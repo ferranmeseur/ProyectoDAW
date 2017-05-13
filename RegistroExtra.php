@@ -31,46 +31,100 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                 <div id="Labels" class="inline text_align_left ">
                     <?php
                     require_once 'bbdd.php';
+
+                    function check() {
+                        switch ($_SESSION['tipo']) {
+                            case "Local":
+                                if (!existTelefono($_POST["telefono"])) {
+                                    showAlert("El telefono ya existe");
+                                } elseif (!existNombreLocal($_POST["nombrelocal"])) {
+                                    showAlert("Ya existe este local");
+                                } else {
+                                    $_POST["valoresok"] = "submit";
+                                }
+                                break;
+                            case "Musico":
+                                if (!existTelefono($_POST["telefono"])) {
+                                    showAlert("El telefono ya existe");
+                                } elseif (!existNombreArtistico($_POST["nombreartistico"])) {
+                                    showAlert("Ya existe este nombre artistico");
+                                } else {
+                                    $_POST["valoresok"] = "submit";
+                                }
+                                break;
+                            case "Fan":
+                                if (!existTelefono($_POST["telefono"])) {
+                                    showAlert("El telefono ya existe");
+                                } else {
+                                    $_POST["valoresok"] = "submit";
+                                }
+                                break;
+                        }
+                    }
+
                     $tipo = $_SESSION['tipo'];
                     $mail = $_SESSION['mail'];
                     $nombre = $_SESSION['nombre'];
                     $apellido = $_SESSION['apellido'];
                     $pas = $_SESSION['pas'];
                     if (isset($_POST["enviar"])) {
-                        $nombrelocal = $_POST["nombrelocal"];
                         $ciudad = $_POST["ciudad"];
                         $ubicacion = $_POST["ubicacion"];
                         $telefono = $_POST["telefono"];
-                        $aforo = $_POST["aforo"];
+                        if (isset($_POST["aforo"])) {
+                            $aforo = $_POST["aforo"];
+                        }
+                        if (isset($_POST["nombrelocal"])) {
+                            $nombrelocal = $_POST["nombrelocal"];
+                        }
                         $imagen = $_POST["imagen"];
                         $web = $_POST["web"];
-                        $nombreartistico = $_POST["nombreartistico"];
+                        if (isset($_POST["nombreartistico"])) {
+                            $nombreartistico = $_POST["nombreartistico"];
+                        }
                         if (isset($_POST["genero"])) {
                             $genero = $_POST["genero"];
-                        }else{
-                            $genero = null;
+                        } else {
+                            $genero = "NULL";
                         }
-                        $componentes = $_POST["componentes"];
+                        if (isset($_POST["componentes"])) {
+                            $componentes = $_POST["componentes"];
+                        }
                         if (empty($apellido))
-                            $apellido = null;
+                            $apellido = "NULL";
                         if (empty($imagen))
-                            $imagen = null;
+                            $imagen = "NULL";
                         if (empty($web))
-                            $web = null;
-                        
+                            $web = "NULL";
+
                         switch ($_SESSION['tipo']) {
                             case "Fan":
                                 if (empty($ubicacion))
-                                    $ubicacion = null;
+                                    $ubicacion = "NULL";
                                 if (empty($telefono))
-                                    $telefono = null;
+                                    $telefono = "NULL";
+                                $nombrelocal = "NULL";
+                                $aforo = "NULL";
+                                $nombreartistico = "NULL";
+                                $componentes = "NULL";
+                                check();
                                 break;
-
+                            case "Local":
+                                $nombreartistico = "NULL";
+                                $componentes = "NULL";
+                                $genero = "NULL";
+                                check();
+                                break;
                             case "Musico":
                                 if (empty($ubicacion))
-                                    $ubicacion = null;
+                                    $ubicacion = "NULL";
+                                $nombrelocal = "NULL";
+                                $aforo = "NULL";
+                                check();
                                 break;
                         }
+                    }
+                    if (isset($_POST["valoresok"])) {
                         Registro($tipo, $nombre, $apellido, $mail, $pas, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes);
                     } else {
                         switch ($_SESSION['tipo']) {
@@ -78,23 +132,23 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                                 echo ' 
         <form action = "" method = "POST">
                     <div id="Nombre" class="padding5 align_right">
-                    Nombre local :<input type = "text" name = "nombrelocal" maxlength="20" minlength="5" required>
+                    <label style="color:red;">(*)</label>Nombre local :<input type = "text" name = "nombrelocal" maxlength="20" minlength="5" required>
                     </div>
                     <div id="Ciudad" class="padding align_right"> Ciudad:';
                                 $ciudades = ListaCiudades();
-                                echo'<select name = "ciudad" required>';
+                                echo'<label style="color:red;">(*)</label><select name = "ciudad" required>';
                                 while ($fila2 = mysqli_fetch_array($ciudades)) {
                                     extract($fila2);
                                     echo"<option value=$ID_CIUDAD>$NOMBRE</option>";
                                 }echo'</select></div>
                     <div id="Ubicacion" class="align_right">
-                    Ubicación :<input type = "text" name = "ubicacion" maxlength="50" minlength="3" required>
+                    <label style="color:red;">(*)</label>Ubicación :<input type = "text" name = "ubicacion" maxlength="50" minlength="3" required>
                     </div>
                     <div id="Telefono" class="padding5 align_right">
-                    Telefono :<input type = "number" name = "telefono" maxlength="11" minlength="9" required>
+                    <label style="color:red;">(*)</label>Telefono :<input type = "number" name = "telefono" maxlength="11" minlength="9" required>
                     </div>
                     <div id="Aforo" class="padding5 align_right">
-                    Aforo :<input type = "number" name = "aforo" maxlength="5" minlength="1" required>
+                    <label style="color:red;">(*)</label>Aforo :<input type = "number" name = "aforo" maxlength="5" minlength="1" required>
                     </div>
                     <div id="Imagen" class="padding5 align_right">
                     Imagen :<input type = "text" name = "imagen" maxlength="50" minlength="5">
@@ -111,7 +165,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                             case "Fan":
                                 echo ' 
                     <form action = "" method = "POST">
-                    <div id="Ciudad" class="padding align_right"> Ciudad:';
+                   <div id="Ciudad" class="padding align_right">  <label style="color:red;">(*)</label>Ciudad:';
                                 $ciudades = ListaCiudades();
                                 echo'<select name = "ciudad" required>';
                                 while ($fila2 = mysqli_fetch_array($ciudades)) {
@@ -140,18 +194,18 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                                 echo ' 
         <form action = "" method = "POST">
                     <div id="Nombre" class="padding5 align_right">
-                    Nombre artistico :<input type = "text" name = "nombreartistico" maxlength="20" minlength="5" required>
+                    <label style="color:red;">(*)</label>Nombre artistico :<input type = "text" name = "nombreartistico" maxlength="20" minlength="5" required>
                     </div>
-                    <div id="Genero" class="padding align_right"> Genero:';
+                    <div id="Genero" class="padding align_right"> <label style="color:red;">(*)</label>Genero:';
                                 $generos = ListaGeneros();
-                                echo'<select name="genero">';
+                                echo'<select name="genero" required>';
                                 while ($fila2 = mysqli_fetch_array($generos)) {
                                     extract($fila2);
                                     echo"<option value=$ID_GENERO>$NOMBRE</option>";
                                 }
                                 echo'</select></div>';
                                 echo'
-                            <div id = "Ciudad" class = "padding align_right"> Ciudad:';
+                           <div id = "Ciudad" class = "padding align_right"> <label style="color:red;">(*)</label>Ciudad:';
                                 $ciudades = ListaCiudades();
                                 echo'<select name = "ciudad" required>';
                                 while ($fila2 = mysqli_fetch_array($ciudades)) {
@@ -162,10 +216,10 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                             Ubicación :<input type = "text" name = "ubicacion" maxlength = "50" minlength = "3">
                             </div>
                             <div id = "Telefono" class = "padding5 align_right">
-                            Telefono :<input type = "number" name = "telefono" maxlength = "11" minlength = "9" required>
+                            <label style="color:red;">(*)</label>Telefono :<input type = "number" name = "telefono" maxlength = "11" minlength = "9" required>
                             </div>
                             <div id = "Componentes" class = "padding5 align_right">
-                            Componentes :<input type = "number" name = "componentes" maxlength = "5" minlength = "1" required>
+                            <label style="color:red;">(*)</label>Componentes :<input type = "number" name = "componentes" maxlength = "5" minlength = "1" required>
                             </div>
                             <div id = "Imagen" class = "padding5 align_right">
                             Imagen :<input type = "text" name = "imagen" maxlength = "50" minlength = "5">
@@ -183,6 +237,8 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                     }
                     ?>
                 </div>
-                <div id="footer"></div>
-                </body>
-                </html>
+            </div>
+        </div>
+        <div id="footer"></div>
+    </body>
+</html>
