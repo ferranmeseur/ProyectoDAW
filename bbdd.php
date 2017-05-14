@@ -310,7 +310,7 @@ function Registro($tipo, $nombre, $apellido, $email, $pswd, $nombrelocal, $ciuda
             " . (($aforo == 'NULL') ? "NULL" : ("'" . $aforo . "'")) . ", 
             " . (($web == 'NULL') ? "NULL" : ("'" . $web . "'")) . ", 
             " . (($genero == 'NULL') ? "NULL" : ("'" . $genero . "'")) . ",
-            ". (($ciudad == 'NULL') ? "NULL" : ("'" . $ciudad . "'")) . ")";
+            " . (($ciudad == 'NULL') ? "NULL" : ("'" . $ciudad . "'")) . ")";
     if (mysqli_query($con, $insert)) {
         showAlert("Usuario registrado correctamente");
     } else {
@@ -382,6 +382,26 @@ function existMail($mail) {
         return false;
     } else {
         return true;
+    }
+    desconectar($con);
+}
+
+function login($email, $password) {
+    $con = conectar();
+    $sql = "select * from USUARIO where EMAIL='$email'";
+    $result = $con->query($sql);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            if (password_verify($password, $row['PASSWORD'])) {
+                return true;
+            } else {
+                showAlert("Contraseña incorrecta");
+                return false;
+            }
+        }
+    } else {
+        showAlert("El usuario no esta registrado");
+        return false;
     }
     desconectar($con);
 }

@@ -17,11 +17,29 @@
         <div id="header"></div> 
         <div class="center">Log into Music and Seek
             </br>
-            <input  id="password" placeholder="Password" required="" type="password"></br>     
-            <input name="email" placeholder="Email" required="" type="email"></br>
+            <?php
+            require_once 'bbdd.php';
+            if (isset($_POST["enviar"])) {
+                $pass = $_POST["pass"];
+                $email = $_POST["mail"];
+                if(login($email, $pass)){
+                    $_POST["valoresok"] = "ok";
+                }
+            }if(isset($_POST["valoresok"])){
+                echo "HOLA";
+            }
+            else {
+                echo ' 
+        <form action = "" method = "POST">
+       <input placeholder="Email" name="mail" required type="email"></br>     
+       <input  id="password" placeholder="Password" name="pass" required="" type="password"></br>            
+       <button type="submit"  name = "enviar">Log in</button>
+       </form>';
+            }
+            ?>
+
+            <a class="fontblack" href="RecuperarContrasenya.php">Has olvidado tu contraseña?</a>
             <a class="fontblack" href="Registro.php">Nuevo usuario?</a>
-            <a class="fontblack" href="RecuperarContrasenya.php">Has olvidado tu contraseña?</a></br>
-            <button type="submit">Log in</button>
         </div>
         <div id="footer"></div>
     </body>
