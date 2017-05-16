@@ -296,6 +296,7 @@ function showAlert($alert) {
 
 function Registro($tipo, $nombre, $apellido, $email, $pswd, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes) {
     $con = conectar();
+    $resultado = "";
     $pass = password_hash($pswd, PASSWORD_DEFAULT);
     $insert = "insert into USUARIO values ('null','$tipo','$nombre',
             " . (($apellido == 'NULL') ? "NULL" : ("'" . $apellido . "'")) . ",
@@ -312,10 +313,11 @@ function Registro($tipo, $nombre, $apellido, $email, $pswd, $nombrelocal, $ciuda
             " . (($genero == 'NULL') ? "NULL" : ("'" . $genero . "'")) . ",
             " . (($ciudad == 'NULL') ? "NULL" : ("'" . $ciudad . "'")) . ")";
     if (mysqli_query($con, $insert)) {
-        showAlert("Usuario registrado correctamente");
+        $resultado = "true";
     } else {
-        echo mysqli_error($con);
-    }
+        $resultado =  mysqli_error($con);
+    }  
+    return $resultado;
     desconectar($con);
 }
 
