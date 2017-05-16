@@ -89,6 +89,17 @@ FECHA datetime not null,
 primary key(ID_CONCIERTO, ID_USUARIO, FECHA)
 );
 
+create table TRACE(
+ID_TRACE int(10) not null auto_increment,
+TIPO char(10) not null,
+VALOR char(20),
+FECHA date not null,
+RESULTADO boolean,
+COMENTARIO char(20),
+PRIMARY KEY(ID_EVENTO)
+);
+
+
 alter table USUARIO add constraint fk_USUARIO_GENERO foreign key(ID_GENERO) references GENERO(ID_GENERO) on update cascade;
 alter table USUARIO add constraint fk_USUARIO_CIUDAD foreign key(ID_CIUDAD) references CIUDAD(ID_CIUDAD) on update cascade;
 

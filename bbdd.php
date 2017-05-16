@@ -407,3 +407,32 @@ function login($email, $password) {
     }
     desconectar($con);
 }
+
+
+function TraceEvent($tipo, $valor, $resultado, $comentario) {
+    $conexion = conectar();
+    $sql = "INSERT INTO TRACE VALUES(null, '$tipo', '$valor', now(),
+            " . (($resultado == 'NULL') ? "NULL" : ("'" . $resultado . "'")) . ",
+            " . (($comentario == 'NULL') ? "NULL" : ("'" . $comentario . "'")) . ")";
+    if (mysqli_query($conexion, $sql)) {
+        
+    } else {
+        echo mysqli_error($conexion);
+    }
+    desconectar($conexion);
+}
+
+function TrendingBusqueda($tipo) {
+    $conexion = conectar();
+    if ($tipo == "grupo") {
+        $sql = "SELECT COUNT(VALOR) AS 'VECES', VALOR AS NOMBRE FROM TRACE GROUP BY VALOR LIMIT 5";
+    } else if ($tipo == "local") {
+        
+    }
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        return $result;
+    } else {
+        return null;
+    }
+}
