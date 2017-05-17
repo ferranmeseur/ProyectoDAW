@@ -15,23 +15,48 @@
     </head>
     <body>
         <div id="header"></div> 
-        <?php
-        session_start();
-        require_once'bbdd.php';
-        if (isset($_POST['cambiar'])) {
-            $username = $_SESSION['user'];
-            $sessionpass = $_SESSION['pass'];
-            $oldpassword = $_POST['oldpassword'];
-            $newpassword1 = $_POST['newpassword1'];
-            $newpassword2 = $_POST['newpassword2'];
-            ModificarPassword($username, $sessionpass, $oldpassword, $newpassword1, $newpassword2);
-        }
-        ?>
-        <div class="center">
+        <div class="center padding20">
+            <?php
+            session_start();
+            require_once'bbdd.php';
+            $resultado = "";
+            if (isset($_POST['enviar'])) {
+                $email = $_POST['email'];
+                $resultado = mostrarSeguridad($email);
+                if ($resultado == "false") {
+                    showAlert("No se ha encontrado el email");
+                    redirectURL("RecuperarContrasenya.php");
+                } else {
+                    $_SESSION['email'] = $email;
+                    echo'
+                    <form method="POST"></br>
+                Pregunta de seguridad:  ' . $resultado . '</br></br>
+                Respuesta de seguridad: <input type="text" name="respuesta" required></br></br>
+                <input type="submit" value="Enviar" name="cambiarpass">
+            </form>';
+                }
+            } else {
+                if (isset($_POST['cambiarpass'])) {
+                    $nuevopass = comprobarSeguridad($_SESSION['email'], $_POST['respuesta']);
+                    if ($nuevopass == "false") {
+                        showAlert("Respuesta de seguridad incorrecta");
+                        redirectURL("RecuperarContrasenya.php");
+                    } else {
+                        echo 'Esta es tu nueva contraseña : ' . $nuevopass;
+                        echo'</br></br>';
+                        echo ' Puedes cambiarla en el Area Personal';
+                    }
+                } else {
+
+                    echo'
             <form method="POST">
-                Introduce tu email: <input type="email" name="email" required><br>
-                <input type="submit" value="cambiar" name="cambiar">
-            </form>
+            </br></br>
+                Introduce tu email: <input type="email" name="email" required>
+                <input type="submit" value="Enviar" name="enviar">
+            </form>';
+                }
+            }
+            ?>
         </div>
         <div id="footer"></div>
     </body>

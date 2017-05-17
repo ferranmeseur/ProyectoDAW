@@ -294,9 +294,15 @@ function showAlert($alert) {
     echo '<script language="javascript">alert("' . $alert . '");</script>';
 }
 
-function Registro($tipo, $nombre, $apellido, $email, $pswd, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes) {
+function redirectURL($url) {
+    echo '<script language="javascript">
+    window.location.replace("' . $url . '");</script>';
+}
+
+function Registro($tipo, $nombre, $apellido, $email, $pswd, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes, $pregunta, $respuesta) {
     $con = conectar();
     $resultado = "";
+    $answer = password_hash($respuesta, PASSWORD_DEFAULT);
     $pass = password_hash($pswd, PASSWORD_DEFAULT);
     $insert = "insert into USUARIO values ('null','$tipo','$nombre',
             " . (($apellido == 'NULL') ? "NULL" : ("'" . $apellido . "'")) . ",
@@ -311,12 +317,12 @@ function Registro($tipo, $nombre, $apellido, $email, $pswd, $nombrelocal, $ciuda
             " . (($aforo == 'NULL') ? "NULL" : ("'" . $aforo . "'")) . ", 
             " . (($web == 'NULL') ? "NULL" : ("'" . $web . "'")) . ", 
             " . (($genero == 'NULL') ? "NULL" : ("'" . $genero . "'")) . ",
-            " . (($ciudad == 'NULL') ? "NULL" : ("'" . $ciudad . "'")) . ")";
+            " . (($ciudad == 'NULL') ? "NULL" : ("'" . $ciudad . "'")) . ",'$pregunta','$answer')";
     if (mysqli_query($con, $insert)) {
         $resultado = "true";
     } else {
-        $resultado =  mysqli_error($con);
-    }  
+        $resultado = mysqli_error($con);
+    }
     return $resultado;
     desconectar($con);
 }
@@ -394,7 +400,7 @@ function login($email, $password) {
     $result = $con->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            if (password_verify($password, $row['PASWORD'])) {
+            if (password_verify($password, $row['PASSWORD'])) {
                 return true;
             } else {
                 showAlert("Contraseña incorrecta");
@@ -408,6 +414,48 @@ function login($email, $password) {
     desconectar($con);
 }
 
+function mostrarSeguridad($email) {
+    $con = conectar();
+    $sql = "select * from USUARIO where EMAIL='$email'";
+    $result = $con->query($sql);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            return $row['PREGUNTA_SEGURIDAD'];
+        }
+    } else {
+        return "false";
+    }
+    desconectar($con);
+}
+
+function comprobarSeguridad($email, $respuesta) {
+    $con = conectar();
+    $sql = "select * from USUARIO where EMAIL='$email'";
+    $result = $con->query($sql);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            if (password_verify($respuesta, $row['RESPUESTA_SEGURIDAD'])) {
+                $newpassword = randomString(6);
+                $pass = password_hash($newpassword, PASSWORD_DEFAULT);
+                $q1 = "update USUARIO set PASSWORD='$pass' where EMAIL ='$email'";
+                if (mysqli_query($con, $q1)) {
+                    return $newpassword;
+                } else {
+                    return "false";
+                }
+            }else{
+                return "false";
+            }
+        }
+    } else {
+        return "false";
+    }
+    desconectar($con);
+}
+
+function randomString($length) {
+    return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / strlen($x)))), 1, $length);
+}
 
 function TraceEvent($tipo, $valor, $resultado, $comentario) {
     $conexion = conectar();

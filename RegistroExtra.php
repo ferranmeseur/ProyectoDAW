@@ -69,6 +69,8 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                     $nombre = $_SESSION['nombre'];
                     $apellido = $_SESSION['apellido'];
                     $pas = $_SESSION['pas'];
+                    $pregunta = $_SESSION['pregunta'];
+                    $respuesta = $_SESSION['respuesta'];
 
                     if (isset($_POST["enviar"])) {
                         $ciudad = $_POST["ciudad"];
@@ -128,7 +130,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                         }
                     }
                     if (isset($_POST["valoresok"])) {
-                        $resultado = Registro($tipo, $nombre, $apellido, $mail, $pas, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes);
+                        $resultado = Registro($tipo, $nombre, $apellido, $mail, $pas, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes,$pregunta,$respuesta);
                         if ($resultado == "true") {
                             echo "Usuario registrado correctamente";
                             echo '<script type="text/javascript">$("#result").html("");</script>';
