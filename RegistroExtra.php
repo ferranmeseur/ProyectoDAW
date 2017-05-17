@@ -92,6 +92,11 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                         } else {
                             $genero = "NULL";
                         }
+                        if(isset($_POST['descripcion'])){
+                            $descripcion = $_POST['descripcion'];
+                        }else{
+                            $descripcion = "NULL";
+                        }
                         if (isset($_POST["componentes"])) {
                             $componentes = $_POST["componentes"];
                         }
@@ -130,7 +135,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                         }
                     }
                     if (isset($_POST["valoresok"])) {
-                        $resultado = Registro($tipo, $nombre, $apellido, $mail, $pas, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes,$pregunta,$respuesta);
+                        $resultado = Registro($tipo, $nombre, $apellido, $mail, $pas, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes,$pregunta,$respuesta,$descripcion);
                         if ($resultado == "true") {
                             echo "Usuario registrado correctamente";
                             echo '<script type="text/javascript">$("#result").html("");</script>';
@@ -169,6 +174,9 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                     <div id="Web" class="padding5 align_right">
                     Web :<input type = "text" name = "web" maxlength="20" minlength="5" >
                     </div>
+                   <div id="Descripcion" class="padding5 align_right">
+                    Descripción :<textarea name="descripcion" maxlength="255" rows="5" cols="50"></textarea>
+                    </div>
                 </div>
                 </br>
                 </br><div style="color:red;font-size:10px;">* Campos obligatorios</div>
@@ -198,6 +206,9 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                     </div>
                     <div id="Web" class="padding5 align_right">
                     Web :<input type = "text" name = "web" maxlength="20" minlength="5" >
+                    </div>
+                    <div id="Descripcion" class="padding5 align_right">
+                    Descripción :<textarea name="descripcion" maxlength="255" rows="5" cols="50"></textarea>
                     </div>
                 </div>
                  </br>
@@ -244,6 +255,9 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                             <div id = "Web" class = "padding5 align_right">
                             Web :<input type = "text" name = "web" maxlength = "20" minlength = "5" >
                             </div>
+                            <div id="Descripcion" class="padding5 align_right">
+                    Descripción :<textarea name="descripcion" maxlength="255" rows="5" cols="50"></textarea>
+                    </div>
                             </div>
                              </br>
                 </br><div style="color:red;font-size:10px;">* Campos obligatorios</div>

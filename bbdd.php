@@ -299,9 +299,10 @@ function redirectURL($url) {
     window.location.replace("' . $url . '");</script>';
 }
 
-function Registro($tipo, $nombre, $apellido, $email, $pswd, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes, $pregunta, $respuesta) {
+function Registro($tipo, $nombre, $apellido, $email, $pswd, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes, $pregunta, $respuesta,$descripcion) {
     $con = conectar();
     $resultado = "";
+    $alta = date('Y-m-d H:i:s');
     $answer = password_hash($respuesta, PASSWORD_DEFAULT);
     $pass = password_hash($pswd, PASSWORD_DEFAULT);
     $insert = "insert into USUARIO values ('null','$tipo','$nombre',
@@ -317,7 +318,8 @@ function Registro($tipo, $nombre, $apellido, $email, $pswd, $nombrelocal, $ciuda
             " . (($aforo == 'NULL') ? "NULL" : ("'" . $aforo . "'")) . ", 
             " . (($web == 'NULL') ? "NULL" : ("'" . $web . "'")) . ", 
             " . (($genero == 'NULL') ? "NULL" : ("'" . $genero . "'")) . ",
-            " . (($ciudad == 'NULL') ? "NULL" : ("'" . $ciudad . "'")) . ",'$pregunta','$answer')";
+            " . (($ciudad == 'NULL') ? "NULL" : ("'" . $ciudad . "'")) . ",'$pregunta','$answer',Now(),NULL,
+            . ".(($descripcion == 'NULL') ? "NULL" : ("'" . $descripcion . "'")) . ",)";
     if (mysqli_query($con, $insert)) {
         $resultado = "true";
     } else {
@@ -326,7 +328,6 @@ function Registro($tipo, $nombre, $apellido, $email, $pswd, $nombrelocal, $ciuda
     return $resultado;
     desconectar($con);
 }
-
 function checkPassword($pas1, $pas2) {
     if ($pas1 == $pas2)
         return true;
@@ -401,7 +402,9 @@ function login($email, $password) {
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             if (password_verify($password, $row['PASSWORD'])) {
-                return true;
+                if ((isset($row['FECHA_ALTA'])) && $row['FECHA_BAJA'] == null) {
+                    return true;
+                }
             } else {
                 showAlert("Contraseña incorrecta");
                 return false;
@@ -413,6 +416,7 @@ function login($email, $password) {
     }
     desconectar($con);
 }
+
 
 function mostrarSeguridad($email) {
     $con = conectar();
