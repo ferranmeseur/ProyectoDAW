@@ -38,7 +38,7 @@
 }
 .img{
     width: auto;
-    height: 10%;
+    height: 125px;
     text-align: center;
 }
 
@@ -349,6 +349,54 @@ header{
 .fondocontent{
     background-color: #EBEBEB;
 }
+
+.button-form-solo{
+    overflow: visible;
+    position: relative;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    height: 40px;
+    width: auto;
+    padding:0 10px 10px 10px;
+    font: bold 15px/40px 'lucida sans', 'trebuchet MS', 'Tahoma';
+    color: #fff;
+    text-transform: uppercase;
+    background: #d83c3c;
+    -moz-border-radius: 0 3px 3px 0;
+    -webkit-border-radius: 0 3px 3px 0;
+    border-radius: 3px 3px 3px 3px;      
+    text-shadow: 0 -1px 0 rgba(0, 0 ,0, .3);
+}
+.button-form:hover{       
+    background: #e54040;
+}
+.button-form:active,
+.button-form:focus{   
+    background: #c42f2f;    
+}
+.button-form:before {
+    content: '';
+    position: absolute;
+    border-width: 8px 8px 8px 0;
+    border-style: solid solid solid none;
+    border-color: transparent #d83c3c transparent;
+    top: 12px;
+    left: -6px;
+}
+
+.button-form:hover:before{
+    border-right-color: #e54040;
+}
+
+.button-form:focus:before{
+    border-right-color: #c42f2f;
+}    
+.button-form::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
 /*PRUEBA BUSCADOR */
 .cf:before, .cf:after{
     content:"";
@@ -401,7 +449,7 @@ header{
     font-style: italic;
 }    
 
-.form-wrapper button {
+.form-wrapper .button-form {
     overflow: visible;
     position: relative;
     float: right;
@@ -420,16 +468,16 @@ header{
     text-shadow: 0 -1px 0 rgba(0, 0 ,0, .3);
 }   
 
-.form-wrapper button:hover{		
+.form-wrapper .button-form:hover{		
     background: #e54040;
 }	
 
-.form-wrapper button:active,
-.form-wrapper button:focus{   
+.form-wrapper .button-form:active,
+.form-wrapper .button-form:focus{   
     background: #c42f2f;    
 }
 
-.form-wrapper button:before {
+.form-wrapper .button-form:before {
     content: '';
     position: absolute;
     border-width: 8px 8px 8px 0;
@@ -439,15 +487,15 @@ header{
     left: -6px;
 }
 
-.form-wrapper button:hover:before{
+.form-wrapper .button-form:hover:before{
     border-right-color: #e54040;
 }
 
-.form-wrapper button:focus:before{
+.form-wrapper .button-form:focus:before{
     border-right-color: #c42f2f;
 }    
 
-.form-wrapper button::-moz-focus-inner {
+.form-wrapper .button-form::-moz-focus-inner {
     border: 0;
     padding: 0;
 }
@@ -502,4 +550,113 @@ header{
 #li_lista_img:hover {
     background: #eee;
     cursor: pointer;
+}
+
+
+
+
+/* Custom dropdown */
+.border_dropdow{
+    border-bottom: 2px solid #d83c3c;
+    border-radius: 0 3px 3px 0;
+}
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 10px;
+}
+select option:hover{
+    color:black;
+
+}
+
+.custom-dropdown select {
+    background-color: white;
+    color: gray;
+    font-size: inherit;
+    padding: .5em;
+    padding-right: 2.5em;	
+    border: 0;
+    margin: 0;
+    border-radius: 3px;
+    text-indent: 0.01px;
+    text-overflow: '';
+    -webkit-appearance: button; 
+}
+
+.custom-dropdown::before,
+.custom-dropdown::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+}
+select option:hover{
+    background: #f00; 
+    color: #fff; 
+    box-shadow: inset 20px 20px #f00
+}
+
+
+.custom-dropdown::after { /*  Custom dropdown arrow */
+    content: "\25BC";
+    height: 1em;
+    font-size: .625em;
+    line-height: 1;
+    right: 1.2em;
+    top: 50%;
+    margin-top: -.5em;
+}
+
+.custom-dropdown::before { /*  Custom dropdown arrow cover */
+    width: 2em;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 0 3px 3px 0;
+}
+
+.custom-dropdown select[disabled] {
+    color: white;
+}
+
+.custom-dropdown select[disabled]::after {
+    color: white;
+}
+
+.custom-dropdown::before {
+    background-color: #d83c3c;
+}
+
+.custom-dropdown::after {
+    color: white;
+}
+
+/* Add a black background color to the top navigation */
+.topnav {
+    background-color: #333;
+    overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    text-align: center;
+    display: inline-block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+    background-color: #4CAF50;
+    color: white;
 }

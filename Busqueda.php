@@ -20,7 +20,7 @@
         <div id="Search" class="height_40 padding20">
             <form class="form-wrapper cf" action="Busqueda.php" method="GET">
                 <input type="text" name="busqueda" placeholder="Busca músicos, locales o conciertos" required>
-                <button type="submit" value="submit" name="submit">GO!</button>
+                <button class="button-form" type="submit" value="submit" name="submit">GO!</button>
             </form>
         </div>
         <!-- TRENDING SEARCH -->
@@ -59,7 +59,57 @@
             echo'<script language="javascript">$("#resultadoLocales").empty(); $("#resultadoLocales").width(0);</script>';
             TrendingResultados();
         } else {
-            
+            if (isset($locales)) {
+                $var1 = '<ul style="list-style-type: none">';
+                echo'<script language="javascript">$("#resultadoLocales").append("' . $var1 . '");</script>';
+                while ($row = $locales->fetch_assoc()) {
+                    $nombre_local = str_replace(" ", "+", $row['NOMBRE_LOCAL']);
+                    $var2 = "<li id='li_lista_img' class='padding20 center'><a class='fontblack' href=InfoLocal.php?nombre=" . $nombre_local . "&b=true><img id='img_lista_img' src='Imagenes/image.jpeg'><h4 id='h4_lista_img'>" . $row['NOMBRE_LOCAL'] . "</h4><p id='p_lista_img'>DESCRIPCION</p></a></li>";
+                    echo'<script language="javascript">$("#resultadoLocales").append("' . $var2 . '");</script>';
+                }
+                $var3 = "</ul></div>";
+                echo'<script language="javascript">$("#resultadoLocales").append("' . $var3 . '");</script>';
+            } else {
+                echo'<script language="javascript">$("#resultadoLocales").empty();$("#resultadoLocales").width(0);</script>';
+            }
+            if (isset($artistas)) {
+                $var1 = "<ul style='text-align:center'>";
+                echo'<script language="javascript">$("#resultadoArtistas").append("' . $var1 . '");</script>';
+                while ($row = $artistas->fetch_assoc()) {
+                    $nombre_artistico = str_replace(" ", "+", $row['NOMBRE_ARTISTICO']);
+                    $var2 = "<li id='li_lista_img' class='padding20'><a class='fontblack' href=InfoGrupo.php?nombre=" . $nombre_artistico . "&b=true><img id='img_lista_img' src='Imagenes/image.jpeg'><h4 id='h4_lista_img'>" . $row['NOMBRE_ARTISTICO'] . "</h4><p id='p_lista_img'>" . $row['NOMBRE_GENERO'] . "</p></a></li>";
+                    echo'<script language="javascript">$("#resultadoArtistas").append("' . $var2 . '");</script>';
+                }
+                $var3 = "</ul>";
+                echo'<script language="javascript">$("#resultadoArtistas").append("' . $var3 . '");</script>';
+            } else {
+                echo'<script language="javascript">$("#resultadoArtistas").empty(); $("#resultadoArtistas").width(0);</script>';
+            }
+//                if (isset($conciertoLocal)) {
+//                    echo "<div id='div_lista'>";
+//                    echo '<h2 id="h2_lista">Conciertos en ' . $busqueda . '</h2>';
+//                    echo'<ul id="ul_lista">';
+//
+//                    while ($row = $conciertoLocal->fetch_assoc()) {
+//                        echo "<li id='li_lista'><a div='a_lista' class='fontblack' href=InfoGrupo.php?nombre=" . $row['NOMBRE_ARTISTICO'] . "&b=true>" . $row['NOMBRE_ARTISTICO'] . " " . $row['FECHA'] . "</a></li>";
+//                        echo "</ul></div>";
+//                    }
+//                }else{
+//                    echo'<script language="javascript">$("#resultadoConciertoLocal").empty();</script>';
+//                }
+//                if (isset($conciertoArtista)) {
+//                    echo "<div id='div_lista'>";
+//                    echo '<h2 id="h2_lista">Conciertos de ' . $busqueda . '</h2>';
+//                    echo '<ul id="ul_lista">';
+//                    while ($row = $conciertoArtista->fetch_assoc()) {
+//                        list($año, $mes, $dia, $hora, $minuto) = split('[-:]', $row['FECHA']);
+//                        $nombre_local = str_replace(" ", "+", $row['NOMBRE_LOCAL']);
+//                        echo "<li id='li_lista'><a id='a_lista' class='fontblack' href=InfoLocal.php?nombre=" . $nombre_local . "&b=true>" . $row['NOMBRE_LOCAL'] . " el día $dia de $mes de $año a las $hora:$minuto</a></li>";
+//                        echo "</ul></div>";
+//                    }
+//                }else{
+//                    echo'<script language="javascript">$("#resultadoConciertoArtista").empty();</script>';
+//                }
             TrendingResultados();
         }
     } else {

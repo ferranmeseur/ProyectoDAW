@@ -41,7 +41,7 @@
         <div id="Search" class="height_40">
             <form class="form-wrapper cf" action="Busqueda.php" method="GET">
                 <input type="text" name="busqueda" placeholder="Busca músicos, locales o conciertos" required>
-                <button type="submit" value="submit" name="submit">GO!</button>
+                <button class="button-form" type="submit" value="submit" name="submit">GO!</button>
             </form>
         </div>
         <?php
