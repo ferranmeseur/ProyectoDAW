@@ -15,8 +15,8 @@
     </head>
     <body>
         <div id="header"></div> 
-        <div class="center">Log into Music and Seek
-            </br>
+        <div class="center padding20">Identificate:
+            </br></br>
             <?php
             require_once 'bbdd.php';
             if (isset($_POST["enviar"])) {
@@ -33,7 +33,7 @@
         <form action = "" method = "POST">
        <input placeholder="Email" name="mail" required type="email"></br>     
        <input  id="password" placeholder="Password" name="pass" required="" type="password"></br>            
-       <button type="submit"  name = "enviar">Log in</button>
+       </br><button type="submit"  name = "enviar">Log in</button>
        </form>';
             }
             ?>
