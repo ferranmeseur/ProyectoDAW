@@ -318,12 +318,14 @@ function Registro($tipo, $nombre, $apellido, $email, $pswd, $nombrelocal, $ciuda
             " . (($aforo == 'NULL') ? "NULL" : ("'" . $aforo . "'")) . ", 
             " . (($web == 'NULL') ? "NULL" : ("'" . $web . "'")) . ", 
             " . (($genero == 'NULL') ? "NULL" : ("'" . $genero . "'")) . ",
-            " . (($ciudad == 'NULL') ? "NULL" : ("'" . $ciudad . "'")) . ",'$pregunta','$answer',Now(),NULL,
-            . ".(($descripcion == 'NULL') ? "NULL" : ("'" . $descripcion . "'")) . ",)";
+            " . (($ciudad == 'NULL') ? "NULL" : ("'" . $ciudad . "'")) . ",'$pregunta','$answer',
+            ".(($descripcion == 'NULL') ? "NULL" : ("' . $descripcion . '")) .",Now(),NULL)";
     if (mysqli_query($con, $insert)) {
         $resultado = "true";
     } else {
         $resultado = mysqli_error($con);
+        echo $resultado;
+        echo $descripcion;
     }
     return $resultado;
     desconectar($con);
