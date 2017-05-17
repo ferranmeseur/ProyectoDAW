@@ -394,7 +394,7 @@ function login($email, $password) {
     $result = $con->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            if (password_verify($password, $row['PASSWORD'])) {
+            if (password_verify($password, $row['PASWORD'])) {
                 return true;
             } else {
                 showAlert("Contraseña incorrecta");
