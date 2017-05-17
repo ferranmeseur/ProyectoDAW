@@ -14,9 +14,7 @@
 <link rel="icon" type="image/png" sizes="96x96" href="Imagenes/favicon-96x96.png">
 <link rel="icon" type="image/png" sizes="16x16" href="Imagenes/favicon-16x16.png">
 <link rel="manifest" href="Imagenes/manifest.json">
-<meta name="msapplication-TileColor" content="#ffffff">
 <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-<meta name="theme-color" content="#ffffff">
 
     <head>
         <title>MusicAndSeek</title>

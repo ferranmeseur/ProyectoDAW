@@ -1,5 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Lato);
 @import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
+@import "compass/css3";
 
 
 .inline{
@@ -454,4 +455,95 @@ header{
 }
 .fontblack{
     color: black;
+}
+
+
+
+  /*LISTA BONITA*/
+
+#div_lista {
+  width: 200px;
+  margin: 30px;
+}
+
+#h2_lista {
+  font: 400 40px/1.5 Helvetica, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+#ul_lista {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#li_lista {
+  font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+  border-bottom: 1px solid #ccc;
+}
+
+#li_lista:last-child {
+  border: none;
+}
+
+#li_lista,#a_lista {
+  text-decoration: none;
+  color: #000;
+
+  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+  display: block;
+  width: 200px;
+}
+
+#li_lista,#a_lista:hover {
+  font-size: 30px;
+  background: #f6f6f6;
+}
+
+
+
+
+
+/*LISTA BONITA IMAGENES*/
+
+* {margin: 0; padding: 0;}
+
+#div_lista_img {
+  margin: 20px;
+}
+
+#ul_lista_img {
+  list-style-type: none;
+  width: 500px;
+}
+
+#h4_lista_img {
+  font: bold 20px/1.5 Helvetica, Verdana, sans-serif;
+}
+
+#li_lista_img, #img_lista_img {
+  float: left;
+  margin: 0 15px 0 0;
+}
+#img_lista_img{
+    width: 50px;
+}
+
+#li_lista_img, #p_lista_img {
+  font: 200 12px/1.5 Georgia, Times New Roman, serif;
+}
+
+#li_lista_img {
+  padding: 10px;
+  overflow: auto;
+}
+
+#li_lista_img:hover {
+  background: #eee;
+  cursor: pointer;
 }

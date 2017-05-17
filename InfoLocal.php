@@ -16,8 +16,11 @@
     <body>
         <div id="header"></div> 
         <?php
-        
-        
+        require_once'bbdd.php';
+        if(isset($_GET['b'])){
+            $nombre = $_GET['nombre'];
+            TraceEvent("BUSQUEDA",$nombre,"NULL","NULL");
+        }
         
         ?>
         <div id="footer"></div>
