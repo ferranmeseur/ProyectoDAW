@@ -132,6 +132,18 @@ INSERT INTO CIUDAD VALUES (null,"Madrid","España");
 INSERT INTO CIUDAD VALUES (null,"Nancy","Francia");
 INSERT INTO CIUDAD VALUES (null,"Frankfurt","Alemania");
 
+
+INSERT INTO USUARIO VALUES (null,"MUSICO","Los Suaves",null,null,"Los@Suaves.com","625478542",null,null,"Los Suaves",3,"1234",null,"lossuaves.com",1,1,null,null);
+INSERT INTO USUARIO VALUES (null,"MUSICO","Donald Glover","","","CHILDISH@GAMBINO.com","625478542","","","Childish Gambino",1,"1234",null,"childishgambino.com",2,3,null,null);
+INSERT INTO USUARIO VALUES (null,"MUSICO","CHVRCHES","","","Los@Suaves.com","625478542","","","CHVRCHES",4,"1234",null,"chvrches.com",1,2,null,null);
+INSERT INTO USUARIO VALUES (null,"LOCAL","Sala Apolo","","C/ Nou de la Rambla","sala@apolo.com","625478542","","Sala Apolo",null,null,"1234",100,"sala-apolo.com",1,1,null,null);
+INSERT INTO USUARIO VALUES (null,"LOCAL","Freedonia","","C/ Riera","freedonia@sala.com","625478542","","Freedonia",null,null,"1234",50,"freedonia.com",3,1,null,null);
+INSERT INTO USUARIO VALUES (null,"LOCAL","Razzmatazz","","C/ Marina","razzmatzz@sala.com","625478542","","Sala Apolo",null,null,"1234",300,"razzmatazz.com",2,1,null,null);
+INSERT INTO USUARIO VALUES (null,"FAN","Ferry","Angry","C/ horta","angry@ferry.com","625478542","","","",null,"1234",null,"",null,null,null,null);
+INSERT INTO USUARIO VALUES (null,"FAN","Irene","Ce","C/ de sant pau","irene@ce.com","625478542","","","",null,"1234",null,"",null,null,null,null);
+INSERT INTO USUARIO VALUES (null,"FAN","Pepe","Fe","C/ pelaio","pepe@fe.com","625478542","","","",null,"1234",null,"",null,null,null,null);
+
+
 INSERT INTO VOTAR_COMENTAR VALUES (null,8,3,5,TRUE,"NORMAL","2017-1-1","A");
 INSERT INTO VOTAR_COMENTAR VALUES (null,8,9,5,TRUE,"NORMAL","2017-1-1","A");
 INSERT INTO VOTAR_COMENTAR VALUES (null,9,4,5,TRUE,"NORMAL","2017-1-1","A");
