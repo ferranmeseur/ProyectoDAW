@@ -20,7 +20,7 @@ function CheckUsuarioConectado($sessionToken) {
 //Busca por musicos, locales o conciertos
 function BusquedaLocal($busqueda) {
     $conexion = conectar();
-    $sql = "SELECT * FROM USUARIO WHERE NOMBRE_LOCAL LIKE '%" . $busqueda . "%'";
+    $sql = "SELECT *, GENERO.NOMBRE AS NOMBRE_GENERO FROM USUARIO INNER JOIN GENERO ON USUARIO.ID_GENERO = GENERO.ID_GENERO WHERE NOMBRE_LOCAL LIKE '%" . $busqueda . "%'";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
         return $result;
@@ -32,7 +32,7 @@ function BusquedaLocal($busqueda) {
 
 function BusquedaArtista($busqueda) {
     $conexion = conectar();
-    $sql = "SELECT * FROM USUARIO WHERE NOMBRE_ARTISTICO LIKE '%" . $busqueda . "%'";
+    $sql = "SELECT *, GENERO.NOMBRE AS NOMBRE_GENERO FROM USUARIO INNER JOIN GENERO ON USUARIO.ID_GENERO = GENERO.ID_GENERO WHERE NOMBRE_ARTISTICO LIKE '%" . $busqueda . "%'";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
         return $result;
@@ -443,7 +443,7 @@ function comprobarSeguridad($email, $respuesta) {
                 } else {
                     return "false";
                 }
-            }else{
+            } else {
                 return "false";
             }
         }
@@ -473,8 +473,10 @@ function TraceEvent($tipo, $valor, $resultado, $comentario) {
 function TrendingBusqueda($tipo) {
     $conexion = conectar();
     if ($tipo == "grupo") {
-        $sql = "SELECT COUNT(VALOR) AS 'VECES', VALOR AS NOMBRE FROM TRACE GROUP BY VALOR LIMIT 5";
+        $sql = "SELECT COUNT(VALOR) AS 'VECES', VALOR AS NOMBRE FROM TRACE WHERE COMENTARIO = 'MUSICO' GROUP BY VALOR ORDER BY VECES DESC LIMIT 5";
     } else if ($tipo == "local") {
+        $sql = "SELECT COUNT(VALOR) AS 'VECES', VALOR AS NOMBRE FROM TRACE WHERE COMENTARIO='LOCAL' GROUP BY VALOR ORDER BY VECES DESC LIMIT 5";
+    } else if ($tipo == "concierto") {
         
     }
     $result = $conexion->query($sql);
@@ -482,5 +484,33 @@ function TrendingBusqueda($tipo) {
         return $result;
     } else {
         return null;
+    }
+}
+//FUNCION QUE NO INTERACTUA DIRECTAMENTE CON LA BBDD, CREAMOS UN PHP NUEVO O LAS DEJAMOS AQUI?
+function TrendingResultados() {
+    //TRENDING GRUPOS
+    $resultGrupo = TrendingBusqueda("grupo");
+    if ($resultGrupo == null) {
+        echo'<script language="javascript">$("#trendingSearchGrupos").empty();</script>';
+    } else {
+        $trending_list_grupos = "<ul class='inline'>";
+        while ($row = $resultGrupo->fetch_assoc()) {
+            $nombre = str_replace(" ", "+", $row['NOMBRE']);
+            $trending_list_grupos .= "<li class='inline paddingleft15red cursiva'><a class='fontblack' href=InfoGrupo.php?nombre=" . $nombre . ">" . $row['NOMBRE'] . "</a></li>";
+        }
+        $trending_list_grupos .= "</ul>";
+        echo'<script language="javascript">$("#trendingSearchGrupos").append("' . $trending_list_grupos . '");</script>';
+    }
+    $resultLocal = TrendingBusqueda("local");
+    if ($resultLocal == null) {
+        echo'<script language="javascript">$("#trendingSearchLocales").empty();</script>';
+    } else {
+        $trending_list_locales = "<ul class='inline'>";
+        while ($row = $resultLocal->fetch_assoc()) {
+            $nombre = str_replace(" ", "+", $row['NOMBRE']);
+            $trending_list_locales .= "<li class='inline paddingleft15red cursiva'><a class='fontblack' href=InfoLocal.php?nombre=" . $nombre . ">" . $row['NOMBRE'] . "</a></li>";
+        }
+        $trending_list_locales .= "</ul>";
+        echo'<script language="javascript">$("#trendingSearchLocales").append("' . $trending_list_locales . '");</script>';
     }
 }
