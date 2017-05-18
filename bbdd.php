@@ -84,7 +84,7 @@ function InfoGrupo($nombre) {
 
 function RankingMusicos() {
     $conexion = conectar();
-    $sql = "SELECT SUM(PUNTOS) AS PUNTOS, ID_VOTADO, NOMBRE FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO=USUARIO.ID_USUARIO WHERE USUARIO.TIPO_USUARIO = 'MUSICO' GROUP BY ID_VOTADO ORDER BY PUNTOS ASC";
+    $sql = "SELECT SUM(PUNTOS) AS PUNTOS, ID_VOTADO, NOMBRE FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO=USUARIO.ID_USUARIO WHERE USUARIO.TIPO_USUARIO = 'MUSICO' GROUP BY ID_VOTADO ORDER BY PUNTOS DESC";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
         return $result;
@@ -150,49 +150,51 @@ function RankingPorCiudad($ciudad) {
 
 /* CONCIERTOS: */
 
-function ListaConciertos($genero, $ciudad, $grupo, $local) {
+function ListaConciertosFan($fechaConciertos, $genero, $ciudad, $grupo, $local) {
     $conexion = conectar();
     if (empty($genero) && empty($ciudad) && empty($grupo) && empty($local)) {
-        $sql = "SELECT *,(SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=ID_LOCAL) AS NOMBRE_LOCAL, (SELECT NOMBRE_ARTISTICO FROM USUARIO WHERE ID_USUARIO = ID_GRUPO) AS NOMBRE_ARTISTICO FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO";
-        echo 'todo vacio';
+        $sql = "SELECT *,(SELECT UBICACION FROM USUARIO WHERE ID_USUARIO=CONCIERTO.ID_LOCAL) AS UBICACION, (SELECT NOMBRE FROM GENERO WHERE ID_GENERO = CONCIERTO.ID_GENERO) AS GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = CONCIERTO.ID_CIUDAD) AS CIUDAD, (SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=ID_LOCAL) AS NOMBRE_LOCAL FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE CONCIERTO.FECHA>='$fechaConciertos'";
     } else {
-        $sql = "SELECT *,(SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=ID_LOCAL) AS NOMBRE_LOCAL, (SELECT NOMBRE_ARTISTICO FROM USUARIO WHERE ID_USUARIO = ID_GRUPO) AS NOMBRE_ARTISTICO FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO";
-        $concatIsFirst = true;
-
+        $sql = "SELECT *,(SELECT UBICACION FROM USUARIO WHERE ID_USUARIO=CONCIERTO.ID_LOCAL) AS UBICACION, (SELECT NOMBRE FROM GENERO WHERE ID_GENERO = CONCIERTO.ID_GENERO) AS GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = CONCIERTO.ID_CIUDAD) AS CIUDAD, (SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=ID_LOCAL) AS NOMBRE_LOCAL FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE CONCIERTO.FECHA>='$fechaConciertos'";
         if (!empty($genero)) {
-            if ($concatIsFirst) {
-                $sql = $sql . " WHERE USUARIO.ID_GENERO = $genero ";
-                $concatIsFirst = false;
-            } else
-                $sql = $sql . ' AND GENERO = ' . $genero;
-        }
-        if (!empty($ciudad)) {
-            if ($concatIsFirst) {
-                $sql = $sql . " WHERE CONCIERTO.ID_CIUDAD = $ciudad ";
-                $concatIsFirst = false;
-            } else
-                $sql = $sql . " AND CONCIERTO.ID_CIUDAD = $ciudad ";
-        }
-        if (!empty($grupo)) {
-            if ($concatIsFirst) {
-                $sql = $sql . " WHERE CONCIERTO.ID_GRUPO = $grupo ";
-                $concatIsFirst = false;
-            } else
-                $sql = $sql . " AND CONCIERTO.ID_GRUPO = $grupo ";
-        }
-        if (!empty($local)) {
-            if ($concatIsFirst) {
-                $sql = $sql . " WHERE CONCIERTO.ID_LOCAL = $local";
-                $concatIsFirst = false;
-            } else
-                $sql = $sql .= " AND CONCIERTO.ID_LOCAL = $local";
+            $sql = $sql . ' AND CONCIERTO.ID_GENERO = "' . $genero . '"';
+        } else if (!empty($ciudad)) {
+            $sql = $sql . " AND CONCIERTO.ID_CIUDAD = '" . $ciudad . "'";
+        } else if (!empty($grupo)) {
+            $sql = $sql . " AND CONCIERTO.ID_GRUPO = '$grupo' ";
+        } else if (!empty($local)) {
+            $sql = $sql . " HAVING CONCIERTO.ID_LOCAL = '$local'";
         }
     }
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
         return $result;
     } else {
-        echo mysqli_error($conexion);
+        return null;
+    }
+    desconectar($conexion);
+}
+
+function ListaFechasConciertos($futurosConciertos) {
+    $conexion = conectar();
+    if ($futurosConciertos == 'true') {
+        $sql = "SELECT FECHA FROM CONCIERTO WHERE FECHA>=now() GROUP BY FECHA";
+        $result = $conexion->query($sql);
+        if ($result->num_rows > 0) {
+            return $result;
+        } else {
+            echo 'error ListaFEchasConciertos';
+            //echo mysqli_error($conexion);
+        }
+    } else {
+        $sql = "SELECT FECHA FROM CONCIERTO WHERE FECHA<now() GROUP BY FECHA";
+        $result = $conexion->query($sql);
+        if ($result->num_rows > 0) {
+            return $result;
+        } else {
+            echo 'error ListaFEchasConciertos';
+            //echo mysqli_error($conexion);
+        }
     }
     desconectar($conexion);
 }
@@ -299,7 +301,7 @@ function redirectURL($url) {
     window.location.replace("' . $url . '");</script>';
 }
 
-function Registro($tipo, $nombre, $apellido, $email, $pswd, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes, $pregunta, $respuesta,$descripcion) {
+function Registro($tipo, $nombre, $apellido, $email, $pswd, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes, $pregunta, $respuesta, $descripcion) {
     $con = conectar();
     $resultado = "";
     $alta = date('Y-m-d H:i:s');
@@ -319,7 +321,7 @@ function Registro($tipo, $nombre, $apellido, $email, $pswd, $nombrelocal, $ciuda
             " . (($web == 'NULL') ? "NULL" : ("'" . $web . "'")) . ", 
             " . (($genero == 'NULL') ? "NULL" : ("'" . $genero . "'")) . ",
             " . (($ciudad == 'NULL') ? "NULL" : ("'" . $ciudad . "'")) . ",'$pregunta','$answer',
-            ".(($descripcion == 'NULL') ? "NULL" : ("' . $descripcion . '")) .",Now(),NULL)";
+            " . (($descripcion == 'NULL') ? "NULL" : ("' . $descripcion . '")) . ",Now(),NULL)";
     if (mysqli_query($con, $insert)) {
         $resultado = "true";
     } else {
@@ -330,6 +332,7 @@ function Registro($tipo, $nombre, $apellido, $email, $pswd, $nombrelocal, $ciuda
     return $resultado;
     desconectar($con);
 }
+
 function checkPassword($pas1, $pas2) {
     if ($pas1 == $pas2)
         return true;
@@ -419,7 +422,6 @@ function login($email, $password) {
     desconectar($con);
 }
 
-
 function mostrarSeguridad($email) {
     $con = conectar();
     $sql = "select * from USUARIO where EMAIL='$email'";
@@ -492,6 +494,7 @@ function TrendingBusqueda($tipo) {
         return null;
     }
 }
+
 //FUNCION QUE NO INTERACTUA DIRECTAMENTE CON LA BBDD, CREAMOS UN PHP NUEVO O LAS DEJAMOS AQUI?
 function TrendingResultados() {
     //TRENDING GRUPOS
@@ -519,4 +522,14 @@ function TrendingResultados() {
         $trending_list_locales .= "</ul>";
         echo'<script language="javascript">$("#trendingSearchLocales").append("' . $trending_list_locales . '");</script>';
     }
+}
+
+function getNombreFecha($fecha) {
+    $dias = array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado");
+    $meses = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+
+    $arrayFecha = explode("-", $fecha);
+
+    $fecha = $dias[$arrayFecha[0]] . " " . $arrayFecha[1] . " de " . $meses[$arrayFecha[2] - 1] . " del " . $arrayFecha[3];
+    return $fecha;
 }

@@ -1,9 +1,9 @@
+<!DOCTYPE html>
 <html>
     <head>
-        <title>Ranking</title>
+        <title>RANKING</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script>
             $(function () {
@@ -11,73 +11,46 @@
                 $("#footer").load("Footer.html");
             });
         </script> 
+        <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <div id="header"></div>   
-        <div class="center">
-            <div class="center">BUSCADOR</div>
-            <div class="center">
-                <div class="center">
-                    ARTISTAS EN ALZA
-                    <div class="center height_25 width_100"></div>
-                </div>
-                <?php
-                require_once 'bbdd.php';
-                RankingMusicos();
-                ?>
-                <div class="inline">
-                    <div class="center">
-                        <?php
-                        require_once 'bbdd.php';
-                        if (isset($_POST["generosub"])) {
-                            echo'<div class="center">
-                                <div class="center contenedor_scroll">';
-                            $genero = $_POST["genero"];
-                            RankingPorGenero($genero);
-                            echo'</div></div>';
-                        }
-                        echo'<form action = "" method = "POST" >';
-                        $generos = ListaGeneros();
-                        echo'<select name="genero">';
-                        while ($fila2 = mysqli_fetch_array($generos)) {
-                            extract($fila2);
-                            echo"<option value=$NOMBRE>$NOMBRE</option>";
-                        }
-                        echo'</select>';
-                        ?>
-                        <input class="center cursiva" type="submit" name="generosub" value="Ranking por genero">
-                        <!--<button id="generogrupos" class="center cursiva" name = "generosub">Escoge un genero para visualizar la clasificacion</button>-->
-                        </form>
-                    </div>
-                </div>
-                <div class="inline">
-                    <div class="center">
-                        <?php
-                        require_once 'bbdd.php';
-                        if (isset($_POST["ciudadsub"])) {
-                            echo'<div class="center">
-                                <div class="center contenedor_scroll">';
-                            $ciudad = $_POST["ciudad"];
-                            RankingPorCiudad($ciudad);
-                            echo'</div></div>';
-                        }
-                        echo'<form action = "" method = "POST" >';
-                        $ciudades = ListaCiudades();
-                        echo'<select name="ciudad">';
-                        while ($fila2 = mysqli_fetch_array($ciudades)) {
-                            extract($fila2);
-                            echo"<option value=$NOMBRE>$NOMBRE</option>";
-                            
-                        }
-                        echo'</select>';
-                        ?>
-                        <button id="generogrupos" class="center cursiva" name = "ciudadsub">Ranking por ciudad</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+        <div id="header"></div>
+        <div id="header"></div>  
+        <!--BARRA BUSQUEDA-->
+        <div id="Search" class="height_40 padding20">
+            <form class="form-wrapper cf" action="Busqueda.php" method="GET">
+                <input type="text" name="busqueda" placeholder="Busca músicos o locales" required>
+                <button class="button-form" type="submit" value="submit" name="submit">GO!</button>
+            </form>
         </div>
-    </div>
-    <div id="footer"></div>
-</body>
+        <div id="contenedor" class="center">
+            <h2>ARTISTAS EN ALZA</h2>
+            <i>Artistas con más votos de los fans</i>
+            <?php
+            require_once 'bbdd.php';
+            $result = RankingMusicos();
+            $i = 1;
+            echo'<table>';
+            while ($row = $result->fetch_assoc()) {
+                echo '<div id="musicoRanking'.$i.'">';
+                echo '<div class="div_peque_ranking"></div>';
+                echo '<div class="div_ranking">';
+                echo '<img class="img_div_ranking inline" src="Imagenes/image.jpeg">';
+                echo '<dvi class="nombre_artista inline vertical_top padding5"><h3 class="color_rojo_general">'.$row['NOMBRE'].'</h3></dvi>';
+                echo '</div>';
+                echo '<img class="img_ranking_numero" src="Imagenes/ranking'.$i.'.png">';
+                echo '</div>';
+                $i++;
+                if ($i == 6) {
+                    break;
+                }
+            }
+            echo'</table>';
+            ?>
+        </div>
+        
+                
+
+        <div class="margin_top_200px" id="footer"></div>
+    </body>
 </html>

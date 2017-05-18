@@ -1,7 +1,14 @@
 <?php
+
 require_once 'bbdd.php';
+
 function BusquedaConciertos() {
     echo'<form class="center padding20" action= "Concierto.php" method = "POST" >';
+    echo '<span class="inline custom-dropdown border_dropdow">';
+    echo '<select name="futurosConciertos">';
+    echo '<option selected value="true">Proximos conciertos</option>';
+    echo '<option value="false">Conciertos pasados</option>';
+    echo '</select></span>';
     echo '<span class="inline custom-dropdown border_dropdow">';
     $ciudades = ListaCiudades();
     echo'<select name="ciudad">
@@ -37,8 +44,10 @@ function BusquedaConciertos() {
         extract($fila2);
         echo"<option value='$ID_USUARIO'>$NOMBRE_LOCAL</option>";
     }
-    echo'</select></span>
-                <button class="button-form-solo inline" type="submit" value="submit" name="submit">BUSCAR</button>
-</form>';
+    echo '</select></span>';
+
+    echo '<button class="button-form-solo inline" type="submit" value="submit" name="submit">BUSCAR</button>';
+    echo '</form>';
 }
+
 ?>

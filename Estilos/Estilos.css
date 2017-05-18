@@ -1,6 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Lato);
 @import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
-/*@import "compass/css3";*/
 
 
 .inline{
@@ -149,6 +148,9 @@ footer,.footer{
     padding-right: 10px;
     padding-left: 10px;
 }
+.border_bottom{
+    border-bottom: 1px red;
+}
 .paddingleft15{
     border-right: 1px solid black;
     padding-right: 10px;
@@ -169,7 +171,7 @@ footer,.footer{
 }
 .trending_search{
     margin: auto auto auto auto;
-    width: 600px;
+    width: 550px;
     font-size: small;
 }
 #trendingSearchGrupos, #trendingSearchLocales{
@@ -184,7 +186,10 @@ p > a:hover {
     color: #d9d9d9;
     text-decoration: underline;
 }
-ul {
+.a_concierto:hover {
+    text-decoration: underline;
+}
+ul{
     padding: 0;
     list-style: none;
 }
@@ -193,8 +198,8 @@ ul {
     width: 350px;
     display: block;
     margin: 0 auto;
-    -ms-transform: scale(1.5, 1.5); /* IE 9 */
-    -webkit-transform: scale(1.5, 1.5); /* Safari */
+    -ms-transform: scale(1.5, 1.5);
+    -webkit-transform: scale(1.5, 1.5);
     transform: scale(1.5, 1.5);
 }
 
@@ -327,6 +332,9 @@ header{
 .margin_left_100px{
     margin-left: 100px;
 }
+.padding_left_50px{
+    padding-left:50px;
+}
 
 #titulo{
     position:fixed;
@@ -397,7 +405,6 @@ header{
     padding: 0;
 }
 
-/*PRUEBA BUSCADOR */
 .cf:before, .cf:after{
     content:"";
     display:table;
@@ -534,8 +541,9 @@ header{
     float: left;
     margin: 0 15px 0 0;
 }
-#img_lista_img{
+#img_resultado_busqueda{
     width: 50px;
+    float: left;
 }
 
 #li_lista_img, #p_lista_img {
@@ -552,10 +560,6 @@ header{
     cursor: pointer;
 }
 
-
-
-
-/* Custom dropdown */
 .border_dropdow{
     border-bottom: 2px solid #d83c3c;
     border-radius: 0 3px 3px 0;
@@ -632,13 +636,11 @@ select option:hover{
     color: white;
 }
 
-/* Add a black background color to the top navigation */
 .topnav {
     background-color: #333;
     overflow: hidden;
 }
 
-/* Style the links inside the navigation bar */
 .topnav a {
     text-align: center;
     display: inline-block;
@@ -649,14 +651,83 @@ select option:hover{
     font-size: 17px;
 }
 
-/* Change the color of links on hover */
 .topnav a:hover {
     background-color: #ddd;
     color: black;
 }
 
-/* Add a color to the active/current link */
 .topnav a.active {
     background-color: #4CAF50;
     color: white;
+}
+
+#musicoRanking1{
+    width:500px;
+    background-color: #BDBDBD;
+    height: 70px;
+    margin-bottom: 5px;
+    position:relative;
+}
+#musicoRanking1{
+    width:400px;
+    background-color: #BDBDBD;
+    height: 70px;
+    margin-bottom: 5px;
+}
+#musicoRanking2{
+    width:325px;
+    background-color: #BDBDBD;
+    height: 70px;
+    margin-bottom: 5px;
+    position:relative;
+}
+#musicoRanking3{
+    width:270px;
+    background-color: #BDBDBD;
+    height: 70px;
+    margin-bottom: 5px;
+    position:relative;
+}
+#musicoRanking4{
+    width:230px;
+    background-color: #BDBDBD;
+    height: 70px;
+    margin-bottom: 5px;
+    position:relative;
+}
+#musicoRanking5{
+    width:200px;
+    background-color: #BDBDBD;
+    height: 70px;
+    margin-bottom: 5px;
+    position:relative;
+}
+
+.div_peque_ranking{
+    position:absolute;
+    right:0;
+    width:10px;
+    height: 100%;
+    background-color: #d83c3c;
+}
+
+.img_div_ranking{
+    height: 70px;
+    width:auto;
+}
+.div_ranking{
+    position:absolute;
+    left:0;
+}
+.img_ranking{
+    height: 70px;
+    width:auto;
+    position:absolute;
+}
+.img_ranking_numero{
+    height: 35px;
+    width:auto;
+    position: absolute;
+    top:0;
+    left:0;
 }
