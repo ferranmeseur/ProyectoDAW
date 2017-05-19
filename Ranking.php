@@ -15,7 +15,6 @@
     </head>
     <body>
         <div id="header"></div>
-        <div id="header"></div>  
         <!--BARRA BUSQUEDA-->
         <div id="Search" class="height_40 padding20">
             <form class="form-wrapper cf" action="Busqueda.php" method="GET">
@@ -23,34 +22,49 @@
                 <button class="button-form" type="submit" value="submit" name="submit">GO!</button>
             </form>
         </div>
-        <div id="contenedor" class="center">
-            <h2>ARTISTAS EN ALZA</h2>
-            <i>Artistas con más votos de los fans</i>
+        <div class="center">
             <?php
             require_once 'bbdd.php';
-            $result = RankingMusicos();
-            $i = 1;
-            echo'<table>';
-            while ($row = $result->fetch_assoc()) {
-                echo '<div id="musicoRanking'.$i.'">';
-                echo '<div class="div_peque_ranking"></div>';
-                echo '<div class="div_ranking">';
-                echo '<img class="img_div_ranking inline" src="Imagenes/image.jpeg">';
-                echo '<dvi class="nombre_artista inline vertical_top padding5"><h3 class="color_rojo_general">'.$row['NOMBRE'].'</h3></dvi>';
-                echo '</div>';
-                echo '<img class="img_ranking_numero" src="Imagenes/ranking'.$i.'.png">';
-                echo '</div>';
-                $i++;
-                if ($i == 6) {
-                    break;
-                }
+            echo '<form method="GET" action="Ranking.php">';
+            echo '<span class="inline custom-dropdown border_dropdow">';
+            $generos = ListaGeneros();
+            echo'<select name="genero">
+                <option selected value="">Todos los generos</option>';
+            while ($fila2 = mysqli_fetch_array($generos)) {
+                extract($fila2);
+                echo"<option value='$ID_GENERO'>$NOMBRE</option>";
             }
-            echo'</table>';
+            echo'</select></span>';
+            echo '<span class="inline custom-dropdown border_dropdow">';
+            $ciudades = ListaCiudades();
+            echo'<select name="ciudad">
+                    <option selected value="">Todas las ciudades</option>';
+            while ($fila2 = mysqli_fetch_array($ciudades)) {
+                extract($fila2);
+                echo"<option value='$ID_CIUDAD'>$NOMBRE</option>";
+            }
+            echo'</select></span>';
+            echo '<button class="button-form-solo inline" type="submit" value="submit" name="submit">BUSCAR</button>';
+            echo '</form>';
+
+            if (isset($_GET['submit'])) {
+                $genero = $_GET['genero'];
+                $ciudad = $_GET['ciudad'];
+                if ($ciudad != null || $genero != null) {
+                    $result = RankingMusicos($genero, $ciudad);
+                    if ($result == null) {
+                        echo "<div class='padding20 center cursiva'>No se ha encontrado ninguna coincidencia</div>";
+                    } else {
+                        ArtistasAlza($genero, $ciudad);
+                    }
+                } else {
+                    ArtistasAlza(null, null);
+                }
+            } else {
+                ArtistasAlza(null, null);
+            }
             ?>
         </div>
-        
-                
-
-        <div class="margin_top_200px" id="footer"></div>
+        <div id="footer" style="vertical-align: bottom"></div>
     </body>
 </html>

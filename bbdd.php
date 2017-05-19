@@ -82,14 +82,31 @@ function InfoGrupo($nombre) {
 
 /* RANKING */
 
-function RankingMusicos() {
+function RankingMusicos($genero, $ciudad) {
     $conexion = conectar();
-    $sql = "SELECT SUM(PUNTOS) AS PUNTOS, ID_VOTADO, NOMBRE FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO=USUARIO.ID_USUARIO WHERE USUARIO.TIPO_USUARIO = 'MUSICO' GROUP BY ID_VOTADO ORDER BY PUNTOS DESC";
+    $isFirst = 1;
+    if (!isset($genero) && !isset($ciudad)) {
+        $sql = "SELECT SUM(PUNTOS) AS PUNTOS,(SELECT NOMBRE FROM GENERO WHERE ID_GENERO = USUARIO.ID_GENERO) AS NOMBRE_GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = USUARIO.ID_CIUDAD) AS NOMBRE_CIUDAD, USUARIO.ID_GENERO AS GENERO, USUARIO.ID_CIUDAD AS CIUDAD, ID_VOTADO, NOMBRE FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO=USUARIO.ID_USUARIO WHERE USUARIO.TIPO_USUARIO = 'MUSICO' GROUP BY ID_VOTADO ORDER BY PUNTOS DESC";
+        } else {
+        $sql = "SELECT SUM(PUNTOS) AS PUNTOS,(SELECT NOMBRE FROM GENERO WHERE ID_GENERO = USUARIO.ID_GENERO) AS NOMBRE_GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = USUARIO.ID_CIUDAD) AS NOMBRE_CIUDAD, USUARIO.ID_GENERO AS GENERO, USUARIO.ID_CIUDAD AS CIUDAD, ID_VOTADO, NOMBRE FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO=USUARIO.ID_USUARIO WHERE USUARIO.TIPO_USUARIO = 'MUSICO' GROUP BY ID_VOTADO";
+        if ($genero != null) {
+            $isFirst = 0;
+            $sql .= " HAVING GENERO=$genero";
+        }
+        if ($ciudad != null) {
+            if ($isFirst == 1) {
+                $sql .= " HAVING CIUDAD=$ciudad";
+            } else {
+                $sql .= " AND CIUDAD=$ciudad";
+            }
+        }
+        $sql = $sql . " ORDER BY PUNTOS DESC";
+    }
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
         return $result;
     } else {
-        return 0;
+        echo mysqli_error($conexion);
     }
     desconectar($conexion);
 }
@@ -184,7 +201,6 @@ function ListaFechasConciertos($futurosConciertos) {
             return $result;
         } else {
             echo 'error ListaFEchasConciertos';
-            //echo mysqli_error($conexion);
         }
     } else {
         $sql = "SELECT FECHA FROM CONCIERTO WHERE FECHA<now() GROUP BY FECHA";
@@ -193,7 +209,7 @@ function ListaFechasConciertos($futurosConciertos) {
             return $result;
         } else {
             echo 'error ListaFEchasConciertos';
-            //echo mysqli_error($conexion);
+//echo mysqli_error($conexion);
         }
     }
     desconectar($conexion);
@@ -497,7 +513,7 @@ function TrendingBusqueda($tipo) {
 
 //FUNCION QUE NO INTERACTUA DIRECTAMENTE CON LA BBDD, CREAMOS UN PHP NUEVO O LAS DEJAMOS AQUI?
 function TrendingResultados() {
-    //TRENDING GRUPOS
+//TRENDING GRUPOS
     $resultGrupo = TrendingBusqueda("grupo");
     if ($resultGrupo == null) {
         echo'<script language="javascript">$("#trendingSearchGrupos").empty();</script>';
@@ -532,4 +548,29 @@ function getNombreFecha($fecha) {
 
     $fecha = $dias[$arrayFecha[0]] . " " . $arrayFecha[1] . " de " . $meses[$arrayFecha[2] - 1] . " del " . $arrayFecha[3];
     return $fecha;
+}
+
+function ArtistasAlza($genero, $ciudad) {
+    $result = RankingMusicos($genero, $ciudad);
+    $i = 1;
+    echo'<h2>ARTISTAS EN ALZA</h2>';
+    echo'<i>Artistas con más votos de los fans</i>';
+    echo '<div id="div_parent_ranking">';
+    while ($row = $result->fetch_assoc()) {
+        $nombre_artistico = str_replace(" ", "+", $row['NOMBRE']);
+        echo '<div id="musicoRanking' . $i . '">';
+        echo '<div class="div_peque_ranking"></div>';
+        echo '<div class="div_ranking">';
+        echo '<img class="img_div_ranking inline" src="Imagenes/image.jpeg">';
+        echo '<div class="nombre_artista inline vertical_top" style="padding-top:10px;padding-left:10px"><a href="InfoGrupo.php?nombre=' . $nombre_artistico . '"><b class="fontblack a_concierto" style="font-size:25px">' . $row['NOMBRE'] . '</b><br><i class="color_rojo_general"> '.$row['NOMBRE_GENERO'].' - '.$row['NOMBRE_CIUDAD'].'</i></a></div>';
+        echo '</div>';
+        echo '<img class="img_ranking_numero" src="Imagenes/ranking' . $i . '.png">';
+        echo '</div>';
+        echo '<br>';
+        $i++;
+        if ($i == 6) {
+            break;
+        }
+    }
+    echo '</div>';
 }

@@ -15,6 +15,6 @@
     </head>
     <body>
         <div id="header"></div> 
-        <div id="footer"></div>
+        <div id="footer" style="vertical-align: bottom"></div>
     </body>
 </html>

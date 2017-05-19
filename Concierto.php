@@ -41,7 +41,7 @@
                     } else {
                         echo '<div id="resultado">';
                         echo '<h3 id="' . $fechaFinal . '" class="color_rojo_general">' . $fechaFinal . '</h3>';
-                        echo '<table>';
+                        echo '<table cellspacing=0>';
                         echo '<col width="auto">';
                         echo '<col width="300">';
 
@@ -49,7 +49,7 @@
                             $nombre_artistico = str_replace(" ", "+", $lista['NOMBRE_ARTISTICO']);
                             $nombre_local = str_replace(" ", "+", $lista['NOMBRE_LOCAL']);
 
-                            echo '<tr style="">';
+                            echo '<tr>';
                             echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:left;vertical-align:top">';
                             echo '<a class="fontblack a_concierto" href=InfoConcierto.php?idcon=' . $lista['ID_CONCIERTO'] . '>';
                             echo '<div class="inline">';
@@ -59,7 +59,7 @@
                             echo '</div>';
                             echo '</td>';
                             echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:right;vertical-align:top">';
-                            echo "<div class='inline'>";
+                            echo "<div class='inline padding5'>";
                             echo "<b>" . $lista['NOMBRE_LOCAL'] . "</b><br>";
                             echo "<i>" . $lista['UBICACION'] . "</i>";
                             echo "</div>";

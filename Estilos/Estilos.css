@@ -16,7 +16,10 @@
 .cursiva{
     font-style: italic;
 }
-
+body{
+    margin:0px;
+    font-family: Lato;
+}
 
 
 .vertical_middle{
@@ -174,6 +177,7 @@ footer,.footer{
     width: 550px;
     font-size: small;
 }
+
 #trendingSearchGrupos, #trendingSearchLocales{
     text-align: left;
     height: 20px;
@@ -188,6 +192,7 @@ p > a:hover {
 }
 .a_concierto:hover {
     text-decoration: underline;
+    color:#d83c3c;
 }
 ul{
     padding: 0;
@@ -537,9 +542,11 @@ header{
     font: bold 20px/1.5 Helvetica, Verdana, sans-serif;
 }
 
-#li_lista_img, #img_lista_img {
+#img_lista_img {
     float: left;
     margin: 0 15px 0 0;
+    width:60px;
+    height: auto;
 }
 #img_resultado_busqueda{
     width: 50px;
@@ -586,7 +593,7 @@ select option:hover{
     border-radius: 3px;
     text-indent: 0.01px;
     text-overflow: '';
-    -webkit-appearance: button; 
+    -webkit-appearance: button;     
 }
 
 .custom-dropdown::before,
@@ -661,46 +668,71 @@ select option:hover{
     color: white;
 }
 
+#div_parent_ranking{
+    margin:15px auto auto auto;
+    text-align: center;
+    width:500px;
+    height: 500px;
+}
+
 #musicoRanking1{
     width:500px;
     background-color: #BDBDBD;
     height: 70px;
-    margin-bottom: 5px;
     position:relative;
+    margin: 5px auto auto auto;
+    float:left;
+    -moz-box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+    -webkit-box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+    box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
 }
-#musicoRanking1{
+#musicoRanking2{
+    width:450px;
+    background-color: #BDBDBD;
+    height: 70px;
+    position:relative;
+    margin: 5px auto auto auto;
+    float:left;
+    -moz-box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+    -webkit-box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+    box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+}
+#musicoRanking3{
     width:400px;
     background-color: #BDBDBD;
     height: 70px;
-    margin-bottom: 5px;
-}
-#musicoRanking2{
-    width:325px;
-    background-color: #BDBDBD;
-    height: 70px;
-    margin-bottom: 5px;
     position:relative;
-}
-#musicoRanking3{
-    width:270px;
-    background-color: #BDBDBD;
-    height: 70px;
-    margin-bottom: 5px;
-    position:relative;
+    margin: 5px auto auto auto;
+    float:left;
+    -moz-box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+    -webkit-box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+    box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
 }
 #musicoRanking4{
-    width:230px;
+    width:350px;
     background-color: #BDBDBD;
     height: 70px;
-    margin-bottom: 5px;
     position:relative;
+    margin: 5px auto auto auto;
+    float:left;
+    -moz-box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+    -webkit-box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+    box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
 }
 #musicoRanking5{
-    width:200px;
+    width:300px;
     background-color: #BDBDBD;
     height: 70px;
-    margin-bottom: 5px;
     position:relative;
+    margin: 5px auto auto auto;
+    float:left;
+    -moz-box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+    -webkit-box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+    box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+}
+
+.z_index10{
+    z-index: 10;
 }
 
 .div_peque_ranking{
@@ -714,16 +746,15 @@ select option:hover{
 .img_div_ranking{
     height: 70px;
     width:auto;
+    -moz-box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+    -webkit-box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+    box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
 }
 .div_ranking{
     position:absolute;
     left:0;
 }
-.img_ranking{
-    height: 70px;
-    width:auto;
-    position:absolute;
-}
+
 .img_ranking_numero{
     height: 35px;
     width:auto;
