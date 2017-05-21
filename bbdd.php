@@ -87,7 +87,7 @@ function RankingMusicos($genero, $ciudad) {
     $isFirst = 1;
     if (!isset($genero) && !isset($ciudad)) {
         $sql = "SELECT SUM(PUNTOS) AS PUNTOS,(SELECT NOMBRE FROM GENERO WHERE ID_GENERO = USUARIO.ID_GENERO) AS NOMBRE_GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = USUARIO.ID_CIUDAD) AS NOMBRE_CIUDAD, USUARIO.ID_GENERO AS GENERO, USUARIO.ID_CIUDAD AS CIUDAD, ID_VOTADO, NOMBRE FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO=USUARIO.ID_USUARIO WHERE USUARIO.TIPO_USUARIO = 'MUSICO' GROUP BY ID_VOTADO ORDER BY PUNTOS DESC";
-        } else {
+    } else {
         $sql = "SELECT SUM(PUNTOS) AS PUNTOS,(SELECT NOMBRE FROM GENERO WHERE ID_GENERO = USUARIO.ID_GENERO) AS NOMBRE_GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = USUARIO.ID_CIUDAD) AS NOMBRE_CIUDAD, USUARIO.ID_GENERO AS GENERO, USUARIO.ID_CIUDAD AS CIUDAD, ID_VOTADO, NOMBRE FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO=USUARIO.ID_USUARIO WHERE USUARIO.TIPO_USUARIO = 'MUSICO' GROUP BY ID_VOTADO";
         if ($genero != null) {
             $isFirst = 0;
@@ -481,11 +481,12 @@ function randomString($length) {
     return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / strlen($x)))), 1, $length);
 }
 
-function TraceEvent($tipo, $valor, $resultado, $comentario) {
+function TraceEvent($tipo, $valor, $resultado, $comentario, $id_concierto) {
     $conexion = conectar();
     $sql = "INSERT INTO TRACE VALUES(null, '$tipo', '$valor', now(),
             " . (($resultado == 'NULL') ? "NULL" : ("'" . $resultado . "'")) . ",
-            " . (($comentario == 'NULL') ? "NULL" : ("'" . $comentario . "'")) . ")";
+            " . (($comentario == 'NULL') ? "NULL" : ("'" . $comentario . "'")) . ",
+            " . (($id_concierto == 'NULL') ? "NULL" : ("'" . $id_concierto . "'")) . ")";
     if (mysqli_query($conexion, $sql)) {
         
     } else {
@@ -562,7 +563,7 @@ function ArtistasAlza($genero, $ciudad) {
         echo '<div class="div_peque_ranking"></div>';
         echo '<div class="div_ranking">';
         echo '<img class="img_div_ranking inline" src="Imagenes/image.jpeg">';
-        echo '<div class="nombre_artista inline vertical_top" style="padding-top:10px;padding-left:10px"><a href="InfoGrupo.php?nombre=' . $nombre_artistico . '"><b class="fontblack a_concierto" style="font-size:25px">' . $row['NOMBRE'] . '</b><br><i class="color_rojo_general"> '.$row['NOMBRE_GENERO'].' - '.$row['NOMBRE_CIUDAD'].'</i></a></div>';
+        echo '<div class="nombre_artista inline vertical_top" style="padding-top:10px;padding-left:10px"><a href="InfoGrupo.php?nombre=' . $nombre_artistico . '"><b class="fontblack a_concierto" style="font-size:25px">' . $row['NOMBRE'] . '</b><br><i class="color_rojo_general"> ' . $row['NOMBRE_GENERO'] . ' - ' . $row['NOMBRE_CIUDAD'] . '</i></a></div>';
         echo '</div>';
         echo '<img class="img_ranking_numero" src="Imagenes/ranking' . $i . '.png">';
         echo '</div>';
@@ -573,4 +574,68 @@ function ArtistasAlza($genero, $ciudad) {
         }
     }
     echo '</div>';
+}
+
+function NoticiasNuevoMusico() {
+    $conexion = conectar();
+    $sql = "SELECT * FROM TRACE INNER JOIN USUARIO ON TRACE.VALOR = USUARIO.NOMBRE_ARTISTICO WHERE TIPO = 'REGISTRO' AND COMENTARIO = 'NUEVO MUSICO' ORDER BY FECHA DESC LIMIT 1";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        return $result;
+    } else {
+        return null;
+    }
+    desconectar();
+}
+
+function NoticiasNuevoLocal() {
+    $conexion = conectar();
+    $sql = "SELECT * FROM TRACE INNER JOIN USUARIO ON TRACE.VALOR = USUARIO.NOMBRE_LOCAL WHERE TIPO = 'REGISTRO' AND COMENTARIO = 'NUEVO LOCAL' ORDER BY FECHA DESC LIMIT 1";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        return $result;
+    } else {
+        return null;
+    }
+    desconectar();
+}
+
+//function NoticiasNuevoConcierto() {
+//    $conexion = conectar();
+//    $sql = "SELECT * FROM TRACE INNER JOIN CONCIERTO ON TRACE.ID_CONCIERTO = CONCIERTO.ID_CONCIERTO WHERE TIPO = 'CONCIERTO' AND COMENTARIO = 'NUEVO CONCIERTO' ORDER BY FECHA DESC LIMIT 1";
+//    $result = $conexion->query($sql);
+//    if ($result->num_rows > 0) {
+//        return $result;
+//    } else {
+//        return null;
+//    }
+//    desconectar();
+//}
+
+function ShowNoticiasMusico() {
+    $nuevoGrupo = NoticiasNuevoMusico()->fetch_assoc();
+    echo'<div style = "height:250px;background-color:white">';
+    echo'<h1>' . $nuevoGrupo['VALOR'] . ' nuevo registro</h1>';
+    echo'<a class="fontblack" href="InfoGrupo.php?nombre=' . $nuevoGrupo['VALOR'] . '"><h3>Mas informacion</h3></a>';
+    echo'</div>';
+}
+
+function ShowNoticiasLocal() {
+    $nuevoLocal = NoticiasNuevoLocal()->fetch_assoc();
+    echo'<div style = "height:250px;background-color:white">';
+    echo'<h1>' . $nuevoLocal['VALOR'] . ' nuevo registro</h1>';
+    $nombre_local = str_replace(" ", "+", $nuevoLocal['VALOR']);
+    echo'<a class="fontblack" href="InfoGrupo.php?nombre=' . $nombre_local . '"><h3>Mas informacion</h3></a>';
+    echo'</div>';
+}
+
+function ShowNoticiasConcierto() {
+    $nuevoConcierto = NoticiasNuevoConcierto()->fetch_assoc();
+    $nombres = split("-",$nuevoConcierto['VALOR']);
+    
+    echo'<div style = "height:250px;background-color:white">';
+    //echo '<h1>Nuevo concierto de '.$nombres[0].'</h1>';
+    //echo '<h1>*fechaconcierto* en '.$nombres[1].', *CIUDAD*</h1>';
+    echo'<a href="InfoGrupo.php?nombre=' . $nombres[0] . '"><h3>Mas informacion</h3></a>';
+    echo'</div>';
 }

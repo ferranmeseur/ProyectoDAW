@@ -28,7 +28,7 @@
             });
         </script> 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="ImagenesEstilos/Estilos.css" rel="stylesheet" type="text/css"/>
+        <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
     </head>
     <body class="center">
         <div id="header"></div><br> 

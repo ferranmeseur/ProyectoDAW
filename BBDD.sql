@@ -98,6 +98,7 @@ VALOR char(20),
 FECHA date not null,
 RESULTADO boolean,
 COMENTARIO char(20),
+ID_CONCIERTO int(10),
 PRIMARY KEY(ID_TRACE)
 );
 

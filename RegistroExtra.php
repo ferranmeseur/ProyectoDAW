@@ -92,9 +92,9 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                         } else {
                             $genero = "NULL";
                         }
-                        if(isset($_POST['descripcion'])){
+                        if (isset($_POST['descripcion'])) {
                             $descripcion = $_POST['descripcion'];
-                        }else{
+                        } else {
                             $descripcion = "NULL";
                         }
                         if (isset($_POST["componentes"])) {
@@ -135,8 +135,18 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                         }
                     }
                     if (isset($_POST["valoresok"])) {
-                        $resultado = Registro($tipo, $nombre, $apellido, $mail, $pas, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes,$pregunta,$respuesta,$descripcion);
+                        $resultado = Registro($tipo, $nombre, $apellido, $mail, $pas, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes, $pregunta, $respuesta, $descripcion);
                         if ($resultado == "true") {
+                            if ($tipo == "Musico") {
+                                TraceEvent("REGISTRO", $nombreartistico, true, "NUEVO MUSICO","NULL");
+                            }
+                            if ($tipo == "Local") {
+                                TraceEvent("REGISTRO", $nombrelocal, true, "NUEVO LOCAL","NULL");
+                            }
+                            if ($tipo == "Fan") {
+                                TraceEvent("REGISTRO", $email, true, "NUEVO FAN","NULL");
+                            }
+                            
                             echo "Usuario registrado correctamente";
                             echo '<script type="text/javascript">$("#result").html("");</script>';
                             echo '</br></br><div>Volviendo al menú principal...</div>';

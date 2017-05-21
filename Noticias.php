@@ -1,37 +1,88 @@
-    <body>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* slideshow styles */
+        .slideshow {   
+            overflow: hidden;
+            border: 3px solid #f2f2f2;
+            height: 250px;
+        }  
+        .slideshow ul {  
+            list-style:none;
+        }  
 
-        <h2>NOTICIAS</h2>
+        .slideshow1{
+            text-align:center;
+            width:75%;
+            margin: auto auto auto auto;
+        }
 
-        <div class="w3-content w3-display-container">
-            <img class="mySlides" src="Imagenes/img_fjords.jpg" style="width:100%;height:200px">
-            <img class="mySlides" src="Imagenes/img_lights.jpg" style="width:100%;height:200px">
-            <img class="mySlides" src="Imagenes/img_mountains.jpg" style="width:100%;height:200px">
-            <img class="mySlides" src="Imagenes/img_forest.jpg" style="width:100%;height:200px">
 
-            <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
-            <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
-        </div>
+    </style>
 
-        <script>
-            var slideIndex = 1;
-            showDivs(slideIndex);
+</head>
 
-            function plusDivs(n) {
-                showDivs(slideIndex += n);
-            }
+<h2>NOTICIAS</h2>
 
-            function showDivs(n) {
-                var i;
-                var x = document.getElementsByClassName("mySlides");
-                if (n > x.length) {
-                    slideIndex = 1
-                }
-                if (n < 1) {
-                    slideIndex = x.length
-                }
-                for (i = 0; i < x.length; i++) {
-                    x[i].style.display = "none";
-                }
-                x[slideIndex - 1].style.display = "block";
-            }
-        </script>
+<div class="slideshow slideshow1">
+    <ul>
+        <li>
+            <?php
+            include_once 'bbdd.php';
+            ShowNoticiasMusico();
+            ?> 
+        </li>
+        <li>
+            <?php
+            include_once 'bbdd.php';
+            ShowNoticiasLocal();
+            ?> 
+        </li>
+        <li>
+            <?php
+            include_once 'bbdd.php';
+            ShowNoticiasConcierto();
+            ?>  
+        </li>
+       
+    </ul>
+
+</div>
+<script>
+    $(function () {
+        setInterval(function () {
+            $(".slideshow1 ul").animate({marginLeft: -350}, 800, function () {
+                $(this).css({marginLeft: 0}).find("li:last").after($(this).find("li:first"));
+            })
+        }, 3500);
+    });
+
+
+// controls the animation with mouse over
+    $(function () {
+        var timeSlide;
+        function goSlide() {
+            $(".slideshow ul").animate({marginLeft: -350}, 800, function () {
+                $(this).css({marginLeft: 0}).find("li:last").after($(this).find("li:first"));
+            })
+        }
+        timeSlide = setInterval(goSlide, 3500);
+
+        $('.slideshow').on('mouseenter', function () {
+            // stop animation
+            clearInterval(timeSlide);
+        }).on('mouseleave', function () {
+            // play animation
+            timeSlide = setInterval(goSlide, 3500);
+        });
+    });
+</script>
+
+
+</body>
+
+
+
+
+
+

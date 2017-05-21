@@ -1,20 +1,11 @@
 <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<style>
-    .fixedTop{
-        position: fixed;
-        top: 0;
-        background-color: black;
-        text-align: center;
-        margin-bottom: 5px;
-        margin-top: 0px;
-        width:100%;
-    }
-    .addMargin{
-        margin-bottom:20px;
-    }
-</style>
+
+
 <script>
+    $(window).scroll(function () {
+        $("#theFixed").css("top", Math.max(0, 680 - $(this).scrollTop()));
+    });
     var titulo = $('#title');
     var range = 500;
 
@@ -35,36 +26,24 @@
         }
         console.log(calc);
     });
-    var stickyOffset = $('.sticky').offset().top;
 
-    $(window).scroll(function () {
-        var sticky = $('.sticky'),
-                scroll = $(window).scrollTop();
-
-        if (scroll >= stickyOffset) {
-            sticky.addClass('fixedTop');
-            $('.marginal').addClass('addMargin');
-        } else {
-            sticky.removeClass('fixedTop');
-            $('.marginal').removeClass('addMargin');
-        }
-
-    });
 </script>
 <header>
-    <div class="center titulo">
-        <img style="width: 100%;top:0;left:0" src="Imagenes/HEADER_SIN_LETRAS.png" alt=""/>
-        <img id="title"  src="Imagenes/TITTLE.png" alt=""/>
-    </div>       
-    <div class="topnav sticky z_index10">
-        <div class="center" style="width:100%">
-            <a class="inline fonts" href="HomePage.php">INICIO</a>
-            <a class="inline fonts" href="Concierto.php">CONCIERTOS</a>
-            <a class="inline fonts" href="Musico.php">GRUPOS</a>
-            <a class="inline fonts" href="Local.php">LOCALES</a>
-            <a class="inline fonts" href="Ranking.php">RANKING</a>
-            <a class="inline fonts" href="Login.php">AREA PERSONAL</a>
+    <div class="center" style="width: 100%">
+        <img style="width:100%;height:auto" src="Imagenes/HEADER_SIN_LETRAS.png" alt=""/>
+    </div> 
+    <div>
+        <img id="title"  src="Imagenes/TITTLE.png" style="background-color:none" alt=""/>
+        <div class="topnav z_index10" style="position:fixed;top:680px;width:100%" id="theFixed">
+            <div class="center" style="width:100%">
+                <a class="inline fonts" href="HomePage.php">INICIO</a>
+                <a class="inline fonts" href="Concierto.php">CONCIERTOS</a>
+                <a class="inline fonts" href="Musico.php">GRUPOS</a>
+                <a class="inline fonts" href="Local.php">LOCALES</a>
+                <a class="inline fonts" href="Ranking.php">RANKING</a>
+                <a class="inline fonts" href="Login.php">AREA PERSONAL</a>
+            </div>
         </div>
     </div>
-    <div class="marginal"></div>
-</header>
+    <div style="height:50px;background-color: white"></div>
+</header

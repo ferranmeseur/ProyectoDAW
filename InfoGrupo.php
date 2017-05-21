@@ -19,7 +19,7 @@
         require_once'bbdd.php';
         if(isset($_GET['b'])){
             $nombre = $_GET['nombre'];
-            TraceEvent("BUSQUEDA",$nombre,"NULL","MUSICO");
+            TraceEvent("BUSQUEDA",$nombre,"NULL","MUSICO","NULL");
         }
         
         ?>
