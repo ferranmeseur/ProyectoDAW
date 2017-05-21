@@ -1,88 +1,45 @@
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        /* slideshow styles */
-        .slideshow {   
-            overflow: hidden;
-            border: 3px solid #f2f2f2;
-            height: 250px;
-        }  
-        .slideshow ul {  
-            list-style:none;
-        }  
+<style>
+    .mySlides {display:none}
 
-        .slideshow1{
-            text-align:center;
-            width:75%;
-            margin: auto auto auto auto;
-        }
+</style>
 
-
-    </style>
-
-</head>
-
-<h2>NOTICIAS</h2>
-
-<div class="slideshow slideshow1">
-    <ul>
-        <li>
-            <?php
-            include_once 'bbdd.php';
-            ShowNoticiasMusico();
-            ?> 
-        </li>
-        <li>
-            <?php
-            include_once 'bbdd.php';
-            ShowNoticiasLocal();
-            ?> 
-        </li>
-        <li>
-            <?php
-            include_once 'bbdd.php';
-            ShowNoticiasConcierto();
-            ?>  
-        </li>
-       
-    </ul>
-
+<div style="max-width:75%; margin:auto" class="center">
+    <div class="mySlides">
+        <?php
+        include_once 'bbdd.php';
+        ShowNoticiasMusico();
+        ?>
+    </div>
+    <div class="mySlides">
+        <?php
+        include_once 'bbdd.php';
+        ShowNoticiasLocal();
+        ?>
+    </div>
+    <div class="mySlides">
+        <?php
+        include_once 'bbdd.php';
+        ShowNoticiasConcierto();
+        ?>
+    </div>
 </div>
+
 <script>
-    $(function () {
-        setInterval(function () {
-            $(".slideshow1 ul").animate({marginLeft: -350}, 800, function () {
-                $(this).css({marginLeft: 0}).find("li:last").after($(this).find("li:first"));
-            })
-        }, 3500);
-    });
+    var slideIndex = 0;
+    carousel();
 
-
-// controls the animation with mouse over
-    $(function () {
-        var timeSlide;
-        function goSlide() {
-            $(".slideshow ul").animate({marginLeft: -350}, 800, function () {
-                $(this).css({marginLeft: 0}).find("li:last").after($(this).find("li:first"));
-            })
+    function carousel() {
+        var i;
+        var x = document.getElementsByClassName("mySlides");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
         }
-        timeSlide = setInterval(goSlide, 3500);
-
-        $('.slideshow').on('mouseenter', function () {
-            // stop animation
-            clearInterval(timeSlide);
-        }).on('mouseleave', function () {
-            // play animation
-            timeSlide = setInterval(goSlide, 3500);
-        });
-    });
+        slideIndex++;
+        if (slideIndex > x.length) {
+            slideIndex = 1
+        }
+        x[slideIndex - 1].style.display = "block";
+        setTimeout(carousel, 4000);
+    }
 </script>
-
-
-</body>
-
-
-
-
-
 

@@ -194,6 +194,10 @@ p > a:hover {
     text-decoration: underline;
     color:#d83c3c;
 }
+
+.a_noticia:hover {
+    color:#d83c3c;
+}
 ul{
     padding: 0;
     list-style: none;
@@ -666,6 +670,10 @@ select option:hover{
 .topnav a.active {
     background-color: #4CAF50;
     color: white;
+}
+.a:active{
+        background-color: #4CAF50;
+
 }
 
 #div_parent_ranking{

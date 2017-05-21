@@ -600,42 +600,94 @@ function NoticiasNuevoLocal() {
     desconectar();
 }
 
-//function NoticiasNuevoConcierto() {
-//    $conexion = conectar();
-//    $sql = "SELECT * FROM TRACE INNER JOIN CONCIERTO ON TRACE.ID_CONCIERTO = CONCIERTO.ID_CONCIERTO WHERE TIPO = 'CONCIERTO' AND COMENTARIO = 'NUEVO CONCIERTO' ORDER BY FECHA DESC LIMIT 1";
-//    $result = $conexion->query($sql);
-//    if ($result->num_rows > 0) {
-//        return $result;
-//    } else {
-//        return null;
-//    }
-//    desconectar();
-//}
+function NoticiasNuevoConcierto() {
+    $conexion = conectar();
+    $sql = "SELECT *,(SELECT UBICACION FROM USUARIO WHERE TIPO_USUARIO = 'LOCAL' AND CONCIERTO.ID_LOCAL = USUARIO.ID_USUARIO) AS UBICACION, CONCIERTO.FECHA AS CONCIERTO_FECHA FROM TRACE INNER JOIN CONCIERTO ON TRACE.ID_CONCIERTO = CONCIERTO.ID_CONCIERTO WHERE TIPO = 'CONCIERTO' AND COMENTARIO = 'NUEVO CONCIERTO' ORDER BY TRACE.FECHA DESC LIMIT 1";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        return $result;
+    } else {
+        return null;
+    }
+    desconectar();
+}
 
 function ShowNoticiasMusico() {
     $nuevoGrupo = NoticiasNuevoMusico()->fetch_assoc();
-    echo'<div style = "height:250px;background-color:white">';
-    echo'<h1>' . $nuevoGrupo['VALOR'] . ' nuevo registro</h1>';
-    echo'<a class="fontblack" href="InfoGrupo.php?nombre=' . $nuevoGrupo['VALOR'] . '"><h3>Mas informacion</h3></a>';
-    echo'</div>';
+    $url = "url('Imagenes/img_forest.jpg')";
+    $nombre_grupo = str_replace(" ", "+", $nuevoGrupo['VALOR']);
+    $nombre_ciudad = getNombreCiudad($nuevoGrupo['ID_CIUDAD'])->fetch_assoc();
+    $nombre_genero = getNombreGenero($nuevoGrupo['ID_GENERO'])->fetch_assoc();
+    echo '<a class="a_noticia" href="InfoGrupo.php?nombre=' . $nombre_grupo . '">';
+    echo '<div style = "height:250px;background-image:' . $url . ';background-size:cover;background-position:center">';
+    echo '<div style="position: relative;top: 0;background-color:rgba(0, 0, 0, 0.8)">';
+    echo '<h1 style="color:white">Un nuevo grupo se acaba de unir</h1>';
+    echo '</div>';
+    echo '<div style="position: relative;bottom: 0;background-color:rgba(0, 0, 0, 0.8)">';
+    echo '<h1>' . $nuevoGrupo['VALOR'] . '</h1>';
+    echo '<i style="color:white">' . $nombre_ciudad['NOMBRE'] . ', ' . $nombre_genero['NOMBRE'] . '</i>';
+    echo '</div>';
+    echo '</div></a>';
 }
 
 function ShowNoticiasLocal() {
     $nuevoLocal = NoticiasNuevoLocal()->fetch_assoc();
-    echo'<div style = "height:250px;background-color:white">';
-    echo'<h1>' . $nuevoLocal['VALOR'] . ' nuevo registro</h1>';
     $nombre_local = str_replace(" ", "+", $nuevoLocal['VALOR']);
-    echo'<a class="fontblack" href="InfoGrupo.php?nombre=' . $nombre_local . '"><h3>Mas informacion</h3></a>';
-    echo'</div>';
+    $url = "url('Imagenes/img_lights.jpg')";
+    $nombre_ciudad = getNombreCiudad($nuevoLocal['ID_CIUDAD'])->fetch_assoc();
+    $nombre_genero = getNombreGenero($nuevoLocal['ID_GENERO'])->fetch_assoc();
+    echo '<a class="a_noticia" href="InfoGrupo.php?nombre=' . $nombre_local . '">';
+    echo '<div style = "height:250px;background-image:' . $url . ';background-size:cover;background-position:center">';
+    echo '<div style="position: relative;top: 0;background-color:rgba(0, 0, 0, 0.8)">';
+    echo '<h1 style="color:white">Un nuevo local se acaba de unir</h1>';
+    echo '</div>';
+    echo '<div style="position: relative;bottom: 0;background-color:rgba(0, 0, 0, 0.8)">';
+    echo '<h1>' . $nuevoLocal['VALOR'] . '</h1>';
+    echo '<i style="color:white">'.$nuevoLocal['UBICACION'] .', '. $nombre_ciudad['NOMBRE'] . ', '.$nombre_genero['NOMBRE'].'</i>';
+    echo '</div>';
+    echo '</div></a>';
 }
 
 function ShowNoticiasConcierto() {
     $nuevoConcierto = NoticiasNuevoConcierto()->fetch_assoc();
-    $nombres = split("-",$nuevoConcierto['VALOR']);
-    
-    echo'<div style = "height:250px;background-color:white">';
-    //echo '<h1>Nuevo concierto de '.$nombres[0].'</h1>';
-    //echo '<h1>*fechaconcierto* en '.$nombres[1].', *CIUDAD*</h1>';
-    echo'<a href="InfoGrupo.php?nombre=' . $nombres[0] . '"><h3>Mas informacion</h3></a>';
-    echo'</div>';
+    $nombres = split("-", $nuevoConcierto['VALOR']);
+    $url = "url('Imagenes/img_mountains.jpg')";
+    $nuevaFecha = date("w-d-m-Y", strtotime($nuevoConcierto["CONCIERTO_FECHA"]));
+    $nuevaHora = date("H:i", strtotime($nuevoConcierto["CONCIERTO_FECHA"]));
+    $fechaFinal = getNombreFecha($nuevaFecha);
+    $nombre_ciudad = getNombreCiudad($nuevoConcierto['ID_CIUDAD'])->fetch_assoc();
+
+    echo '<a class="a_noticia" href="InfoConcierto.php?idCon=' . $nuevoConcierto['ID_CONCIERTO'] . '">';
+    echo '<div style = "height:250px;background-image:' . $url . ';background-size:cover;background-position:center">';
+    echo '<div style="position: relative;top: 50%;transform: translateY(-50%);background-color:rgba(0, 0, 0, 0.8)">';
+    echo '<b style="font-size:40px">' . $nombres[0] . '</b>';
+    echo '<p style="color:white;font-size:20px;display:inline">' . $fechaFinal . '</p>';
+    echo '<b style="font-size:40px">' . $nombres[1] . '</b><br>';
+    echo '<i style="color:white;font-size:20px">'.$nuevoConcierto['UBICACION'].', '.$nombre_ciudad['NOMBRE'] . '</i>';
+    echo '</div>';
+    echo '</div></a>';
+}
+
+function getNombreCiudad($id_ciudad) {
+    $conexion = conectar();
+    $sql = "SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD= $id_ciudad";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        return $result;
+    } else {
+        return null;
+    }
+    desconectar();
+}
+
+function getNombreGenero($id_genero) {
+    $conexion = conectar();
+    $sql = "SELECT NOMBRE FROM GENERO WHERE ID_GENERO = $id_genero";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        return $result;
+    } else {
+        return null;
+    }
+    desconectar();
 }

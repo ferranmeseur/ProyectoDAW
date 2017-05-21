@@ -15,8 +15,8 @@
     </head>
     <body>
         <div id="header"></div>
-        <!--BARRA BUSQUEDA-->
-        <div id="Search" class="height_40 padding20">
+        <div style="height: 50px"></div>
+        <div id="Search" class="height_40">
             <form class="form-wrapper cf" action="Busqueda.php" method="GET">
                 <input type="text" name="busqueda" placeholder="Busca músicos o locales" required>
                 <button class="button-form" type="submit" value="submit" name="submit">GO!</button>
