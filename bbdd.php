@@ -734,7 +734,9 @@ function getNombreGenero($id_genero) {
 
 function fileUpload($email) {
     $target_dir = "C:/Users/THOR/Desktop/Subidas/";
-    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    $extension = explode(".", $_FILES["fileToUpload"]["name"]);
+    $newFileName = randomString(6) . '.' .end($extension);
+    $target_file = $target_dir . $newFileName;
     $uploadOk = 1;
     $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
@@ -789,6 +791,7 @@ function fileUpload($email) {
             $conexion = conectar();
             $sql = "update USUARIO SET IMAGEN = '$target_file' where EMAIL = '$email'";
             if (mysqli_query($conexion, $sql)) {
+                
             } else {
                 echo mysqli_error($conexion);
             }
