@@ -730,3 +730,72 @@ function getNombreGenero($id_genero) {
     }
     desconectar();
 }
+function fileUpload($email) {
+    $target_dir = "C:/Users/THOR/Desktop/Subidas/";
+    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+    if ($check !== false) {
+        $uploadOk = 1;
+    } else {
+        $uploadOk = 0;
+        $resultado = 0;
+    }
+    if (file_exists($target_file)) {
+        $uploadOk = 0;
+        $resultado = 1;
+    }
+    if ($_FILES["fileToUpload"]["size"] > 500000) {
+        $uploadOk = 0;
+        $resultado = 2;
+    }
+    $imageFileType = strtolower($imageFileType);
+    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+        $uploadOk = 0;
+        $resultado = 3;
+    }
+    if ($uploadOk == 0) {
+        $resultado = 4;
+// if everything is ok, try to upload file
+    } else {
+        if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+            $resultado = 6;
+        } else {
+            $resultado = 5;
+        }
+    }
+    switch ($resultado) {
+        case 0:
+            return "El archivo no es una imagen";
+            break;
+        case 1:
+            return "El archivo ya existe";
+            break;
+        case 2:
+            return "El archivo es demasiado grande";
+            break;
+        case 3:
+            return "Solo JPG, JPEG y PNG estan soportados";
+            break;
+        case 4:
+            return "Tu archivo no se ha subido";
+            break;
+        case 5:
+            return "Se ha producido un error subiendo el archivo";
+            break;
+        case 6:
+            return 1;
+            break;
+    }
+    if ($resultado == 6) {
+        $conexion = conectar();
+        $sql = "update USUARIOS SET IMAGEN = '$target_file' where EMAIL = '$email";
+        if (mysqli_query($conexion, $sql)) {
+            
+        } else {
+            echo mysqli_error($conexion);
+        }
+        desconectar($conexion);
+    }
+}

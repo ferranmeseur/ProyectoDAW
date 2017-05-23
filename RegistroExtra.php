@@ -136,6 +136,12 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                     }
                     if (isset($_POST["valoresok"])) {
                         $resultado = Registro($tipo, $nombre, $apellido, $mail, $pas, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes, $pregunta, $respuesta, $descripcion);
+                        if(isset($_POST["fileToUpload"])){
+                            $result = fileUpload($mail);
+                            if($result != 1){
+                                showAlert($result);
+                            }
+                        }
                         if ($resultado == "true") {
                             if ($tipo == "Musico") {
                                 TraceEvent("REGISTRO", $nombreartistico, true, "NUEVO MUSICO","NULL");
@@ -158,7 +164,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                         switch ($_SESSION['tipo']) {
                             case "Local":
                                 echo ' 
-        <form action = "" method = "POST">
+        <form action = "" method = "POST" enctype="multipart/form-data">
                     <div id="Nombre" class="padding5 align_right">
                     <label style="color:red;">* </label>Nombre local :<input type = "text" name = "nombrelocal" maxlength="20" minlength="5" required>
                     </div>
@@ -179,7 +185,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                     <label style="color:red;">* </label>Aforo :<input type = "number" name = "aforo" maxlength="5" minlength="1" required>
                     </div>
                     <div id="Imagen" class="padding5 align_right">
-                    Imagen :<input type = "text" name = "imagen" maxlength="50" minlength="5">
+                    Imagen :<input type="file" name="fileToUpload" maxlength="50" minlength="5">
                     </div>
                     <div id="Web" class="padding5 align_right">
                     Web :<input type = "text" name = "web" maxlength="20" minlength="5" >
@@ -197,7 +203,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                                 break;
                             case "Fan":
                                 echo ' 
-                    <form action = "" method = "POST">
+                    <form action = "" method = "POST" enctype="multipart/form-data">
                    <div id="Ciudad" class="padding align_right">  <label style="color:red;">* </label>Ciudad:';
                                 $ciudades = ListaCiudades();
                                 echo'<select name = "ciudad" required>';
@@ -212,7 +218,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                     Telefono :<input type = "number" name = "telefono" maxlength="11" minlength="9">
                     </div>
                     <div id="Imagen" class="padding5 align_right">
-                    Imagen :<input type = "text" name = "imagen" maxlength="50" minlength="5">
+                    Imagen :<input type="file" name="fileToUpload" maxlength="50" minlength="5">
                     </div>
                     <div id="Web" class="padding5 align_right">
                     Web :<input type = "text" name = "web" maxlength="20" minlength="5" >
@@ -230,7 +236,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                                 break;
                             case "Musico":
                                 echo ' 
-        <form action = "" method = "POST">
+        <form action = "" method = "POST" enctype="multipart/form-data">
                     <div id="Nombre" class="padding5 align_right">
                     <label style="color:red;">* </label>Nombre artistico :<input type = "text" name = "nombreartistico" maxlength="20" minlength="5" required>
                     </div>
@@ -260,7 +266,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                             <label style="color:red;">* </label>Componentes :<input type = "number" name = "componentes" maxlength = "5" minlength = "1" required>
                             </div>
                             <div id = "Imagen" class = "padding5 align_right">
-                            Imagen :<input type = "text" name = "imagen" maxlength = "50" minlength = "5">
+                            Imagen :<input type="file" name="fileToUpload" maxlength = "50" minlength = "5">
                             </div>
                             <div id = "Web" class = "padding5 align_right">
                             Web :<input type = "text" name = "web" maxlength = "20" minlength = "5" >
