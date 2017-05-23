@@ -806,3 +806,16 @@ function fileUpload($email) {
             break;
     }
 }
+function getInfoUser($email) {
+    $conexion = conectar();
+    $sql = "SELECT * FROM USUARIO WHERE EMAIL = '$email'";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row;
+    } else {
+        return null;
+    }
+    desconectar();
+}
+
