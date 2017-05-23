@@ -82,7 +82,9 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                         if (isset($_POST["nombrelocal"])) {
                             $nombrelocal = $_POST["nombrelocal"];
                         }
-                        $imagen = $_POST["imagen"];
+                        if (isset($_POST['imagen'])) {
+                            $imagen = $_POST["imagen"];
+                        }
                         $web = $_POST["web"];
                         if (isset($_POST["nombreartistico"])) {
                             $nombreartistico = $_POST["nombreartistico"];
@@ -136,23 +138,23 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                     }
                     if (isset($_POST["valoresok"])) {
                         $resultado = Registro($tipo, $nombre, $apellido, $mail, $pas, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes, $pregunta, $respuesta, $descripcion);
-                        if(isset($_POST["fileToUpload"])){
+                        if (isset($_FILES["fileToUpload"])) {
                             $result = fileUpload($mail);
-                            if($result != 1){
+                            if ($result != 1) {
                                 showAlert($result);
                             }
                         }
                         if ($resultado == "true") {
                             if ($tipo == "Musico") {
-                                TraceEvent("REGISTRO", $nombreartistico, true, "NUEVO MUSICO","NULL");
+                                TraceEvent("REGISTRO", $nombreartistico, true, "NUEVO MUSICO", "NULL");
                             }
                             if ($tipo == "Local") {
-                                TraceEvent("REGISTRO", $nombrelocal, true, "NUEVO LOCAL","NULL");
+                                TraceEvent("REGISTRO", $nombrelocal, true, "NUEVO LOCAL", "NULL");
                             }
                             if ($tipo == "Fan") {
-                                TraceEvent("REGISTRO", $email, true, "NUEVO FAN","NULL");
+                                TraceEvent("REGISTRO", $email, true, "NUEVO FAN", "NULL");
                             }
-                            
+
                             echo "Usuario registrado correctamente";
                             echo '<script type="text/javascript">$("#result").html("");</script>';
                             echo '</br></br><div>Volviendo al menú principal...</div>';
@@ -185,7 +187,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                     <label style="color:red;">* </label>Aforo :<input type = "number" name = "aforo" maxlength="5" minlength="1" required>
                     </div>
                     <div id="Imagen" class="padding5 align_right">
-                    Imagen :<input type="file" name="fileToUpload" maxlength="50" minlength="5">
+                    Imagen :<input type="file" name="fileToUpload">
                     </div>
                     <div id="Web" class="padding5 align_right">
                     Web :<input type = "text" name = "web" maxlength="20" minlength="5" >
@@ -218,7 +220,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                     Telefono :<input type = "number" name = "telefono" maxlength="11" minlength="9">
                     </div>
                     <div id="Imagen" class="padding5 align_right">
-                    Imagen :<input type="file" name="fileToUpload" maxlength="50" minlength="5">
+                    Imagen :<input type="file" name="fileToUpload">
                     </div>
                     <div id="Web" class="padding5 align_right">
                     Web :<input type = "text" name = "web" maxlength="20" minlength="5" >

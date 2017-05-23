@@ -43,7 +43,7 @@
                         while ($lista = $result->fetch_assoc()) {
                             $nombre_artistico = str_replace(" ", "+", $lista['NOMBRE_ARTISTICO']);
                             $nombre_local = str_replace(" ", "+", $lista['NOMBRE_LOCAL']);
-
+                            
                             echo '<tr>';
                             echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:left;vertical-align:top">';
                             echo '<a class="fontblack a_concierto" href=InfoConcierto.php?idcon=' . $lista['ID_CONCIERTO'] . '>';

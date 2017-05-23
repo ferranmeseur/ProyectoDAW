@@ -69,6 +69,7 @@ function BusquedaTodosArtistas($ciudad, $genero, $letra) {
     }
     desconectar($conexion);
 }
+
 function getFirstLetterArtistas() {
     $conexion = conectar();
     $sql = "SELECT LEFT(NOMBRE_ARTISTICO, 1) AS LETRA FROM USUARIO WHERE TIPO_USUARIO = 'MUSICO' ORDER BY NOMBRE_ARTISTICO ASC";
@@ -730,6 +731,7 @@ function getNombreGenero($id_genero) {
     }
     desconectar();
 }
+
 function fileUpload($email) {
     $target_dir = "C:/Users/THOR/Desktop/Subidas/";
     $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
@@ -756,7 +758,6 @@ function fileUpload($email) {
         $resultado = 3;
     }
     if ($uploadOk == 0) {
-        $resultado = 4;
 // if everything is ok, try to upload file
     } else {
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
@@ -785,17 +786,14 @@ function fileUpload($email) {
             return "Se ha producido un error subiendo el archivo";
             break;
         case 6:
+            $conexion = conectar();
+            $sql = "update USUARIO SET IMAGEN = '$target_file' where EMAIL = '$email'";
+            if (mysqli_query($conexion, $sql)) {
+            } else {
+                echo mysqli_error($conexion);
+            }
+            desconectar($conexion);
             return 1;
             break;
-    }
-    if ($resultado == 6) {
-        $conexion = conectar();
-        $sql = "update USUARIOS SET IMAGEN = '$target_file' where EMAIL = '$email";
-        if (mysqli_query($conexion, $sql)) {
-            
-        } else {
-            echo mysqli_error($conexion);
-        }
-        desconectar($conexion);
     }
 }
