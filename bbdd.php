@@ -42,18 +42,19 @@ function BusquedaArtista($busqueda) {
     desconectar($conexion);
 }
 
+
 function BusquedaTodosArtistas($ciudad, $genero, $letra) {
     $conexion = conectar();
-    $sql = "SELECT *,LEFT(NOMBRE_ARTISTICO,1) AS LETRA FROM USUARIO";
+    $sql = "SELECT *,LEFT(NOMBRE_ARTISTICO,1) AS LETRA FROM USUARIO WHERE TIPO_USUARIO = 'Musico' ";
     $isFirst = 1;
-    if ($ciudad == null) {
+    if ($ciudad != null) {
         if ($isFirst == 1) {
             $sql .= " WHERE ID_CIUDAD = $ciudad";
         } else {
             $sql .= " AND ID_CIUDAD = $ciudad";
         }
     }
-    if ($genero == null) {
+    if ($genero != null) {
         if ($isFirst == 1) {
             $sql .= " WHERE ID_GENERO = $genero";
         } else {
@@ -72,7 +73,7 @@ function BusquedaTodosArtistas($ciudad, $genero, $letra) {
 
 function getFirstLetterArtistas() {
     $conexion = conectar();
-    $sql = "SELECT LEFT(NOMBRE_ARTISTICO, 1) AS LETRA FROM USUARIO WHERE TIPO_USUARIO = 'MUSICO' ORDER BY NOMBRE_ARTISTICO ASC";
+    $sql = "SELECT LEFT(NOMBRE_ARTISTICO, 1) AS LETRA FROM USUARIO WHERE TIPO_USUARIO = 'MUSICO' GROUP BY LETRA ORDER BY NOMBRE_ARTISTICO ASC";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
         return $result;
@@ -360,6 +361,7 @@ function redirectURL($url) {
 function Registro($tipo, $nombre, $apellido, $email, $pswd, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes, $pregunta, $respuesta, $descripcion) {
     $con = conectar();
     $resultado = "";
+    $email = strtolower($email);
     $alta = date('Y-m-d H:i:s');
     $answer = password_hash($respuesta, PASSWORD_DEFAULT);
     $pass = password_hash($pswd, PASSWORD_DEFAULT);
@@ -458,6 +460,7 @@ function existMail($mail) {
 
 function login($email, $password) {
     $con = conectar();
+    $email = strtolower($email);
     $sql = "select * from USUARIO where EMAIL='$email'";
     $result = $con->query($sql);
     if ($result->num_rows > 0) {
@@ -661,7 +664,7 @@ function ShowNoticiasMusico() {
     echo '<a class="a_noticia" href="InfoGrupo.php?nombre=' . $nombre_grupo . '">';
     echo '<div style = "height:250px;background-image:' . $url . ';background-size:cover;background-position:center">';
     echo '<div style="position: relative;top: 0;background-color:rgba(0, 0, 0, 0.8)">';
-    echo '<h1 style="color:white">Un nuevo grupo se acaba de unir</h1>';
+    echo '<b style="color:white;font-size:30px">Un nuevo grupo se acaba de unir</b>';
     echo '</div>';
     echo '<div style="position: relative;bottom: 0;background-color:rgba(0, 0, 0, 0.8)">';
     echo '<h1>' . $nuevoGrupo['VALOR'] . '</h1>';
@@ -679,7 +682,7 @@ function ShowNoticiasLocal() {
     echo '<a class="a_noticia" href="InfoGrupo.php?nombre=' . $nombre_local . '">';
     echo '<div style = "height:250px;background-image:' . $url . ';background-size:cover;background-position:center">';
     echo '<div style="position: relative;top: 0;background-color:rgba(0, 0, 0, 0.8)">';
-    echo '<h1 style="color:white">Un nuevo local se acaba de unir</h1>';
+    echo '<b style="color:white;font-size:30px">Un nuevo local se acaba de unir</b>';
     echo '</div>';
     echo '<div style="position: relative;bottom: 0;background-color:rgba(0, 0, 0, 0.8)">';
     echo '<h1>' . $nuevoLocal['VALOR'] . '</h1>';
@@ -699,6 +702,9 @@ function ShowNoticiasConcierto() {
 
     echo '<a class="a_noticia" href="InfoConcierto.php?idCon=' . $nuevoConcierto['ID_CONCIERTO'] . '">';
     echo '<div style = "height:250px;background-image:' . $url . ';background-size:cover;background-position:center">';
+    echo '<div style="position: relative;top: 0;background-color:rgba(0, 0, 0, 0.8)">';
+    echo '<b style="color:white;font-size:30px">Nuevo concierto</b>';
+    echo '</div>';
     echo '<div style="position: relative;top: 50%;transform: translateY(-50%);background-color:rgba(0, 0, 0, 0.8)">';
     echo '<b style="font-size:40px">' . $nombres[0] . '</b>';
     echo '<p style="color:white;font-size:20px;display:inline">' . $fechaFinal . '</p>';
@@ -735,7 +741,7 @@ function getNombreGenero($id_genero) {
 function fileUpload($email) {
     $target_dir = "C:/Users/THOR/Desktop/Subidas/";
     $extension = explode(".", $_FILES["fileToUpload"]["name"]);
-    $newFileName = randomString(6) . '.' .end($extension);
+    $newFileName = randomString(6) . '.' . end($extension);
     $target_file = $target_dir . $newFileName;
     $uploadOk = 1;
     $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
