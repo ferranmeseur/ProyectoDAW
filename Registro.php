@@ -36,8 +36,6 @@
                             showAlert("Los Emails deben coincidir");
                         } elseif (!existMail($mail1)) {
                             showAlert("El mail ya esta registrado");
-                        } elseif (!existUser($nombre)) {
-                            showAlert("El nombre ya esta registrado");
                         } else {
                             $_POST["valoresok"] = "submit";
                         }
