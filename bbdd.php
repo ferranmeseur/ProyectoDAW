@@ -42,24 +42,32 @@ function BusquedaArtista($busqueda) {
     desconectar($conexion);
 }
 
-
 function BusquedaTodosArtistas($ciudad, $genero, $letra) {
     $conexion = conectar();
     $sql = "SELECT *,LEFT(NOMBRE_ARTISTICO,1) AS LETRA FROM USUARIO WHERE TIPO_USUARIO = 'Musico' ";
-    $isFirst = 1;
     if ($ciudad != null) {
-        if ($isFirst == 1) {
-            $sql .= " WHERE ID_CIUDAD = $ciudad";
-        } else {
-            $sql .= " AND ID_CIUDAD = $ciudad";
-        }
+        $sql .= " AND ID_CIUDAD = $ciudad";
     }
     if ($genero != null) {
-        if ($isFirst == 1) {
-            $sql .= " WHERE ID_GENERO = $genero";
-        } else {
-            $sql .= " AND ID_GENERO = $genero";
-        }
+        $sql .= " AND ID_GENERO = $genero";
+    }
+    $sql .= " HAVING LETRA = '$letra'";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        return $result;
+    } else {
+        return null;
+    }
+    desconectar($conexion);
+}
+function BusquedaTodosLocales($ciudad, $genero, $letra) {
+    $conexion = conectar();
+    $sql = "SELECT *,LEFT(NOMBRE_LOCAL,1) AS LETRA FROM USUARIO WHERE TIPO_USUARIO = 'Local' ";
+    if ($ciudad != null) {
+        $sql .= " AND ID_CIUDAD = $ciudad";
+    }
+    if ($genero != null) {
+        $sql .= " AND ID_GENERO = $genero";
     }
     $sql .= " HAVING LETRA = '$letra'";
     $result = $conexion->query($sql);
@@ -74,6 +82,17 @@ function BusquedaTodosArtistas($ciudad, $genero, $letra) {
 function getFirstLetterArtistas() {
     $conexion = conectar();
     $sql = "SELECT LEFT(NOMBRE_ARTISTICO, 1) AS LETRA FROM USUARIO WHERE TIPO_USUARIO = 'MUSICO' GROUP BY LETRA ORDER BY NOMBRE_ARTISTICO ASC";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        return $result;
+    } else {
+        return null;
+    }
+    desconectar($conexion);
+}
+function getFirstLetterLocales() {
+    $conexion = conectar();
+    $sql = "SELECT LEFT(NOMBRE_LOCAL, 1) AS LETRA FROM USUARIO WHERE TIPO_USUARIO = 'LOCAL' GROUP BY LETRA ORDER BY NOMBRE_LOCAL ASC";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
         return $result;
@@ -806,6 +825,7 @@ function fileUpload($email) {
             break;
     }
 }
+
 function getInfoUser($email) {
     $conexion = conectar();
     $sql = "SELECT * FROM USUARIO WHERE EMAIL = '$email'";
@@ -818,4 +838,3 @@ function getInfoUser($email) {
     }
     desconectar();
 }
-

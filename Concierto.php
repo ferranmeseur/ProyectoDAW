@@ -28,7 +28,7 @@
                 $grupo = $_POST['grupo'];
                 $local = $_POST['id_local'];
                 $fechas = ListaFechasConciertos($futurosConciertos);
-                echo'<div class="margin_left_100px">';
+                echo'<div style="margin-right: 200px; margin-left:200px">';
 
                 while ($row = $fechas->fetch_assoc()) {
                     $nuevaFecha = date("w-d-m-Y", strtotime($row["FECHA"]));
@@ -41,7 +41,7 @@
                     } else {
                         echo '<div id="resultado">';
                         echo '<h3 id="' . $fechaFinal . '" class="color_rojo_general">' . $fechaFinal . '</h3>';
-                        echo '<table cellspacing=0>';
+                        echo '<table cellspacing=0 style="width:100%">';
                         echo '<col width="auto">';
                         echo '<col width="300">';
 
