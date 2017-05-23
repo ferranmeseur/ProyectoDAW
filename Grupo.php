@@ -24,18 +24,18 @@
                 BusquedaMusicos();
                 $ciudad = $_POST['ciudad'];
                 $genero = $_POST['genero'];
-                $grupo = $_POST['grupo'];
-                $local = $_POST['id_local'];
                 $letras = getFirstLetterArtistas();
                 echo'<div class="margin_left_100px">';
                 while ($row = $letras->fetch_assoc()) {
-                    echo $row['LETRA'];
-                    $result = BusquedaTodosArtistas($ciudad, $genero);
+                    $result = BusquedaTodosArtistas($ciudad, $genero, $row['LETRA']);
+                    $letra = strtoupper($row['LETRA']);
                     if ($result == null) {
                         echo '<script language="javascript">$("#$fechaFinal").empty();</script>';
                     } else {
                         echo '<div id="resultado">';
-                        echo '<h3 id="' . $fechaFinal . '" class="color_rojo_general">' . $fechaFinal . '</h3>';
+                        echo '<div style="border-bottom: 1px solid #d83c3c; margin-right:100px">';
+                        echo '<h3 id="' . $letra . '" class="color_rojo_general">' . $letra . '</h3>';
+                        echo '</div>';
                         echo '<table cellspacing=0>';
                         echo '<col width="auto">';
                         echo '<col width="300">';
@@ -43,20 +43,20 @@
                         while ($lista = $result->fetch_assoc()) {
                             $nombre_artistico = str_replace(" ", "+", $lista['NOMBRE_ARTISTICO']);
                             $nombre_local = str_replace(" ", "+", $lista['NOMBRE_LOCAL']);
-                            
+                            $nombreGenero = getNombreGenero($lista['ID_GENERO']);
+                            $nombreCiudad = getNombreCiudad($lista['ID_CIUDAD']);
                             echo '<tr>';
                             echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:left;vertical-align:top">';
-                            echo '<a class="fontblack a_concierto" href=InfoConcierto.php?idcon=' . $lista['ID_CONCIERTO'] . '>';
+                            echo '<a class="fontblack a_concierto" href=InfoGrupo.php?nombre=' . $nombre_artistico . '>';
                             echo '<div class="inline">';
                             echo "<img id='img_lista_img' class='inline' src='Imagenes/image.jpeg'>";
                             echo "<b id='h4_lista_img'>" . $lista['NOMBRE_ARTISTICO'] . "</b><br>";
-                            echo "<i>" . $lista['GENERO'] . "</i>";
+                            echo "<i>" . $nombreGenero . "</i>";
                             echo '</div>';
                             echo '</td>';
                             echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:right;vertical-align:top">';
                             echo "<div class='inline padding5'>";
-                            echo "<b>" . $lista['NOMBRE_LOCAL'] . "</b><br>";
-                            echo "<i>" . $lista['UBICACION'] . "</i>";
+                            echo "<i>" . $nombreCiudad . "</i>";
                             echo "</div>";
                             echo "</a>";
                             echo '</td>';

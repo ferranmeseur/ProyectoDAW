@@ -22,15 +22,7 @@ function BusquedaMusicos() {
         echo"<option value='$ID_GENERO'>$NOMBRE</option>";
     }
     echo'</select></span>';
-    echo '<span class="inline custom-dropdown border_dropdow">';
-    $grupos = ListaGrupos();
-    echo'<select name="grupo">
-                <option selected value="">Todos los grupos</option>';
-    while ($fila2 = mysqli_fetch_array($grupos)) {
-        extract($fila2);
-        echo"<option value='$ID_USUARIO'>$NOMBRE_ARTISTICO</option>";
-    }
-    echo'</select></span>';
+    
     echo '<button class="button-form-solo inline" type="submit" value="submit" name="submit">BUSCAR</button>';
     echo '</form>';
 }
