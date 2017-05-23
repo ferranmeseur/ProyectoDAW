@@ -42,6 +42,45 @@ function BusquedaArtista($busqueda) {
     desconectar($conexion);
 }
 
+function BusquedaTodosArtistas($ciudad, $genero, $letra) {
+    $conexion = conectar();
+    $sql = "SELECT *,LEFT(NOMBRE_ARTISTICO,1) AS LETRA FROM USUARIO";
+    $isFirst = 1;
+    if ($ciudad == null) {
+        if ($isFirst == 1) {
+            $sql .= " WHERE ID_CIUDAD = $ciudad";
+        } else {
+            $sql .= " AND ID_CIUDAD = $ciudad";
+        }
+    }
+    if ($genero == null) {
+        if ($isFirst == 1) {
+            $sql .= " WHERE ID_GENERO = $genero";
+        } else {
+            $sql .= " AND ID_GENERO = $genero";
+        }
+    }
+    $sql .= " HAVING LETRA = '$letra'";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        return $result;
+    } else {
+        return null;
+    }
+    desconectar($conexion);
+}
+function getFirstLetterArtistas() {
+    $conexion = conectar();
+    $sql = "SELECT LEFT(NOMBRE_ARTISTICO, 1) AS LETRA FROM USUARIO WHERE TIPO_USUARIO = 'MUSICO' ORDER BY NOMBRE_ARTISTICO ASC";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        return $result;
+    } else {
+        return null;
+    }
+    desconectar($conexion);
+}
+
 function BusquedaConciertoPorArtista($busqueda) {
     $conexion = conectar();
     $sql = "SELECT *,(SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=CONCIERTO.ID_LOCAL) AS NOMBRE_LOCAL FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE USUARIO.NOMBRE_ARTISTICO LIKE '%$busqueda%'";
@@ -643,7 +682,7 @@ function ShowNoticiasLocal() {
     echo '</div>';
     echo '<div style="position: relative;bottom: 0;background-color:rgba(0, 0, 0, 0.8)">';
     echo '<h1>' . $nuevoLocal['VALOR'] . '</h1>';
-    echo '<i style="color:white">'.$nuevoLocal['UBICACION'] .', '. $nombre_ciudad['NOMBRE'] . ', '.$nombre_genero['NOMBRE'].'</i>';
+    echo '<i style="color:white">' . $nuevoLocal['UBICACION'] . ', ' . $nombre_ciudad['NOMBRE'] . ', ' . $nombre_genero['NOMBRE'] . '</i>';
     echo '</div>';
     echo '</div></a>';
 }
@@ -663,7 +702,7 @@ function ShowNoticiasConcierto() {
     echo '<b style="font-size:40px">' . $nombres[0] . '</b>';
     echo '<p style="color:white;font-size:20px;display:inline">' . $fechaFinal . '</p>';
     echo '<b style="font-size:40px">' . $nombres[1] . '</b><br>';
-    echo '<i style="color:white;font-size:20px">'.$nuevoConcierto['UBICACION'].', '.$nombre_ciudad['NOMBRE'] . '</i>';
+    echo '<i style="color:white;font-size:20px">' . $nuevoConcierto['UBICACION'] . ', ' . $nombre_ciudad['NOMBRE'] . '</i>';
     echo '</div>';
     echo '</div></a>';
 }
