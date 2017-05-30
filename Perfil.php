@@ -76,7 +76,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                     informacionFan($info);
                     break;
                 case "Local":
-
+                    inormacionLocal($info);
                     break;
                 case "Musico":
                     echo "Que ise";
