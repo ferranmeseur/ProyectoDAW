@@ -21,7 +21,19 @@
             $nombre = $_GET['nombre'];
             TraceEvent("BUSQUEDA",$nombre,"NULL","CONCIERTO","NULL");
         }
-              
+         
+        $resultado = infoConcierto($_GET['idcon']);
+        $votos = votosConcierto($_GET['idcon']);
+        $mediavotos = $votos['suma'] / $votos['count'];
+        $fecha = getNombreFecha(date("w-d-m-Y",strtotime($resultado['FECHA'])));
+        $ciudad = getNombreCiudad($resultado['ID_CIUDAD']);
+        echo '<div class="center">Puntuación '.$mediavotos.' / 5</div>';
+        echo'<div class="center">Fecha : '. $fecha .'</div>';
+        echo'<div class="center">Precio de la entrada : '.$resultado['PRECIO_ENTRADA'].' €</div>';
+        echo'<div class="center">Grupo : '.$resultado['NOMBRE'].'</div>';
+        echo'<div class="center">Ciudad : '.$ciudad.'</div>';
+
+        
         
         ?>
         <div id="footer"></div>
