@@ -988,8 +988,11 @@ function comentariosConcierto($id) {
     $conexion = conectar();
     $sql = "SELECT * FROM VOTAR_COMENTAR inner join USUARIO on VOTAR_COMENTAR.ID_FAN = USUARIO.ID_USUARIO WHERE ID_VOTADO = '$id' AND VOTO_CONCIERTO = 1;";
     $resultado = $conexion->query($sql);
-    $row = mysqli_fetch_array($resultado);
-    return $row;
+    if($resultado->num_rows > 0){
+    return $resultado;
+    }else{
+        return false;
+    }
     desconectar($conexion);
 }
 
@@ -999,5 +1002,13 @@ function votosConcierto($id) {
     $resultado = $conexion->query($sql);
     $row = mysqli_fetch_array($resultado);
     return $row;
+    desconectar($conexion);
+}
+function getNombreLocal($id){
+      $conexion = conectar();
+    $sql = "SELECT * FROM USUARIO WHERE ID_USUARIO ='$id'";
+    $resultado = $conexion->query($sql);
+    $row = mysqli_fetch_array($resultado);
+    return $row['NOMBRE_LOCAL'];
     desconectar($conexion);
 }
