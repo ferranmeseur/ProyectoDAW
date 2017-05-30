@@ -12,6 +12,7 @@
             });
         </script> 
         <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
+        <link href="Estilos/RegistrationForm.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div id="header"></div> 
@@ -29,10 +30,10 @@
                 } else {
                     $_SESSION['email'] = $email;
                     echo'
-                    <form method="POST"></br>
-                Pregunta de seguridad:  ' . $resultado . '</br></br>
-                Respuesta de seguridad: <input type="text" name="respuesta" required></br></br>
-                <input type="submit" value="Enviar" name="cambiarpass">
+                    <form method="POST" id="msform"></br>
+                <b style="font-size:15px;text-transform:uppercase">Pregunta de seguridad:</b></br></br>  ' . $resultado . '</br></br>
+                <input type="text" placeholder="Respuesta de seguridad" name="respuesta" required></br></br>
+                <input type="submit" value="Enviar" class="submit action-button" name="cambiarpass">
             </form>';
                 }
             } else {
@@ -42,22 +43,23 @@
                         showAlert("Respuesta de seguridad incorrecta");
                         redirectURL("RecuperarContrasenya.php");
                     } else {
-                        echo 'Esta es tu nueva contraseña : ' . $nuevopass;
+                        echo 'Esta es tu nueva contraseña:</br> ' . $nuevopass;
                         echo'</br></br>';
-                        echo ' Puedes cambiarla en el Area Personal';
+                        echo '<i> Puedes cambiarla en el Area Personal</i>';
                     }
                 } else {
 
                     echo'
-            <form method="POST">
+            <form method="POST" id="msform">
+            <p style="font-size:30px;text-transform:uppercase">Recuperar Contraseña</p>
             </br></br>
-                Introduce tu email: <input type="email" name="email" required>
-                <input type="submit" value="Enviar" name="enviar">
+                <input type="email" name="email" placeholder="EMAIL" required>
+                <input type="submit" name="enviar" class="submit action-button" value="Siguiente" />
             </form>';
                 }
             }
             ?>
         </div>
-        <div id="footer"></div>
+        <div class="margin_top_200px" id="footer"></div>
     </body>
 </html>

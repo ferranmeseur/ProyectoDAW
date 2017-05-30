@@ -1,0 +1,283 @@
+/*custom font*/
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+/*form styles*/
+#msform {
+    width: 400px;
+    margin: 50px auto;
+    text-align: center;
+    position: relative;
+}
+#msformLeft {
+    width: 400px;
+    margin: 50px auto;
+    text-align: left;
+    position: relative;
+}
+#msform fieldset {
+    background: white;
+    border: 0 none;
+    border-radius: 3px;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+    padding: 20px 30px;
+    box-sizing: border-box;
+    width: 80%;
+    margin: 0 10%;
+
+    /*stacking fieldsets above each other*/
+    position: relative;
+}
+/*Hide all except first fieldset*/
+#msform fieldset:not(:first-of-type) {
+    display: none;
+}
+/*inputs*/
+#msform input, #msform textarea {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #2C3E50;
+    font-size: 13px;
+}
+#msformLeft input, #msformLeft textarea {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #2C3E50;
+    font-size: 13px;
+}
+#msform select{
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #2C3E50;
+    font-size: 13px;
+}
+#msformLeft select{
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #2C3E50;
+    font-size: 13px;
+}
+/*buttons*/
+.action-button {
+    width: 100px;
+    background: #d83c3c;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 1px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px;
+}
+
+.action-button:hover, .action-button:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
+}
+/*headings*/
+.fs-title {
+    font-size: 15px;
+    text-transform: uppercase;
+    color: #2C3E50;
+    margin-bottom: 10px;
+}
+.fs-subtitle {
+    font-weight: normal;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 20px;
+}
+/*progressbar*/
+#progressbar {
+    margin-bottom: 30px;
+    overflow: hidden;
+    /*CSS counters to number the steps*/
+    counter-reset: step;
+}
+#progressbar li {
+    list-style-type: none;
+    color: black;
+    text-transform: uppercase;
+    font-size: 9px;
+    width: 25%;
+    float: left;
+    position: relative;
+}
+#progressbar li:before {
+    content: counter(step);
+    counter-increment: step;
+    width: 20px;
+    line-height: 20px;
+    display: block;
+    font-size: 10px;
+    color: #333;
+    background: white;
+    border-radius: 3px;
+    margin: 0 auto 5px auto;
+}
+/*progressbar connectors*/
+#progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: white;
+    position: absolute;
+    left: -50%;
+    top: 9px;
+    z-index: -1; /*put it behind the numbers*/
+}
+#progressbar li:first-child:after {
+    /*connector not needed before the first step*/
+    content: none; 
+}
+/*marking active/completed steps green*/
+/*The number of the step and the connector before it = green*/
+#progressbar li.active:before,  #progressbar li.active:after{
+    background: #d83c3c;
+    color: white;
+}
+
+
+
+
+
+.register-switch {
+    height: 32px;
+    margin-bottom: 15px;
+    padding: 4px;
+    background: #d83c3c;
+    border-radius: 2px;
+    background-image: -webkit-linear-gradient(top, #d83c3c, #e35b5b);
+    background-image: -moz-linear-gradient(top, #d83c3c, #e35b5b);
+    background-image: -o-linear-gradient(top, #d83c3c, #e35b5b);
+    background-image: linear-gradient(to bottom, #d83c3c, #e35b5b);
+    -webkit-box-shadow: inset 0 1px rgba(0, 0, 0, 0.05), inset 1px 0 rgba(0, 0, 0, 0.02), inset -1px 0 rgba(0, 0, 0, 0.02);
+    box-shadow: inset 0 1px rgba(0, 0, 0, 0.05), inset 1px 0 rgba(0, 0, 0, 0.02), inset -1px 0 rgba(0, 0, 0, 0.02);
+}
+
+.register-switch-input {
+    display: none;
+}
+
+.register-switch-label {
+    width:70px;
+    height: 32px;
+    line-height: 32px;
+    color: white;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+.register-switch-input:checked + .register-switch-label {
+    font-weight: 500;
+    color: #434248;
+    text-shadow: 0 1px rgba(255, 255, 255, 0.5);
+    background: white;
+    border-radius: 2px;
+    background-image: -webkit-linear-gradient(top, #fefefe, #eeeeee);
+    background-image: -moz-linear-gradient(top, #fefefe, #eeeeee);
+    background-image: -o-linear-gradient(top, #fefefe, #eeeeee);
+    background-image: linear-gradient(to bottom, #fefefe, #eeeeee);
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+#msformLeft input:disabled{
+    background-color:white;
+    border: 0px;
+}
+
+#divConImagen{
+    width:200px;
+    height:200px;
+    overflow:hidden;
+}
+
+#divConImagen img{
+    width:100%; 
+}
+.icon{ 
+    float:left;
+    width:14px; 
+    height:14px; 
+    position:relative; 
+    display:block; 
+}
+.icon:before, 
+.icon:after{ 
+    position:absolute; 
+    content:""; 
+    display:block; 
+}
+
+/* Wrench icon*/
+.icon-wrench:before{ 
+    width:4px; 
+    height:5px; 
+    top:-2px;
+    left:3px;
+    border:3px solid; 
+    border-radius:5px; 
+    border-top:none;
+}
+.icon-wrench:after{ 
+    width:4px; 
+    height:13px; 
+    top:4px;
+    left:6px;
+    box-shadow:0 0 0 16px inset; 
+    border-radius:3px; 
+}
+
+/*IMAGE UPLOAD*/
+
+#image-preview {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  background-color: #ffffff;
+  color: #ecf0f1;
+}
+#image-preview input {
+  line-height: 200px;
+  font-size: 200px;
+  position: absolute;
+  opacity: 0;
+  z-index: 10;
+}
+#image-preview label {
+  position: absolute;
+  z-index: 5;
+  opacity: 0.8;
+  cursor: pointer;
+  background-color: #bdc3c7;
+  width: 200px;
+  height: 50px;
+  font-size: 20px;
+  line-height: 50px;
+  text-transform: uppercase;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  text-align: center;
+}

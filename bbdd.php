@@ -60,6 +60,7 @@ function BusquedaTodosArtistas($ciudad, $genero, $letra) {
     }
     desconectar($conexion);
 }
+
 function BusquedaTodosLocales($ciudad, $genero, $letra) {
     $conexion = conectar();
     $sql = "SELECT *,LEFT(NOMBRE_LOCAL,1) AS LETRA FROM USUARIO WHERE TIPO_USUARIO = 'Local' ";
@@ -90,6 +91,7 @@ function getFirstLetterArtistas() {
     }
     desconectar($conexion);
 }
+
 function getFirstLetterLocales() {
     $conexion = conectar();
     $sql = "SELECT LEFT(NOMBRE_LOCAL, 1) AS LETRA FROM USUARIO WHERE TIPO_USUARIO = 'LOCAL' GROUP BY LETRA ORDER BY NOMBRE_LOCAL ASC";
@@ -171,6 +173,35 @@ function RankingMusicos($genero, $ciudad) {
     desconectar($conexion);
 }
 
+function RankingLocales($genero, $ciudad) {
+    $conexion = conectar();
+    $isFirst = 1;
+    if (!isset($genero) && !isset($ciudad)) {
+        $sql = "SELECT SUM(PUNTOS) AS PUNTOS,(SELECT NOMBRE FROM GENERO WHERE ID_GENERO = USUARIO.ID_GENERO) AS NOMBRE_GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = USUARIO.ID_CIUDAD) AS NOMBRE_CIUDAD, USUARIO.ID_GENERO AS GENERO, USUARIO.ID_CIUDAD AS CIUDAD, ID_VOTADO, NOMBRE, USUARIO.NOMBRE_LOCAL AS NOMBRE_LOCAL FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO=USUARIO.ID_USUARIO WHERE USUARIO.TIPO_USUARIO = 'LOCAL' GROUP BY ID_VOTADO ORDER BY PUNTOS DESC";
+    } else {
+        $sql = "SELECT SUM(PUNTOS) AS PUNTOS,(SELECT NOMBRE FROM GENERO WHERE ID_GENERO = USUARIO.ID_GENERO) AS NOMBRE_GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = USUARIO.ID_CIUDAD) AS NOMBRE_CIUDAD, USUARIO.ID_GENERO AS GENERO, USUARIO.ID_CIUDAD AS CIUDAD, ID_VOTADO, NOMBRE, USUARIO.NOMBRE_LOCAL AS NOMBRE_LOCAL FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO=USUARIO.ID_USUARIO WHERE USUARIO.TIPO_USUARIO = 'LOCAL' GROUP BY ID_VOTADO";
+        if ($genero != null) {
+            $isFirst = 0;
+            $sql .= " HAVING GENERO=$genero";
+        }
+        if ($ciudad != null) {
+            if ($isFirst == 1) {
+                $sql .= " HAVING CIUDAD=$ciudad";
+            } else {
+                $sql .= " AND CIUDAD=$ciudad";
+            }
+        }
+        $sql = $sql . " ORDER BY PUNTOS DESC";
+    }
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        return $result;
+    } else {
+        echo mysqli_error($conexion);
+    }
+    desconectar($conexion);
+}
+
 /* RANKING POR GENERO */
 
 function ListaGeneros() {
@@ -185,17 +216,17 @@ function ListaGeneros() {
     desconectar($conexion);
 }
 
-function RankingPorGenero($genero) {
-    $conexion = conectar();
-    $sql = "SELECT USUARIO.NOMBRE_ARTISTICO,SUM(PUNTOS) AS PUNTOS, ID_VOTADO FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO = USUARIO.ID_USUARIO WHERE ID_GENERO = (SELECT ID_GENERO FROM GENERO WHERE NOMBRE='" . $genero . "') GROUP BY ID_VOTADO";
-    $result = $conexion->query($sql);
-    if ($result->num_rows > 0) {
-
-        while ($row = $result->fetch_assoc()) {
-            echo '<div>' . $row["NOMBRE_ARTISTICO"] . ' ' . $row["PUNTOS"] . '</div>';
-        }
-    }
-}
+//function RankingPorGenero($genero) {
+//    $conexion = conectar();
+//    $sql = "SELECT USUARIO.NOMBRE_ARTISTICO,SUM(PUNTOS) AS PUNTOS, ID_VOTADO FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO = USUARIO.ID_USUARIO WHERE ID_GENERO = (SELECT ID_GENERO FROM GENERO WHERE NOMBRE='" . $genero . "') GROUP BY ID_VOTADO";
+//    $result = $conexion->query($sql);
+//    if ($result->num_rows > 0) {
+//
+//        while ($row = $result->fetch_assoc()) {
+//            echo '<div>' . $row["NOMBRE_ARTISTICO"] . ' ' . $row["PUNTOS"] . '</div>';
+//        }
+//    }
+//}
 
 /* RANKING POR CIUDAD */
 
@@ -214,16 +245,16 @@ function ListaCiudades() {
 /* RANKING POR CIUDAD = GRUPOS DE ESA CIUDAD O = GRUPOS CON MEJORES NOTAS DE CONCIERTOS EN ESA CIUDAD? */
 /* ESTA HECHO POR GRUPOS DE ESA CIUDAD */
 
-function RankingPorCiudad($ciudad) {
-    $conexion = conectar();
-    $sql = "SELECT USUARIO.NOMBRE_ARTISTICO,SUM(PUNTOS) AS PUNTOS, ID_VOTADO FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO = USUARIO.ID_USUARIO WHERE USUARIO.ID_CIUDAD = (SELECT ID_CIUDAD FROM CIUDAD WHERE NOMBRE='" . $ciudad . "') GROUP BY ID_VOTADO";
-    $result = $conexion->query($sql);
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            echo '<div>' . $row["NOMBRE_ARTISTICO"] . ' ' . $row["PUNTOS"] . '</div>';
-        }
-    }
-}
+//function RankingPorCiudad($ciudad) {
+//    $conexion = conectar();
+//    $sql = "SELECT USUARIO.NOMBRE_ARTISTICO,SUM(PUNTOS) AS PUNTOS, ID_VOTADO FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO = USUARIO.ID_USUARIO WHERE USUARIO.ID_CIUDAD = (SELECT ID_CIUDAD FROM CIUDAD WHERE NOMBRE='" . $ciudad . "') GROUP BY ID_VOTADO";
+//    $result = $conexion->query($sql);
+//    if ($result->num_rows > 0) {
+//        while ($row = $result->fetch_assoc()) {
+//            echo '<div>' . $row["NOMBRE_ARTISTICO"] . ' ' . $row["PUNTOS"] . '</div>';
+//        }
+//    }
+//}
 
 /* CONCIERTOS: */
 
@@ -613,19 +644,44 @@ function getNombreFecha($fecha) {
     return $fecha;
 }
 
-function ArtistasAlza($genero, $ciudad) {
+function ArtistasAlza($genero, $ciudad, $titulo) {
     $result = RankingMusicos($genero, $ciudad);
     $i = 1;
     echo'<h2>ARTISTAS EN ALZA</h2>';
-    echo'<i>Artistas con más votos de los fans</i>';
+    echo'<i>' . $titulo . '</i><br><br><br>';
     echo '<div id="div_parent_ranking">';
     while ($row = $result->fetch_assoc()) {
         $nombre_artistico = str_replace(" ", "+", $row['NOMBRE']);
-        echo '<div id="musicoRanking' . $i . '">';
+        echo '<div id="musicoRanking' . $i . '" style="margin-bottom:20px">';
         echo '<div class="div_peque_ranking"></div>';
         echo '<div class="div_ranking">';
         echo '<img class="img_div_ranking inline" src="Imagenes/image.jpeg">';
         echo '<div class="nombre_artista inline vertical_top" style="padding-top:10px;padding-left:10px"><a href="InfoGrupo.php?nombre=' . $nombre_artistico . '"><b class="fontblack a_concierto" style="font-size:25px">' . $row['NOMBRE'] . '</b><br><i class="color_rojo_general"> ' . $row['NOMBRE_GENERO'] . ' - ' . $row['NOMBRE_CIUDAD'] . '</i></a></div>';
+        echo '</div>';
+        echo '<img class="img_ranking_numero" src="Imagenes/ranking' . $i . '.png">';
+        echo '</div>';
+        echo '<br>';
+        $i++;
+        if ($i == 6) {
+            break;
+        }
+    }
+    echo '</div>';
+}
+
+function LocalesAlza($genero, $ciudad, $titulo) {
+    $result = RankingLocales($genero, $ciudad);
+    $i = 1;
+    echo'<h2>LOCALES EN ALZA</h2>';
+    echo'<i>' . $titulo . '</i><br><br><br>';
+    echo '<div id="div_parent_ranking">';
+    while ($row = $result->fetch_assoc()) {
+        $nombre_local = str_replace(" ", "+", $row['NOMBRE_LOCAL']);
+        echo '<div id="musicoRanking' . $i . '" style="margin-bottom:20px">';
+        echo '<div class="div_peque_ranking"></div>';
+        echo '<div class="div_ranking">';
+        echo '<img class="img_div_ranking inline" src="Imagenes/image.jpeg">';
+        echo '<div class="nombre_artista inline vertical_top" style="padding-top:10px;padding-left:10px"><a href="InfoGrupo.php?nombre=' . $nombre_local . '"><b class="fontblack a_concierto" style="font-size:25px">' . $row['NOMBRE'] . '</b><br><i class="color_rojo_general"> ' . $row['NOMBRE_GENERO'] . ' - ' . $row['NOMBRE_CIUDAD'] . '</i></a></div>';
         echo '</div>';
         echo '<img class="img_ranking_numero" src="Imagenes/ranking' . $i . '.png">';
         echo '</div>';
@@ -837,4 +893,62 @@ function getInfoUser($email) {
         return null;
     }
     desconectar();
+}
+
+function ModificarPassword($userEmail, $newpassword) {
+    $conexion = conectar();
+    $newPasscif = password_hash($newpassword, PASSWORD_DEFAULT);
+    $query = "UPDATE USUARIO SET PASSWORD='$newPasscif' WHERE EMAIL='$userEmail'";
+    if (mysqli_query($conexion, $query)) {
+        return true;
+    } else {
+        echo mysqli_error($conexion);
+        return false;
+    }
+    desconectar($conexion);
+}
+
+function verificarUser($userEmail, $pass) {
+    $conexion = conectar();
+    $query = "SELECT PASSWORD FROM USUARIO WHERE EMAIL='$userEmail'";
+    $result = $conexion->query($query);
+    if ($result->num_rows > 0) {
+        // Comprobamos que la contraseña es correcta
+        $row = $result->fetch_assoc();
+        return password_verify($pass, $row['PASSWORD']);
+    } else {    // Este else no hace falta
+        echo mysqli_error($conexion);
+
+        return false;
+    }
+    desconectar($conexion);
+}
+
+function modificarDatosFan($usuario, $nuevoNombre, $nuevoApellido, $nuevaUbicacion) {
+    $conexion = conectar();
+    $query = "SELECT * FROM USUARIO WHERE EMAIL = '$usuario'";
+    $result = $conexion->query($query);
+    if ($result->num_rows > 0) {
+        $queryUpdate = "UPDATE USUARIO SET NOMBRE='$nuevoNombre', APELLIDOS='$nuevoApellido', UBICACION='$nuevaUbicacion' WHERE EMAIL ='$usuario'";
+        if (mysqli_query($conexion, $queryUpdate)) {
+            return true;
+        } else {
+            echo mysqli_error($conexion);
+            return false;
+        }
+    } else {
+        echo mysqli_error($conexion);
+        return false;
+    }
+    desconectar($conexion);
+}
+
+function showImage($user) {
+    $conexion = conectar();
+    $sql = "SELECT * FROM USUARIO WHERE EMAIL = '$user'";
+    $resultado = $conexion->query($sql);
+    $row = mysqli_fetch_array($resultado);
+    $imagen = '<img src="data:image/jpeg;base64,' .$row['IMAGEN'] . '"/>';
+    return $imagen;
+    desconectar($conexion);
 }
