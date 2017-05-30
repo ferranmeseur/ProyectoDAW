@@ -86,8 +86,8 @@
 
                         while ($lista = $result->fetch_assoc()) {
                             $nombre_artistico = str_replace(" ", "+", $lista['NOMBRE_ARTISTICO']);
-                            $nombreGenero = getNombreGenero($lista['ID_GENERO'])->fetch_assoc();
-                            $nombreCiudad = getNombreCiudad($lista['ID_CIUDAD'])->fetch_assoc();
+                            $nombreGenero = getNombreGenero($lista['ID_GENERO']);
+                            $nombreCiudad = getNombreCiudad($lista['ID_CIUDAD']);
 
                             echo '<tr>';
                             echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:left;vertical-align:top">';
@@ -101,7 +101,7 @@
                             echo '</td>';
                             echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:right;vertical-align:top">';
                             echo '<div class="inline padding5">';
-                            echo '<i><b>' . $nombreGenero['NOMBRE'] . ', ' . $nombreCiudad['NOMBRE'] . '</b></i>';
+                            echo '<i><b>' . $nombreGenero . ', ' . $nombreCiudad . '</b></i>';
                             echo '</div>';
                             echo '</td>';
                             echo '</tr>';
@@ -127,15 +127,15 @@
                         $genero = $_POST['genero'];
                         $ciudad = $_POST['ciudad'];
                         if ($ciudad != null) {
-                            $nombreCiudad = getNombreCiudad($ciudad)->fetch_assoc();
-                            $tituloRanking = "Artistas en alza de " . $nombreCiudad['NOMBRE'];
+                            $nombreCiudad = getNombreCiudad($ciudad);
+                            $tituloRanking = "Artistas en alza de " . $nombreCiudad;
                         }
                         if ($genero != null) {
-                            $nombreGenero = getNombreGenero($genero)->fetch_assoc();
-                            $tituloRanking = "Artistas en alza de genero " . $nombreGenero['NOMBRE'];
+                            $nombreGenero = getNombreGenero($genero);
+                            $tituloRanking = "Artistas en alza de genero " . $nombreGenero;
                         }
                         if ($ciudad != null && $genero != null)
-                            $tituloRanking = "Artistas en alza de " . $nombreCiudad['NOMBRE'] . " con género " . $nombreGenero['NOMBRE'];
+                            $tituloRanking = "Artistas en alza de " . $nombreCiudad . " con género " . $nombreGenero;
                         if ($ciudad != null || $genero != null) {
                             $result = RankingMusicos($genero, $ciudad);
                             if ($result == null) {
