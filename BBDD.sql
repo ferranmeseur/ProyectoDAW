@@ -1,12 +1,5 @@
 CREATE database musicandseek;
 use musicandseek;
-select * from usuario;
-SELECT NOMBRE,LEFT(NOMBRE_ARTISTICO,1) AS LETRA FROM USUARIO WHERE TIPO_USUARIO = 'Musico' HAVING LETRA='c';
-update USUARIO SET IMAGEN = 'CACA' where EMAIL = 'irene@cabezas.com';
-
-SELECT LEFT(NOMBRE_ARTISTICO, 1) AS LETRA FROM USUARIO WHERE TIPO_USUARIO = 'MUSICO' GROUP BY LETRA ORDER BY NOMBRE_ARTISTICO ASC;
-select * from usuario where EMAIL = 'los@suaves.com';
-
 create table USUARIO( 
 ID_USUARIO int(10) not null auto_increment,
 TIPO_USUARIO char(10) not null,
@@ -59,17 +52,6 @@ NOMBRE char(20) not null,
 primary key(ID_GENERO)
 );
 
-create table VOTAR_COMENTAR(
-ID_VOTO int(10) not null auto_increment,
-ID_FAN int(10) not null,
-ID_VOTADO int(10) not null,
-PUNTOS int(2) not null,
-VOTO_CONCIERTO boolean not null,
-COMENTARIO char(140),
-FECHA datetime not null,
-TIPO_VOTACION char(10) not null
-);
-
 
 create table PROPONER(
 ID_LOCAL int(10) not null,
@@ -111,7 +93,16 @@ COMENTARIO char(20),
 ID_CONCIERTO int(10),
 PRIMARY KEY(ID_TRACE)
 );
-
+create table VOTAR_COMENTAR(
+ID_VOTO int(10) not null auto_increment primary key,
+ID_FAN int(10) not null,
+ID_VOTADO int(10) not null,
+PUNTOS int(2) not null,
+VOTO_CONCIERTO boolean not null,
+COMENTARIO char(140),
+FECHA datetime not null,
+TIPO_VOTACION char(10) not null
+);
 
 alter table USUARIO add constraint fk_USUARIO_GENERO foreign key(ID_GENERO) references GENERO(ID_GENERO) on update cascade;
 alter table USUARIO add constraint fk_USUARIO_CIUDAD foreign key(ID_CIUDAD) references CIUDAD(ID_CIUDAD) on update cascade;
