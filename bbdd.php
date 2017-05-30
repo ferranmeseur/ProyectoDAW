@@ -944,12 +944,12 @@ function modificarDatosFan($usuario, $nuevoNombre, $nuevoApellido, $nuevaUbicaci
     }
     desconectar($conexion);
 }
-function modificarDatosLocal($usuario, $nuevoNombre, $nuevaUbicacion, $nuevoNumeroContacto, $nuevoNombreLocal, $nuevoNumeroComponentes, $nuevoAforo,$nuevaWeb) {
+function modificarDatosLocal($usuario, $nuevaUbicacion, $nuevoNumeroContacto, $nuevoNombreLocal, $nuevoAforo,$nuevaWeb) {
     $conexion = conectar();
     $query = "SELECT * FROM USUARIO WHERE EMAIL = '$usuario'";
     $result = $conexion->query($query);
     if ($result->num_rows > 0) {
-        $queryUpdate = "UPDATE USUARIO SET NOMBRE='$nuevoNombre', UBICACION='$nuevaUbicacion', NUMERO_CONTACTO = $nuevoNumeroContacto, NOMBRE_LOCAL = '$nuevoNombreLocal', NUMERO_COMPONENTES = $nuevoNumeroComponentes, AFORO = $nuevoAforo, WEB='$nuevaWeb' WHERE EMAIL ='$usuario'";
+        $queryUpdate = "UPDATE USUARIO SET UBICACION='$nuevaUbicacion', NUMERO_CONTACTO = $nuevoNumeroContacto, NOMBRE_LOCAL = '$nuevoNombreLocal', AFORO = $nuevoAforo, WEB='$nuevaWeb' WHERE EMAIL ='$usuario'";
         if (mysqli_query($conexion, $queryUpdate)) {
             return true;
         } else {
@@ -962,7 +962,6 @@ function modificarDatosLocal($usuario, $nuevoNombre, $nuevaUbicacion, $nuevoNume
     }
     desconectar($conexion);
 }
-
 
 
 function showImage($user) {
