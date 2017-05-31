@@ -12,6 +12,7 @@
             });
         </script> 
         <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
+        <link href="Estilos/RegistrationForm.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div id="header"></div>
@@ -26,6 +27,10 @@
         <div id="busquedaArtistas" style="width:500px;margin:auto auto auto auto;">
             <?php
             include_once'bbdd.php';
+            session_start();
+            if (isset($_SESSION['tipo'])) {
+                $tipoUsuario = $_SESSION['tipo'];
+            }
             echo '<form method="POST" action="Grupo.php">';
             echo '<span class="inline custom-dropdown border_dropdow">';
             $generos = ListaGeneros();
@@ -94,15 +99,21 @@
                             echo '<a class="fontblack a_concierto" href=InfoGrupo.php?nombre=' . $nombre_artistico . '>';
                             echo '<div class="inline">';
                             echo '<img id="img_lista_img" class="inline" src="Imagenes/image.jpeg">';
-                            echo '<b id="h4_lista_img">' . $lista['NOMBRE_ARTISTICO'] . '</b><br>';
-                            echo '<i>numero de votos</i>';
+                            echo '<b id="h4_lista_img">' . $lista['NOMBRE_ARTISTICO'] . '</b>';
+                            if (isset($tipoUsuario)) {
+                                if ($tipoUsuario == 'Local')
+                                    echo '<a href="Contratar.php?idgrupo=' . $lista['ID_USUARIO'] . ' style = "width:100px" class = "action-button">CONTRATAR</a>';
+                            }
+                            echo '<br><i>numero de votos</i>';
                             echo '</div>';
                             echo '</a>';
                             echo '</td>';
                             echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:right;vertical-align:top">';
                             echo '<div class="inline padding5">';
-                            echo '<i><b>' . $nombreGenero . ', ' . $nombreCiudad . '</b></i>';
+                            echo '<i><b>' . $nombreGenero . ', ' . $nombreCiudad . '</b></i><br>';
+
                             echo '</div>';
+
                             echo '</td>';
                             echo '</tr>';
                         }

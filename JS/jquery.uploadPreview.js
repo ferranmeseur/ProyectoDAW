@@ -7,8 +7,8 @@
         input_field: ".image-input",
         preview_box: ".image-preview",
         label_field: ".image-label",
-        label_default: "Choose File",
-        label_selected: "Change File",
+        label_default: "Escoger foto",
+        label_selected: "Cambiar foto",
         no_label: false,
         success_callback : null,
       }, options);

@@ -20,6 +20,8 @@
             <?php
             require_once 'bbdd.php';
             require_once'BusquedaConciertos.php';
+            
+            
             if (isset($_POST['submit'])) {
                 BusquedaConciertos();
                 $futurosConciertos = $_POST['futurosConciertos'];
