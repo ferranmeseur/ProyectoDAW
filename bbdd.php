@@ -1033,6 +1033,28 @@ function getNombreLocal($id) {
     $sql = "SELECT * FROM USUARIO WHERE ID_USUARIO ='$id'";
     $resultado = $conexion->query($sql);
     $row = mysqli_fetch_array($resultado);
-    return $row['NOMBRE_LOCAL'];
+    return $row;
+    desconectar($conexion);
+}
+
+
+function getInfoGrupoName($name) {
+    $conexion = conectar();
+    $sql = "SELECT * FROM USUARIO WHERE NOMBRE_ARTISTICO = '$name'";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row;
+    } else {
+        return null;
+    }
+    desconectar();
+}
+function votosGrupo($id) {
+    $conexion = conectar();
+    $sql = "SELECT SUM(PUNTOS) as suma,count(*) as count FROM VOTAR_COMENTAR WHERE ID_VOTADO = '$id' AND VOTO_CONCIERTO = 0";
+    $resultado = $conexion->query($sql);
+    $row = mysqli_fetch_array($resultado);
+    return $row;
     desconectar($conexion);
 }
