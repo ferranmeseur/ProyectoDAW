@@ -827,3 +827,7 @@ select option:hover{
 textarea{
     resize: vertical;
 }
+
+textarea:disabled{
+    background-color:white;
+}
