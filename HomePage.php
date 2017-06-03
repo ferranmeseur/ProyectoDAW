@@ -19,7 +19,7 @@
         <div id="header"></div>
         <div class="content center">
             <div class="center">
-                <div id="Search" class="height_40 padding20">
+                <div id="Search" class="height_40 padding20 ">
                     <form class="form-wrapper cf" action="Busqueda.php" method="GET">
                         <input type="text" name="busqueda" placeholder="Busca músicos y locales" required>
                         <button class="button-form" type="submit" value="submit" name="submit">GO!</button>
@@ -27,25 +27,25 @@
                 </div>
             </div>
             <div  id="noticias"></div>
-            <div id="Secciones" class="center inline">
+            <div id="Secciones" class="center inline ">
                 <div id="Ranking" class=" inline">
-                    <div id="imagen_ranking" class="inline">
+                    <div id="imagen_ranking" class="inline marging_imagenes">
                         <a href="Grupo.php"><img  class="img_default width_70" src="Imagenes/RANKING.jpg" alt="Ranking" /></a>
                     </div>
                 </div>
-                <div id="Conciertos" class=" inline">
+                <div id="Conciertos" class=" inline marging_imagenes">
                     <div id="imagen_conciertos" class="inline">
                         <a href="Concierto.php"><img class="img_default width_70" src="Imagenes/CONCIERTO.jpg"  alt="Conciertos" /></a>
                     </div>
                 </div>
             </div>
-            <div id="Secciones" class="center inline">
-                <div id="Grupos" class="inline">
+            <div id="Secciones" class="center inline ">
+                <div id="Grupos" class="inline marging_imagenes">
                     <div id="imagen_grupos" class="inline">
                         <a href="Grupo.php"><img class="img_default width_70" src="Imagenes/GRUPO.jpg"  alt="Grupos" /></a>
                     </div>
                 </div>
-                <div id="Locales" class=" inline">
+                <div id="Locales" class=" inline marging_imagenes">
                     <div id="imagen_locales" class="inline">
                         <a href="Local.php"><img class="img_default width_70" src="Imagenes/LOCAL.jpg"  alt="Locales" /></a>
                     </div>

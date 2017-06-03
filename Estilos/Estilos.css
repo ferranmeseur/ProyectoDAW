@@ -1,7 +1,9 @@
 @import url(http://fonts.googleapis.com/css?family=Lato);
 @import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
 
-
+.marging_imagenes{
+    margin: 30px;
+}
 .inline{
     display: inline-block;
 }
@@ -66,7 +68,7 @@ width_100{
     width: 48%;
 }
 .width_70{
-    width: 600px;
+    width: 500px;
 }
 .width_90{
     width: 90%;
