@@ -27,26 +27,26 @@
                 </div>
             </div>
             <div  id="noticias"></div>
-            <div id="Secciones" class="center inline ">
-                <div id="Ranking" class=" inline">
-                    <div id="imagen_ranking" class="inline marging_imagenes">
-                        <a href="Grupo.php"><img  class="img_default width_70" src="Imagenes/RANKING.jpg" alt="Ranking" /></a>
+            <div class="center inline ">
+                <div class=" inline">
+                    <div class="inline marging_imagenes">
+                        <a href="Ranking.php"><img  class="img_default width_70" src="Imagenes/RANKING.jpg" alt="Ranking" /></a>
                     </div>
                 </div>
-                <div id="Conciertos" class=" inline marging_imagenes">
-                    <div id="imagen_conciertos" class="inline">
+                <div class=" inline marging_imagenes">
+                    <div class="inline">
                         <a href="Concierto.php"><img class="img_default width_70" src="Imagenes/CONCIERTO.jpg"  alt="Conciertos" /></a>
                     </div>
                 </div>
             </div>
-            <div id="Secciones" class="center inline ">
-                <div id="Grupos" class="inline marging_imagenes">
-                    <div id="imagen_grupos" class="inline">
+            <div class="center inline ">
+                <div  class="inline marging_imagenes">
+                    <div  class="inline">
                         <a href="Grupo.php"><img class="img_default width_70" src="Imagenes/GRUPO.jpg"  alt="Grupos" /></a>
                     </div>
                 </div>
-                <div id="Locales" class=" inline marging_imagenes">
-                    <div id="imagen_locales" class="inline">
+                <div class=" inline marging_imagenes">
+                    <div class="inline">
                         <a href="Local.php"><img class="img_default width_70" src="Imagenes/LOCAL.jpg"  alt="Locales" /></a>
                     </div>
                 </div>
