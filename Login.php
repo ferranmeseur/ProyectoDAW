@@ -37,9 +37,9 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                 $resultado = login($email, $pass);
                 if ($resultado != false) {
                     $_POST["valoresok"] = "ok";
-                    $_SESSION['tipo'] = $resultado;
                     $email = strtolower($email);
                     $_SESSION['email'] = $email;
+                    $_SESSION['pass'] = $pass;
                 }
             }if (isset($_POST["valoresok"])) {
                 redirectURL("Perfil.php");

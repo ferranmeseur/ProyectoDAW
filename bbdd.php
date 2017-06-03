@@ -659,7 +659,7 @@ function getNombreFecha($fecha) {
 function ArtistasAlza($genero, $ciudad, $titulo) {
     $result = RankingMusicos($genero, $ciudad);
     $i = 1;
-    echo'<h2>ARTISTAS EN ALZA</h2>';
+    echo'<h1><span class="color_rojo_general">Artistas</span> en Alza</h1>';
     echo'<i>' . $titulo . '</i><br><br><br>';
     echo '<div id="div_parent_ranking">';
     while ($row = $result->fetch_assoc()) {
@@ -1251,5 +1251,27 @@ function finalizarConcierto($idconcierto) {
         echo mysqli_error($conexion);
     }
     header("Location:'Perfil.php'");
+    desconectar($conexion);
+}
+
+function votarComentarNoConcierto($fan, $votado, $puntos, $comentario) {
+    $conexion = conectar();
+    $sql = "INSERT INTO VOTAR_COMENTAR values (null,'$fan','$votado','$puntos',0,'$comentario',now(),A";
+    if (mysqli_query($conexion, $sql)) {
+        return true;
+    } else {
+        
+    }
+    desconectar($conexion);
+}
+
+function checkVotar($votado, $fan) {
+    $conexion = conectar();
+    $sql = "SELECT * FROM VOTAR_COMENTAR WHERE ID_VOTADO ='$votado' AND ID_FAN='$fan'";
+    if (mysqli_query($conexion, $sql)) {
+        return true;
+    } else {
+        return false;
+    }
     desconectar($conexion);
 }

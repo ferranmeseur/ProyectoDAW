@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-         <?php
+        <?php
         require_once'bbdd.php';
         echo '<title>' . $_GET['nombre'] . '</title>';
         ?>
@@ -84,9 +84,40 @@
                 echo '<tr><th>' . $lista['COMENTARIO'] . '</th></tr>';
             }
             echo'</table></div>';
-            echo '</div>';
         }
-        echo '</div></div></div>';
+        echo '</div>';
+    
+        if (isset($_POST["enviar"])) {
+            $puntos = $_POST["rating"];
+            $comentario = $_POST["comentario"];
+            $user = getInfoUser($_SESSION['email']);
+            votarComentarNoConcierto($user['ID_USUARIO'], $resultado['ID_USUARIO'], $puntos, $comentario);
+        }
+        /* if (isset($_SESSION['email'])) {
+          $user = getInfoUser($_SESSION['email']);
+          $check = checkVotar($resultado['ID_USUARIO'],$user['ID_USUARIO']);
+          } */
+        /* if (isset($_SESSION['pass']) && $user['TIPO_USUARIO'] == "FAN" && $check) { */
+        echo'<h2>Deja tu comentario:</h2>';
+        echo'<form action = "" method = "POST" id="msform">';
+        echo '<div class="rating" style="float:none">
+                        <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
+                        <input type="radio" id="star4half" name="rating" value="4.5" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
+                        <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
+                        <input type="radio" id="star3half" name="rating" value="3.5" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+                        <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                        <input type="radio" id="star2half" name="rating" value="2.5" /><label class="half" for="star2half" title="No muy bueno - 2.5 stars"></label>
+                        <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title=" - 2 stars"></label>
+                        <input type="radio" id="star1half" name="rating" value="1.5" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+                        <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                        <input type="radio" id="starhalf" name="rating" value="0.5" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+                        </div> ';
+        echo ' <div id="Descripcion" class="center">
+                    <textarea name="comentario" maxlength="255" rows="5" cols="50"></textarea>
+                    </div>
+            <button style="width:400px" type="submit" class="submit action-button"  name = "enviar">Enviar Comentario</button>
+       </form></div></div></div></div>';
+        /* } */
         ?>
         <div id="footer"></div>
     </body>

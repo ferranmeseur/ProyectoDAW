@@ -12,58 +12,22 @@
             });
         </script> 
         <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
+        <link href="Estilos/StarRating.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <div id="header"></div>
-        <div style="height: 50px"></div>
-        <div id="ranking">
-            <div id="Search" class="height_40">
-                <form class="form-wrapper cf" action="Busqueda.php" method="GET">
-                    <input type="text" name="busqueda" placeholder="Busca músicos o locales" required>
-                    <button class="button-form" type="submit" value="submit" name="submit">GO!</button>
-                </form>
-            </div>
-            <div class="center">
+        <div id="header"></div>   
+        <div id="content center">
+            <div class="inline center"  style="display:inline;">
                 <?php
                 require_once 'bbdd.php';
-                echo '<form method="GET" action="Ranking.php">';
-                echo '<span class="inline custom-dropdown border_dropdow">';
-                $generos = ListaGeneros();
-                echo'<select name="genero">
-                <option selected value="">Todos los generos</option>';
-                while ($fila2 = mysqli_fetch_array($generos)) {
-                    extract($fila2);
-                    echo"<option value='$ID_GENERO'>$NOMBRE</option>";
-                }
-                echo'</select></span>';
-                echo '<span class="inline custom-dropdown border_dropdow">';
-                $ciudades = ListaCiudades();
-                echo'<select name="ciudad">
-                    <option selected value="">Todas las ciudades</option>';
-                while ($fila2 = mysqli_fetch_array($ciudades)) {
-                    extract($fila2);
-                    echo"<option value='$ID_CIUDAD'>$NOMBRE</option>";
-                }
-                echo'</select></span>';
-                echo '<button class="button-form-solo inline" type="submit" value="submit" name="submit">BUSCAR</button>';
-                echo '</form>';
-
-                if (isset($_GET['submit'])) {
-                    $genero = $_GET['genero'];
-                    $ciudad = $_GET['ciudad'];
-                    if ($ciudad != null || $genero != null) {
-                        $result = RankingMusicos($genero, $ciudad);
-                        if ($result == null) {
-                            echo "<div class='padding20 center cursiva'>No se ha encontrado ninguna coincidencia</div>";
-                        } else {
-                            ArtistasAlza($genero, $ciudad);
-                        }
-                    } else {
-                        ArtistasAlza(null, null);
-                    }
-                } else {
-                    ArtistasAlza(null, null);
-                }
+                ArtistasAlza(null, null, '');
+                ?>
+            </div>
+            <div class="inline center" style="display:inline;">
+                <?php
+                require_once 'bbdd.php';
+                echo'<h1><span class="color_rojo_general">Locales</span> en Alza</h1>';
+                LocalesAlza(null, '');
                 ?>
             </div>
         </div>
