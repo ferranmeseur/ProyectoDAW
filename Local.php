@@ -91,7 +91,7 @@
                             $nombreCiudad = getNombreCiudad($lista['ID_CIUDAD']);
                             echo '<tr>';
                             echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:left;vertical-align:top">';
-                            echo '<a class="fontblack a_concierto" href=InfoGrupo.php?nombre=' . $nombre_local . '>';
+                            echo '<a class="fontblack a_concierto" href=InfoLocal.php?nombre=' . $nombre_local . '>';
                             echo '<div class="inline" id="div_img">';
                             echo '<img id="img_lista_img" class="inline" src="Imagenes/image.jpeg">';
                             echo '</div>';

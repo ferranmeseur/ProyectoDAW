@@ -338,13 +338,22 @@ header{
 .margin_top_200px{
     margin-top: 200px;
 }
+.margin_top_100px{
+    margin-top: 100px;
+}
+.content {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
 .margin_left_100px{
     margin-left: 100px;
 }
 .padding_left_50px{
     padding-left:50px;
 }
-
+table {
+    margin: 0 auto; /* or margin: 0 auto 0 auto */
+  }
 #titulo{
     position:fixed;
     left:50%;
