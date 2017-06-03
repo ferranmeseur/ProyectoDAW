@@ -61,14 +61,11 @@ function BusquedaTodosArtistas($ciudad, $genero, $letra) {
     desconectar($conexion);
 }
 
-function BusquedaTodosLocales($ciudad, $genero, $letra) {
+function BusquedaTodosLocales($ciudad, $letra) {
     $conexion = conectar();
     $sql = "SELECT *,LEFT(NOMBRE_LOCAL,1) AS LETRA FROM USUARIO WHERE TIPO_USUARIO = 'Local' ";
     if ($ciudad != null) {
         $sql .= " AND ID_CIUDAD = $ciudad";
-    }
-    if ($genero != null) {
-        $sql .= " AND ID_GENERO = $genero";
     }
     $sql .= " HAVING LETRA = '$letra'";
     $result = $conexion->query($sql);
@@ -173,23 +170,14 @@ function RankingMusicos($genero, $ciudad) {
     desconectar($conexion);
 }
 
-function RankingLocales($genero, $ciudad) {
+function RankingLocales($ciudad) {
     $conexion = conectar();
-    $isFirst = 1;
-    if (!isset($genero) && !isset($ciudad)) {
-        $sql = "SELECT SUM(PUNTOS) AS PUNTOS,(SELECT NOMBRE FROM GENERO WHERE ID_GENERO = USUARIO.ID_GENERO) AS NOMBRE_GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = USUARIO.ID_CIUDAD) AS NOMBRE_CIUDAD, USUARIO.ID_GENERO AS GENERO, USUARIO.ID_CIUDAD AS CIUDAD, ID_VOTADO, NOMBRE, USUARIO.NOMBRE_LOCAL AS NOMBRE_LOCAL FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO=USUARIO.ID_USUARIO WHERE USUARIO.TIPO_USUARIO = 'LOCAL' GROUP BY ID_VOTADO ORDER BY PUNTOS DESC";
+    if (!isset($ciudad)) {
+        $sql = "SELECT*, (SUM(PUNTOS)/COUNT(*)) AS PUNTOS, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = USUARIO.ID_CIUDAD) AS NOMBRE_CIUDAD, USUARIO.ID_CIUDAD AS CIUDAD, ID_VOTADO, NOMBRE, USUARIO.NOMBRE_LOCAL AS NOMBRE_LOCAL FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO=USUARIO.ID_USUARIO WHERE USUARIO.TIPO_USUARIO = 'LOCAL' GROUP BY ID_VOTADO ORDER BY PUNTOS DESC";
     } else {
-        $sql = "SELECT SUM(PUNTOS) AS PUNTOS,(SELECT NOMBRE FROM GENERO WHERE ID_GENERO = USUARIO.ID_GENERO) AS NOMBRE_GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = USUARIO.ID_CIUDAD) AS NOMBRE_CIUDAD, USUARIO.ID_GENERO AS GENERO, USUARIO.ID_CIUDAD AS CIUDAD, ID_VOTADO, NOMBRE, USUARIO.NOMBRE_LOCAL AS NOMBRE_LOCAL FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO=USUARIO.ID_USUARIO WHERE USUARIO.TIPO_USUARIO = 'LOCAL' GROUP BY ID_VOTADO";
-        if ($genero != null) {
-            $isFirst = 0;
-            $sql .= " HAVING GENERO=$genero";
-        }
+        $sql = "SELECT*, (SUM(PUNTOS)/COUNT(*)) AS PUNTOS, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = USUARIO.ID_CIUDAD) AS NOMBRE_CIUDAD, USUARIO.ID_CIUDAD AS CIUDAD, ID_VOTADO, NOMBRE, USUARIO.NOMBRE_LOCAL AS NOMBRE_LOCAL FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO=USUARIO.ID_USUARIO WHERE USUARIO.TIPO_USUARIO = 'LOCAL' GROUP BY ID_VOTADO";
         if ($ciudad != null) {
-            if ($isFirst == 1) {
-                $sql .= " HAVING CIUDAD=$ciudad";
-            } else {
-                $sql .= " AND CIUDAD=$ciudad";
-            }
+            $sql .= " HAVING CIUDAD=$ciudad";
         }
         $sql = $sql . " ORDER BY PUNTOS DESC";
     }
@@ -693,10 +681,9 @@ function ArtistasAlza($genero, $ciudad, $titulo) {
     echo '</div>';
 }
 
-function LocalesAlza($genero, $ciudad, $titulo) {
-    $result = RankingLocales($genero, $ciudad);
+function LocalesAlza($ciudad, $titulo) {
+    $result = RankingLocales($ciudad);
     $i = 1;
-    echo'<h2>LOCALES EN ALZA</h2>';
     echo'<i>' . $titulo . '</i><br><br><br>';
     echo '<div id="div_parent_ranking">';
     while ($row = $result->fetch_assoc()) {
@@ -705,9 +692,11 @@ function LocalesAlza($genero, $ciudad, $titulo) {
         echo '<div class="div_peque_ranking"></div>';
         echo '<div class="div_ranking">';
         echo '<img class="img_div_ranking inline" src="Imagenes/image.jpeg">';
-        echo '<div class="nombre_artista inline vertical_top" style="padding-top:10px;padding-left:10px"><a href="InfoGrupo.php?nombre=' . $nombre_local . '"><b class="fontblack a_concierto" style="font-size:25px">' . $row['NOMBRE'] . '</b><br><i class="color_rojo_general"> ' . $row['NOMBRE_GENERO'] . ' - ' . $row['NOMBRE_CIUDAD'] . '</i></a></div>';
+        echo '<div class="nombre_artista inline vertical_top" style="padding-top:10px;padding-left:10px"><a href="InfoGrupo.php?nombre=' . $nombre_local . '"><b class="fontblack a_concierto" style="font-size:25px">' . $row['NOMBRE'] . '</b><br><i style="float:left" class="color_rojo_general"> ' . $row['NOMBRE_CIUDAD'] . '</i></a></div>';
         echo '</div>';
         echo '<img class="img_ranking_numero" src="Imagenes/ranking' . $i . '.png">';
+        $average = votosLocal($row['ID_USUARIO']);
+        mostrarEstrellasPuntuacionLocal($average,$i);
         echo '</div>';
         echo '<br>';
         $i++;
@@ -1028,6 +1017,15 @@ function votosConcierto($id) {
     desconectar($conexion);
 }
 
+function votosLocal($id) {
+    $conexion = conectar();
+    $sql = "SELECT SUM(PUNTOS) AS SUMA, COUNT(*) AS COUNT, TRUNCATE(AVG(PUNTOS),1) AS AVERAGE FROM VOTAR_COMENTAR WHERE ID_VOTADO=$id AND VOTO_CONCIERTO = 0";
+    $resultado = $conexion->query($sql);
+    $row = $resultado->fetch_assoc();
+    return $row['AVERAGE'];
+    desconectar($conexion);
+}
+
 function getNombreLocal($id) {
     $conexion = conectar();
     $sql = "SELECT * FROM USUARIO WHERE ID_USUARIO ='$id'";
@@ -1036,7 +1034,6 @@ function getNombreLocal($id) {
     return $row;
     desconectar($conexion);
 }
-
 
 function getInfoGrupoName($name) {
     $conexion = conectar();
@@ -1050,11 +1047,159 @@ function getInfoGrupoName($name) {
     }
     desconectar();
 }
+
 function votosGrupo($id) {
     $conexion = conectar();
-    $sql = "SELECT SUM(PUNTOS) as suma,count(*) as count FROM VOTAR_COMENTAR WHERE ID_VOTADO = '$id' AND VOTO_CONCIERTO = 0";
+    $sql = "SELECT SUM(PUNTOS) as suma,count(*) as count, TRUNCATE(AVG(PUNTOS),1) AS AVERAGE FROM VOTAR_COMENTAR WHERE ID_VOTADO = '$id' AND VOTO_CONCIERTO = 0";
     $resultado = $conexion->query($sql);
-    $row = mysqli_fetch_array($resultado);
-    return $row;
+    $row = $resultado->fetch_assoc();
+    return $row['AVERAGE'];
     desconectar($conexion);
+}
+
+function mostrarEstrellasPuntuacionLocal($average, $i) {
+    if ($average == '5') {
+        echo '<form style="padding-left:0" class="inline rating_fixed">
+                        <input type="radio" id="star5' . $i . '" checked name="rating' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
+                        <input type="radio" id="star4half' . $i . '" name="rating' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
+                        <input type="radio" id="star4' . $i . '" name="rating' . $i . '" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
+                        <input type="radio" id="star3half' . $i . '" name="rating' . $i . '" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+                        <input type="radio" id="star3' . $i . '" name="rating' . $i . '" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                        <input type="radio" id="star2half' . $i . '" name="rating' . $i . '" value="2 and a half" /><label class="half" for="star2half" title="No muy bueno - 2.5 stars"></label>
+                        <input type="radio" id="star2' . $i . '" name="rating' . $i . '" value="2" /><label class = "full" for="star2" title=" - 2 stars"></label>
+                        <input type="radio" id="star1half' . $i . '" name="rating' . $i . '" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+                        <input type="radio" id="star1' . $i . '" name="rating' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                        <input type="radio" id="star' . $i . '" name="rating' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+    </form> ';
+    } elseif ($average == '4.5') {
+        echo '<form style="padding-left:0" class="inline rating_fixed">
+                        <input type="radio" id="star5' . $i . '" name="rating' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
+                        <input type="radio" id="star4half' . $i . '" checked name="rating' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
+                        <input type="radio" id="star4' . $i . '" name="rating' . $i . '" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
+                        <input type="radio" id="star3half' . $i . '" name="rating' . $i . '" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+                        <input type="radio" id="star3' . $i . '" name="rating' . $i . '" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                        <input type="radio" id="star2half' . $i . '" name="rating' . $i . '" value="2 and a half" /><label class="half" for="star2half" title="No muy bueno - 2.5 stars"></label>
+                        <input type="radio" id="star2' . $i . '" name="rating' . $i . '" value="2" /><label class = "full" for="star2" title=" - 2 stars"></label>
+                        <input type="radio" id="star1half' . $i . '" name="rating' . $i . '" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+                        <input type="radio" id="star1' . $i . '" name="rating' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                        <input type="radio" id="star' . $i . '" name="rating' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+    </form> ';
+    } elseif ($average == '4') {
+        echo '<form style="padding-left:0" class="inline rating_fixed">
+                        <input type="radio" id="star5' . $i . '" name="rating' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
+                        <input type="radio" id="star4half' . $i . '" name="rating' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
+                        <input type="radio" id="star4' . $i . '" checked name="rating' . $i . '" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
+                        <input type="radio" id="star3half' . $i . '" name="rating' . $i . '" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+                        <input type="radio" id="star3' . $i . '" name="rating' . $i . '" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                        <input type="radio" id="star2half' . $i . '" name="rating' . $i . '" value="2 and a half" /><label class="half" for="star2half" title="No muy bueno - 2.5 stars"></label>
+                        <input type="radio" id="star2' . $i . '" name="rating' . $i . '" value="2" /><label class = "full" for="star2" title=" - 2 stars"></label>
+                        <input type="radio" id="star1half' . $i . '" name="rating' . $i . '" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+                        <input type="radio" id="star1' . $i . '" name="rating' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                        <input type="radio" id="star' . $i . '" name="rating' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+    </form> ';
+    } elseif ($average == '3.5') {
+        echo '<form style="padding-left:0" class="inline rating_fixed">
+                        <input type="radio" id="star5' . $i . '" name="rating' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
+                        <input type="radio" id="star4half' . $i . '" name="rating' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
+                        <input type="radio" id="star4' . $i . '" name="rating' . $i . '" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
+                        <input type="radio" id="star3half' . $i . '" checked name="rating' . $i . '" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+                        <input type="radio" id="star3' . $i . '" name="rating' . $i . '" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                        <input type="radio" id="star2half' . $i . '" name="rating' . $i . '" value="2 and a half" /><label class="half" for="star2half" title="No muy bueno - 2.5 stars"></label>
+                        <input type="radio" id="star2' . $i . '" name="rating' . $i . '" value="2" /><label class = "full" for="star2" title=" - 2 stars"></label>
+                        <input type="radio" id="star1half' . $i . '" name="rating' . $i . '" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+                        <input type="radio" id="star1' . $i . '" name="rating' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                        <input type="radio" id="star' . $i . '" name="rating' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+    </form> ';
+    } elseif ($average == '3') {
+        echo '<form style="padding-left:0" class="inline rating_fixed">
+                        <input type="radio" id="star5' . $i . '" name="rating' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
+                        <input type="radio" id="star4half' . $i . '" name="rating' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
+                        <input type="radio" id="star4' . $i . '" name="rating' . $i . '" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
+                        <input type="radio" id="star3half' . $i . '" name="rating' . $i . '" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+                        <input type="radio" id="star3' . $i . '" checked name="rating' . $i . '" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                        <input type="radio" id="star2half' . $i . '"  name="rating' . $i . '" value="2 and a half" /><label class="half" for="star2half" title="No muy bueno - 2.5 stars"></label>
+                        <input type="radio" id="star2' . $i . '" name="rating' . $i . '" value="2" /><label class = "full" for="star2" title=" - 2 stars"></label>
+                        <input type="radio" id="star1half' . $i . '" name="rating' . $i . '" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+                        <input type="radio" id="star1' . $i . '" name="rating' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                        <input type="radio" id="star' . $i . '" name="rating' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+    </form> ';
+    } elseif ($average == '2.5') {
+        echo '<form id="'.$i.'" style="padding-left:0" class="inline rating_fixed">
+                        <input type="radio" id="star5' . $i . '" name="rating2' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
+                        <input type="radio" id="star4half' . $i . '" name="rating2' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
+                        <input type="radio" id="star4' . $i . '" name="rating2' . $i . '" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
+                        <input type="radio" id="star3half' . $i . '" name="rating2' . $i . '" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+                        <input type="radio" id="star3' . $i . '" name="rating2' . $i . '" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                        <input type="radio" id="star2half' . $i . '" checked name="rating2' . $i . '" value="2 and a half" /><label class="half" for="star2half" title="No muy bueno - 2.5 stars"></label>
+                        <input type="radio" id="star2' . $i . '" name="rating2' . $i . '" value="2" /><label class = "full" for="star2" title=" - 2 stars"></label>
+                        <input type="radio" id="star1half' . $i . '" name="rating2' . $i . '" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+                        <input type="radio" id="star1' . $i . '" name="rating2' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                        <input type="radio" id="star' . $i . '" name="rating2' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+    </form> ';
+    } elseif ($average == '2') {
+        echo '<form style="padding-left:0" class="inline rating_fixed">
+                        <input type="radio" id="star5' . $i . '" name="rating' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
+                        <input type="radio" id="star4half' . $i . '" name="rating' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
+                        <input type="radio" id="star4' . $i . '" name="rating' . $i . '" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
+                        <input type="radio" id="star3half' . $i . '" name="rating' . $i . '" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+                        <input type="radio" id="star3' . $i . '" name="rating' . $i . '" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                        <input type="radio" id="star2half' . $i . '" name="rating' . $i . '" value="2 and a half" /><label class="half" for="star2half" title="No muy bueno - 2.5 stars"></label>
+                        <input type="radio" id="star2' . $i . '" checked name="rating' . $i . '" value="2" /><label class = "full" for="star2" title=" - 2 stars"></label>
+                        <input type="radio" id="star1half' . $i . '" name="rating' . $i . '" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+                        <input type="radio" id="star1' . $i . '" name="rating' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                        <input type="radio" id="star' . $i . '" name="rating' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+    </form> ';
+    } elseif ($average == '1.5') {
+        echo '<form style="padding-left:0" class="inline rating_fixed">
+                        <input type="radio" id="star5' . $i . '" name="rating' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
+                        <input type="radio" id="star4half' . $i . '" name="rating' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
+                        <input type="radio" id="star4' . $i . '" name="rating' . $i . '" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
+                        <input type="radio" id="star3half' . $i . '" name="rating' . $i . '" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+                        <input type="radio" id="star3' . $i . '" name="rating' . $i . '" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                        <input type="radio" id="star2half' . $i . '"  name="rating' . $i . '" value="2 and a half" /><label class="half" for="star2half" title="No muy bueno - 2.5 stars"></label>
+                        <input type="radio" id="star2' . $i . '" name="rating' . $i . '" value="2" /><label class = "full" for="star2" title=" - 2 stars"></label>
+                        <input type="radio" id="star1half' . $i . '" checked name="rating' . $i . '" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+                        <input type="radio" id="star1' . $i . '" name="rating' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                        <input type="radio" id="star' . $i . '" name="rating' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+    </form> ';
+    } elseif ($average == '1') {
+        echo '<form style="padding-left:0" class="inline rating_fixed">
+                        <input type="radio" id="star5' . $i . '" name="rating' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
+                        <input type="radio" id="star4half' . $i . '" name="rating' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
+                        <input type="radio" id="star4' . $i . '" name="rating' . $i . '" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
+                        <input type="radio" id="star3half' . $i . '" name="rating' . $i . '" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+                        <input type="radio" id="star3' . $i . '" name="rating' . $i . '" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                        <input type="radio" id="star2half' . $i . '"  name="rating' . $i . '" value="2 and a half" /><label class="half" for="star2half" title="No muy bueno - 2.5 stars"></label>
+                        <input type="radio" id="star2' . $i . '" name="rating' . $i . '" value="2" /><label class = "full" for="star2" title=" - 2 stars"></label>
+                        <input type="radio" id="star1half' . $i . '" name="rating' . $i . '" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+                        <input type="radio" id="star1' . $i . '" checked name="rating' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                        <input type="radio" id="star' . $i . '" name="rating' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+    </form> ';
+    } elseif ($average == '0.5') {
+        echo '<form style="padding-left:0" class="inline rating_fixed">
+                        <input type="radio" id="star5' . $i . '" name="rating' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
+                        <input type="radio" id="star4half' . $i . '" name="rating' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
+                        <input type="radio" id="star4' . $i . '" name="rating' . $i . '" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
+                        <input type="radio" id="star3half' . $i . '" name="rating' . $i . '" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+                        <input type="radio" id="star3' . $i . '" name="rating' . $i . '" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                        <input type="radio" id="star2half' . $i . '" name="rating' . $i . '" value="2 and a half" /><label class="half" for="star2half" title="No muy bueno - 2.5 stars"></label>
+                        <input type="radio" id="star2' . $i . '" name="rating' . $i . '" value="2" /><label class = "full" for="star2" title=" - 2 stars"></label>
+                        <input type="radio" id="star1half' . $i . '" name="rating' . $i . '" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+                        <input type="radio" id="star1' . $i . '" name="rating' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                        <input type="radio" id="star' . $i . '" checked name="rating' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+    </form> ';
+    } elseif ($average == null) {
+        echo '<form style="padding-left:0" class="inline rating_fixed">
+                        <input type="radio" id="star5' . $i . '" name="rating' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
+                        <input type="radio" id="star4half' . $i . '" name="rating' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
+                        <input type="radio" id="star4' . $i . '" name="rating' . $i . '" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
+                        <input type="radio" id="star3half' . $i . '" name="rating' . $i . '" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+                        <input type="radio" id="star3' . $i . '" name="rating' . $i . '" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                        <input type="radio" id="star2half' . $i . '" name="rating' . $i . '" value="2 and a half" /><label class="half" for="star2half" title="No muy bueno - 2.5 stars"></label>
+                        <input type="radio" id="star2' . $i . '" name="rating' . $i . '" value="2" /><label class = "full" for="star2" title=" - 2 stars"></label>
+                        <input type="radio" id="star1half' . $i . '" name="rating' . $i . '" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+                        <input type="radio" id="star1' . $i . '" name="rating' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                        <input type="radio" id="star' . $i . '" name="rating' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+    </form> ';
+    }
 }

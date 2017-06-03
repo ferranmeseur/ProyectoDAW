@@ -27,9 +27,18 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                     label_selected: "Cambiar foto", // Default: Change File
                     no_label: false                 // Default: false
                 });
+                fanRatingFixed();
             });
-            function modificarContraseña() {
-                header('location:Login.php');
+            function fanRatingFixed() {
+                var puntuacion = $('#puntuacion').html();
+                var pointsRound = roundToHalf(puntuacion);
+                var pointsRoundEntero = Math.floor(pointsRound);
+                var pointsRoundDecimal = pointsRound - pointsRoundEntero;
+                if (pointsRoundDecimal == 0) {
+                    $('#star' + pointsRoundEntero).prop('checked', true);
+                } else {
+                    $('#star' + pointsRoundEntero + 'half').prop('checked', true);
+                }
             }
             var enabled = false;
             function modificarPerfil() {
@@ -49,12 +58,24 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                     $('#aplicarCambiosButton').removeAttr('hidden');
                     $('#modificarContraseña').removeAttr('hidden');
                 }
-
-
+            }
+            function roundToHalf(value) {
+                var converted = parseFloat(value); // Make sure we have a number 
+                var decimal = (converted - parseInt(converted, 10));
+                decimal = Math.round(decimal * 10);
+                if (decimal == 5) {
+                    return (parseInt(converted, 10) + 0.5);
+                }
+                if ((decimal < 3) || (decimal > 7)) {
+                    return Math.round(converted);
+                } else {
+                    return (parseInt(converted, 10) + 0.5);
+                }
             }
         </script> 
         <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
         <link href="Estilos/RegistrationForm.css" rel="stylesheet" type="text/css"/>
+        <link href="Estilos/StarRating.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div id="header"></div>
@@ -110,7 +131,6 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                             <label hidden for="image-upload" id="image-label">Escoger foto</label>
                             <input type="file" name="image" disabled id="image-upload"/>
                         </div>';
-
                     echo'</div>
                         </div>
                         <div>
@@ -118,8 +138,24 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                         <a href = "ModificarPassword.php"><button style = "width:100%; margin:15px auto auto auto" id="modificarContraseña" class="action-button" hidden>MODIFICAR PASSWORD</button></a>
                         </div>
                         </div>
-                        <div id = "div2" class = "inline" style = "margin-left:50px;vertical-align: top; width: 25%; height: 150%">
-                        <form style="width:100%" method = "POST" action = "" id = "msformLeft">
+                        <div id = "div2" class = "inline" style = "margin-left:50px;vertical-align: top; width: 25%; height: 150%">';
+                    $puntuacion = votosLocal($info['ID_USUARIO']);
+                    echo '<div style="float:left;text-align:left">';
+                    echo'<b style="color:#d83c3c">FAN RATING</b><i id="puntuacion" hidden>'.$puntuacion.'</i><br>';
+                    echo '<fieldset class="rating_fixed">
+                        <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
+                        <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
+                        <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
+                        <input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+                        <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                        <input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="No muy bueno - 2.5 stars"></label>
+                        <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title=" - 2 stars"></label>
+                        <input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+                        <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                        <input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+                        </fieldset> ';
+                    echo '</div>';
+                    echo'<form style="width:100%" method = "POST" action = "" id = "msformLeft">
                         <table style="width:95%">
                         <col width="100">
                         <tr>
@@ -141,7 +177,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                         <td style="color:#d83c3c">Contacto:</td><td><input style="width:100%" name = "numeroContacto" value = "' . $info['NUMERO_CONTACTO'] . '" class = "in" type = "text" disabled></td>
                         </tr>
                         <tr>
-                        <td style="color:#d83c3c">Descripción:</td><td><textarea class="in" disabled style="resize:none;width:220px; height:250px; overflow-y:auto" form="msformLeft" name="descripcion" value="'.$info['DESCRIPCION'].'"></textarea></td>
+                        <td style="color:#d83c3c">Descripción:</td><td><textarea class="in" disabled style="resize:none;width:220px; height:250px; overflow-y:auto" form="msformLeft" name="descripcion" value="' . $info['DESCRIPCION'] . '"></textarea></td>
                         </tr>
                         </table>
                         <button style = "width:100%;margin:auto auto auto auto" id = "aplicarCambiosButton" hidden type = "submit" name = "enviar" class = "action-button">MODIFICAR DATOS</button>
@@ -151,11 +187,10 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
 
 
                         <div class="inline" style="width:200px;height:150%"></div>
-                        <div class = "inline" style = "vertical-align: top; width: 30%; height: 150%">
-                        <div id = "div3" style = "border-bottom:2px solid black" >
+                        <div class = "inline" style = ";vertical-align: top; width:30%; height: 150%">
+                        <div id = "div3" style="border-bottom:2px solid gray">
                         <h1 class="fs-title">PRÓXIMOS CONCIERTOS EN MI LOCAL</h1>';
-
-                    echo '<div style = "height:325px;overflow-y:auto" >';
+                    echo '<div style = "ge;height:325px;overflow-y:auto" >';
                     $fechas = ListaFechasConciertosLocal(true, $info['ID_USUARIO'], 1);
                     while ($row = $fechas->fetch_assoc()) {
                         $nuevaFecha = date("w-d-m-Y", strtotime($row["FECHA"]));
@@ -167,7 +202,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                         } else {
 
                             echo '<div id="resultado" style="text-align:center">';
-                            echo '<table cellspacing=0 style="width:70%;font-size:15px">';
+                            echo '<table cellspacing=0 style="width:100%;font-size:15px">';
                             echo '<tr><td>';
                             echo '<h3 id="' . $fechaFinal . '" class="color_rojo_general">' . $fechaFinal . '</h3>';
                             echo '</td></tr>';
@@ -198,7 +233,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                     echo'</div>';
                     echo'</div>';
 
-                    echo '<div >';
+                    echo '<div style="padding-top:20px">';
                     echo '<h1 class = "fs-title">CONCIERTOS PENDIENTES</h1>';
                     echo '<div style = "text-align:center;height:325px;overflow-y:auto" >';
                     $fechas = ListaFechasConciertosLocal(true, $info['ID_USUARIO'], 0);
@@ -213,7 +248,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                             } else {
 
                                 echo '<div id="resultado" style="text-align:center">';
-                                echo '<table cellspacing=0 style="width:70%;font-size:15px">';
+                                echo '<table cellspacing=0 style="width:100%;font-size:15px">';
                                 echo '<tr><td>';
                                 echo '<h3 id="' . $fechaFinal . '" class="color_rojo_general">' . $fechaFinal . '</h3>';
                                 echo '</td></tr>';
