@@ -1051,7 +1051,7 @@ function getInfoGrupoName($name) {
     desconectar();
 }
 
-function votosGrupo($id) {
+//function votosGrupo($id) {
     $conexion = conectar();
     $sql = "SELECT SUM(PUNTOS) as suma,count(*) as count, TRUNCATE(AVG(PUNTOS),1) AS AVERAGE FROM VOTAR_COMENTAR WHERE ID_VOTADO = '$id' AND VOTO_CONCIERTO = 0";
     $resultado = $conexion->query($sql);
