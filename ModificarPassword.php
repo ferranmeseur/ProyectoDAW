@@ -28,13 +28,8 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
     </head>
     <body>
         <div id="header"></div>
-        <div class="center">
-            <div id="Search" class="height_40 padding20">
-                <form class="form-wrapper cf" action="Busqueda.php" method="GET">
-                    <input type="text" name="busqueda" placeholder="Busca músicos y locales" required>
-                    <button class="button-form" type="submit" value="submit" name="submit">GO!</button>
-                </form>
-            </div>
+        <div class="center content">
+<h1>Modificar<span class="color_rojo_general"> Contraseña</span></h1></div>
         </div>
         <div>
             <?php

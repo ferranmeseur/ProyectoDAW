@@ -78,12 +78,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
     </head>
     <body>
         <div id="header"></div>
-        <div class="center">
-            <div id="Search" class="height_40 padding20">
-                <form class="form-wrapper cf" action="Busqueda.php" method="GET">
-                    <input type="text" name="busqueda" placeholder="Busca músicos y locales" required>
-                    <button class="button-form" type="submit" value="submit" name="submit">GO!</button>
-                </form>
+        <div class="center content">
             </div>
         </div>
         <div class="center" style="width: 100%; height: 500px">
@@ -119,7 +114,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                     }
                 } else {
                     $imagen = showImage($_SESSION['email']);
-                    echo '<h1>PERFIL LOCAL</h1>';
+                    echo '<h1>Perfil <span class="color_rojo_general"> Local</span></h1>';
                     echo'<div id = "div1" class = "inline center" style = "vertical-align:top;width: 15%; height: 150%">
                         <h1 class="fs-title">MIS DATOS</h1>
                         <div style = "width:250px; float:left">
@@ -140,7 +135,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                         <div id = "div2" class = "inline" style = "margin-left:50px;vertical-align: top; width: 25%; height: 150%">';
                     $puntuacion = votosLocal($info['ID_USUARIO']);
                     echo '<div style="float:left;text-align:left">';
-                    echo'<b style="color:#d83c3c">FAN RATING</b><i id="puntuacion" hidden>' . $puntuacion . '</i><br>';
+                    echo'<b style="color:#d83c3c">LOCAL RATING</b><i id="puntuacion" hidden>' . $puntuacion . '</i><br>';
                     echo '<fieldset class="rating_fixed">
                         <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
                         <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
