@@ -13,6 +13,7 @@
         </script> 
         <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
         <link href="Estilos/RegistrationForm.css" rel="stylesheet" type="text/css"/>
+        <link href="Estilos/StarRating.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div id="header"></div>
@@ -88,7 +89,7 @@
                         echo '<table cellspacing=0 style="width:100%">';
                         echo '<col width="auto">';
                         echo '<col width="0">';
-
+                        $i = 0;
                         while ($lista = $result->fetch_assoc()) {
                             $nombre_artistico = str_replace(" ", "+", $lista['NOMBRE_ARTISTICO']);
                             $nombreGenero = getNombreGenero($lista['ID_GENERO']);
@@ -100,32 +101,30 @@
                             echo '<div class="inline">';
                             echo '<img id="img_lista_img" class="inline" src="Imagenes/image.jpeg">';
                             echo '<b id="h4_lista_img">' . $lista['NOMBRE_ARTISTICO'] . '</b>';
-                            if (isset($tipoUsuario)) {
-                                if ($tipoUsuario == 'Local')
-                                    echo '<a href="Contratar.php?idgrupo=' . $lista['ID_USUARIO'] . ' style = "width:100px" class = "action-button">CONTRATAR</a>';
-                            }
+                            $average = votosGrupo($lista['ID_USUARIO']);
+                            mostrarEstrellasPuntuacionLocal($average, $i);
                             echo '<br><i>numero de votos</i>';
                             echo '</div>';
                             echo '</a>';
                             echo '</td>';
                             echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:right;vertical-align:top">';
                             echo '<div class="inline padding5">';
-                            echo '<i><b>' . $nombreGenero . ', ' . $nombreCiudad . '</b></i><br>';
-
+                            echo '<i><b>' . $nombreGenero . ', ' . $nombreCiudad . '</b></i><br><BR>';
+                            if (isset($tipoUsuario)) {
+                                if ($tipoUsuario == 'Local')
+                                    echo '<a href="Contratar.php?idgrupo=' . $lista['ID_USUARIO'] . ' style = "width:100px" class = "action-button">CONTRATAR</a>';
+                            }
                             echo '</div>';
 
                             echo '</td>';
                             echo '</tr>';
+                            $i++;   
                         }
                         echo'</table>';
                         echo'</div>';
                     }
                 }
                 echo'</div>';
-
-                //$error = "<div class='padding20 center cursiva'>No se ha encontrado ningun grupo que coincida con la busqueda.</div>";
-                //echo '<script language="javascript">if(!$.trim($("#resultado").html())){$("#resultado").append("'.$error.'");console.log("hola");}</script>';
-                //echo '<script language="javascript">if($("#result").is(":empty")){$("#resultado").append("' . $error . '");console.log("hola");}else{console.log("deu");}</script>';
                 ?>
             </div>
             <div id="ranking" class="inline" style="vertical-align: top">

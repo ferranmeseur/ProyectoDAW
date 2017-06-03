@@ -12,6 +12,7 @@
             });
         </script> 
         <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
+        <link href="Estilos/StarRating.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div id="header"></div>
@@ -49,8 +50,8 @@
             echo '</form>';
             ?>
         </div>
-        <div id="contenedor" class="center">
-            <div id="grupos" class="inline" style="padding-right:100px">
+        <div id="contenedor" class="center" style="width:100%;height:100%">
+            <div id="grupos" class="inline" style="width:30%;padding-right:100px">
                 <?php
                 require_once 'bbdd.php';
                 require_once'BusquedaMusicos.php';
@@ -66,54 +67,53 @@
                 }
 
                 $letras = getFirstLetterLocales();
-                echo'<div>';
+
+                echo'<div style="width:100%">';
                 echo'<h2>LISTA DE LOCALES</h2>';
 
                 while ($row = $letras->fetch_assoc()) {
-                    $result = BusquedaTodosLocales($ciudad, $genero, $row['LETRA']);
+                    $result = BusquedaTodosLocales($ciudad, $row['LETRA']);
                     $letra = strtoupper($row['LETRA']);
                     if ($result == null) {
                         echo '<script language="javascript">$("#' . $letra . '").empty();</script>';
                     } else {
+
                         echo '<div id="resultado">';
                         echo '<div style="float:left;padding:5px;border-bottom: 1px solid #d83c3c">';
                         echo '<h3 id="' . $letra . '" class="color_rojo_general">' . $letra . '</h3>';
                         echo '</div>';
-
                         echo '<table cellspacing=0 style="width:100%">';
                         echo '<col width="auto">';
                         echo '<col width="0">';
-
+                        $i = 0;
                         while ($lista = $result->fetch_assoc()) {
                             $nombre_local = str_replace(" ", "+", $lista['NOMBRE_LOCAL']);
-                            $nombreGenero = getNombreGenero($lista['ID_GENERO']);
                             $nombreCiudad = getNombreCiudad($lista['ID_CIUDAD']);
                             echo '<tr>';
                             echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:left;vertical-align:top">';
                             echo '<a class="fontblack a_concierto" href=InfoGrupo.php?nombre=' . $nombre_local . '>';
-                            echo '<div class="inline">';
+                            echo '<div class="inline" id="div_img">';
                             echo '<img id="img_lista_img" class="inline" src="Imagenes/image.jpeg">';
-                            echo '<b id="h4_lista_img">' . $lista['NOMBRE_LOCAL'] . '</b><br>';
-                            echo '<i>numero de votos</i>';
+                            echo '</div>';
+                            echo '<div class="inline" style="vertical-align:top">';
+                            echo '<div>';
+                            echo '<b id="h4_lista_img">' . $lista['NOMBRE_LOCAL'] . '</b>';
+                            echo '</div>';
+                            $average = votosGrupo($lista['ID_USUARIO']);
+                            mostrarEstrellasPuntuacionLocal($average, $i);
                             echo '</div>';
                             echo '</a>';
                             echo '</td>';
                             echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:right;vertical-align:top">';
-                            echo '<div class="inline padding5">';
-                            echo '<i><b>' . $nombreGenero . ', ' . $nombreCiudad . '</b></i>';
-                            echo '</div>';
                             echo '</td>';
                             echo '</tr>';
+                            $i++;
                         }
                         echo'</table>';
                         echo'</div>';
                     }
                 }
                 echo'</div>';
-
-                //$error = "<div class='padding20 center cursiva'>No se ha encontrado ningun grupo que coincida con la busqueda.</div>";
-                //echo '<script language="javascript">if(!$.trim($("#resultado").html())){$("#resultado").append("'.$error.'");console.log("hola");}</script>';
-                //echo '<script language="javascript">if($("#result").is(":empty")){$("#resultado").append("' . $error . '");console.log("hola");}else{console.log("deu");}</script>';
                 ?>
             </div>
             <div id="ranking" class="inline" style="vertical-align: top">
@@ -121,17 +121,15 @@
                 <div class="center">
                     <?php
                     require_once 'bbdd.php';
+                    echo'<h2>LOCALES EN ALZA</h2>';
+
                     $tituloRanking = "Todos los locales en alza";
                     if (isset($_POST['submit'])) {
                         $genero = $_POST['genero'];
                         $ciudad = $_POST['ciudad'];
                         if ($ciudad != null) {
                             $nombreCiudad = getNombreCiudad($ciudad);
-                            $tituloRanking = "Locales en alza de " . $nombreCiudad['NOMBRE'];
-                        }
-                        if ($genero != null) {
-                            $nombreGenero = getNombreGenero($genero);
-                            $tituloRanking = "Locales en alza de genero " . $nombreGenero['NOMBRE'];
+                            $tituloRanking = "Locales en alza de " . $nombreCiudad;
                         }
                         if ($ciudad != null && $genero != null)
                             $tituloRanking = "Locales en alza de " . $nombreCiudad . " con género " . $nombreGenero;
@@ -140,13 +138,13 @@
                             if ($result == null) {
                                 echo "<div class='padding20 center cursiva'>No se ha encontrado ninguna coincidencia</div>";
                             } else {
-                                LocalesAlza($genero, $ciudad, $tituloRanking);
+                                LocalesAlza($ciudad, $tituloRanking);
                             }
                         } else {
-                            LocalesAlza(null, null, $tituloRanking);
+                            LocalesAlza(null, $tituloRanking);
                         }
                     } else {
-                        LocalesAlza(null, null, $tituloRanking);
+                        LocalesAlza(null, $tituloRanking);
                     }
                     ?>
                 </div>

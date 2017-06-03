@@ -26,7 +26,7 @@
         $fecha = getNombreFecha(date("w-d-m-Y", strtotime($resultado['FECHA'])));
         $comentarios = comentariosConcierto($_GET['idcon']);
         $local = getNombreLocal(($resultado['ID_LOCAL']));
-                    echo '<h1 class="center">'.$fecha. ' - '.$resultado['NOMBRE'].' en '.$local['NOMBRE_LOCAL'].'</h1>';
+        echo '<h1 class="center">' . $fecha . ' - ' . $resultado['NOMBRE'] . ' en ' . $local['NOMBRE_LOCAL'] . '</h1>';
         if ($votos['suma'] == 0) {
             echo '<div class="center">Este Concierto     aún no ha recibido votos</div>';
         } else {

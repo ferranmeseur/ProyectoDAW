@@ -1,18 +1,29 @@
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 
-fieldset, label { margin: 0; padding: 0; }
-body{ margin: 20px; }
-h1 { font-size: 1.5em; margin: 10px; }
+
 
 /****** Style Star Rating Widget *****/
 
 .rating { 
   border: none;
-  float: left;
+  float: right;
+}
+.rating_fixed { 
+  border: none;
+  float: right;
+  pointer-events:none;
 }
 
 .rating > input { display: none; } 
 .rating > label:before { 
+  margin: 5px;
+  font-size: 1.25em;
+  font-family: FontAwesome;
+  display: inline-block;
+  content: "\f005";
+}
+.rating_fixed > input { display: none; } 
+.rating_fixed > label:before { 
   margin: 5px;
   font-size: 1.25em;
   font-family: FontAwesome;
@@ -24,8 +35,16 @@ h1 { font-size: 1.5em; margin: 10px; }
   content: "\f089";
   position: absolute;
 }
+.rating_fixed > .half:before { 
+  content: "\f089";
+  position: absolute;
+}
 
 .rating > label { 
+  color: #ddd; 
+ float: right; 
+}
+.rating_fixed > label { 
   color: #ddd; 
  float: right; 
 }
@@ -40,3 +59,14 @@ h1 { font-size: 1.5em; margin: 10px; }
 .rating > input:checked ~ label:hover,
 .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
 .rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+
+/*PARA MOSTRAR ESTRELLAS FIJAS SIN HOVER*/
+
+.rating_fixed > input:checked ~ label, /* show gold star when clicked */
+.rating_fixed:not(:checked) > label:hover, /* hover current star */
+.rating_fixed:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+.rating_fixed > input:checked + label:hover, /* hover current star when changing rating */
+.rating_fixed > input:checked ~ label:hover,
+.rating_fixed > label:hover ~ input:checked ~ label, /* lighten current selection */
+.rating_fixed > input:checked ~ label:hover ~ label { color: #FFED85;  } 
