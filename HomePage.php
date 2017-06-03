@@ -19,7 +19,7 @@
         <div id="header"></div>
         <div class="content center">
             <div class="center">
-                <h1> Bienvenido a Music And Seek! </h1>
+                <h1> Bienvenido a <span class="color_rojo_general">Music And Seek!</span> </h1>
                 <div id="Search" class="height_40 padding20 ">
                     <form class="form-wrapper cf" action="Busqueda.php" method="GET">
                         <input type="text" name="busqueda" placeholder="Busca músicos y locales" required>
