@@ -155,6 +155,9 @@ width_100{
     background-size: contain;
     background-image: url("../Imagenes/GRUPO_HOVER.jpg");
 }
+#links:hover{
+       color: #d83c3c; 
+}
 #img_concierto{
     margin: 30px;
     width: 500px;

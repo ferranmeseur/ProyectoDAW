@@ -27,8 +27,8 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
     </head>
     <body>
         <div id="header"></div> 
-        <div class="center padding20">
-            <h1 class="fs-title">LOG IN</h1>
+        <div class="center content">
+            <h1>Accede a tu <span class="color_rojo_general">Cuenta</span></h1>
             <?php
             require_once 'bbdd.php';
             if (isset($_POST["enviar"])) {
@@ -47,14 +47,14 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                 echo ' 
         <form action = "" method = "POST" id="msform">
        <input placeholder="Email" name="mail" required type="email"></br>     
-       <input  id="password" placeholder="Password" name="pass" required="" type="password"></br>            
+       <input  id="password" placeholder="Contraseña" name="pass" required="" type="password"></br>            
        </br><button style="width:400px" type="submit" class="submit action-button"  name = "enviar">LOG IN</button>
        </form>';
             }
             ?>
 
-            <a class="fontblack" href="RecuperarContrasenya.php">Has olvidado tu contraseña?</a>
-            <a class="fontblack" href="Registro.php">Nuevo usuario?</a>
+            <a class="fontblack" id="links" href="RecuperarContrasenya.php">Has olvidado tu contraseña?</a>&nbsp;&nbsp;
+            <a class="fontblack" id="links"href="Registro.php">Nuevo usuario?</a>
         </div>
         <div id="footer"></div>
     </body>
