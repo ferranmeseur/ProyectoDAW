@@ -1203,29 +1203,3 @@ function mostrarEstrellasPuntuacionLocal($average, $i) {
     </form> ';
     }
 }
-function infoConcierto($id) {
-    $conexion = conectar();
-    $sql = "SELECT * FROM CONCIERTO inner join USUARIO on USUARIO.ID_USUARIO = CONCIERTO.ID_GRUPO  WHERE ID_CONCIERTO = '$id'";
-    $resultado = $conexion->query($sql);
-    $row = mysqli_fetch_array($resultado);
-    return $row;
-    desconectar($conexion);
-}
-
-function comentariosConcierto($id) {
-    $conexion = conectar();
-    $sql = "SELECT * FROM VOTAR_COMENTAR inner join USUARIO on VOTAR_COMENTAR.ID_FAN = USUARIO.ID_USUARIO WHERE ID_VOTADO = '$id' AND VOTO_CONCIERTO = 1;";
-    $resultado = $conexion->query($sql);
-    $row = mysqli_fetch_array($resultado);
-    return $row;
-    desconectar($conexion);
-}
-
-function votosConcierto($id) {
-    $conexion = conectar();
-    $sql = "SELECT SUM(PUNTOS) as suma,count(*) as count FROM VOTAR_COMENTAR WHERE ID_VOTADO = '$id' AND VOTO_CONCIERTO = 1";
-    $resultado = $conexion->query($sql);
-    $row = mysqli_fetch_array($resultado);
-    return $row;
-    desconectar($conexion);
-}
