@@ -37,11 +37,17 @@
         <div class="topnav z_index10" style="position:fixed;top:650px;width:100%" id="theFixed">
             <div class="center" style="width:100%">
                 <a class="inline fonts" href="HomePage.php">INICIO</a>
+                <a id='ranking' class="inline fonts" href="Ranking.php">RANKING</a>
                 <a class="inline fonts" href="Concierto.php">CONCIERTOS</a>
                 <a class="inline fonts" href="Grupo.php">GRUPOS</a>
                 <a class="inline fonts" href="Local.php">LOCALES</a>
                 <a class="inline fonts" href="Perfil.php">AREA PERSONAL</a>
-                <a class="inline fonts" href="Logout.php">LOG OUT</a>
+                <?php
+                session_start();
+                if (isset($_SESSION['tipo'])) {
+                    echo '<a id="logout" class = "inline fonts" href = "Logout.php">LOG OUT</a>';
+                }
+                ?>
             </div>
         </div>
     </div>

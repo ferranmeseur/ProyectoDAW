@@ -303,7 +303,7 @@ function ListaFechasConciertosLocal($futurosConciertos, $idLocal, $estado) {
         if ($result->num_rows > 0) {
             return $result;
         } else {
-            echo 'No hay conciertos';
+            return null;
         }
     } else {
         $sql = "SELECT FECHA FROM CONCIERTO WHERE FECHA<now() AND ESTADO=$estado GROUP BY FECHA";
@@ -311,8 +311,7 @@ function ListaFechasConciertosLocal($futurosConciertos, $idLocal, $estado) {
         if ($result->num_rows > 0) {
             return $result;
         } else {
-            echo 'No hay conciertos';
-            //echo mysqli_error($conexion);
+            return null;
         }
     }
     desconectar($conexion);
@@ -696,7 +695,7 @@ function LocalesAlza($ciudad, $titulo) {
         echo '</div>';
         echo '<img class="img_ranking_numero" src="Imagenes/ranking' . $i . '.png">';
         $average = votosLocal($row['ID_USUARIO']);
-        mostrarEstrellasPuntuacionLocal($average,$i);
+        mostrarEstrellasPuntuacionLocal($average, $i);
         echo '</div>';
         echo '<br>';
         $i++;
@@ -1127,7 +1126,7 @@ function mostrarEstrellasPuntuacionLocal($average, $i) {
                         <input type="radio" id="star' . $i . '" name="rating' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
     </form> ';
     } elseif ($average == '2.5') {
-        echo '<form id="'.$i.'" style="padding-left:0" class="inline rating_fixed">
+        echo '<form id="' . $i . '" style="padding-left:0" class="inline rating_fixed">
                         <input type="radio" id="star5' . $i . '" name="rating2' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
                         <input type="radio" id="star4half' . $i . '" name="rating2' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
                         <input type="radio" id="star4' . $i . '" name="rating2' . $i . '" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
@@ -1206,8 +1205,9 @@ function mostrarEstrellasPuntuacionLocal($average, $i) {
     </form> ';
     }
 }
-function getInfoLocalName($name){
-        $conexion = conectar();
+
+function getInfoLocalName($name) {
+    $conexion = conectar();
     $sql = "SELECT * FROM USUARIO WHERE NOMBRE_LOCAL = '$name'";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
@@ -1218,6 +1218,7 @@ function getInfoLocalName($name){
     }
     desconectar();
 }
+
 function comentariosGrupo($id) {
     $conexion = conectar();
     $sql = "SELECT * FROM VOTAR_COMENTAR inner join USUARIO on VOTAR_COMENTAR.ID_FAN = USUARIO.ID_USUARIO WHERE ID_VOTADO = '$id' AND VOTO_CONCIERTO = 0;";

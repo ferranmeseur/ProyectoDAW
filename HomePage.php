@@ -8,7 +8,7 @@
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script>
             $(function () {
-                $("#header").load("HeaderImg.html");
+                $("#header").load("HeaderImg.php");
                 $("#footer").load("Footer.html");
                 $("#noticias").load("Noticias.php");
             });

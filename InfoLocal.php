@@ -8,7 +8,7 @@
         <script src="JS/jquery.uploadPreview.js" type="text/javascript"></script>
         <script>
             $(function () {
-                $("#header").load("Header.html");
+                $("#header").load("Header.php");
                 $("#footer").load("Footer.html");
                 fanRatingFixed();
             });

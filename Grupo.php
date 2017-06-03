@@ -7,7 +7,7 @@
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script>
             $(function () {
-                $("#header").load("Header.html");
+                $("#header").load("Header.php");
                 $("#footer").load("Footer.html");
             });
         </script> 
@@ -104,7 +104,6 @@
                             $average = votosGrupo($lista['ID_USUARIO']);
                             echo $average;
                             mostrarEstrellasPuntuacionLocal($average, $i);
-                            echo '<br><i>numero de votos</i>';
                             echo '</div>';
                             echo '</a>';
                             echo '</td>';
@@ -113,7 +112,7 @@
                             echo '<i><b>' . $nombreGenero . ', ' . $nombreCiudad . '</b></i><br><BR>';
                             if (isset($tipoUsuario)) {
                                 if ($tipoUsuario == 'Local')
-                                    echo '<a href="Contratar.php?idgrupo=' . $lista['ID_USUARIO'] . ' style = "width:100px" class = "action-button">CONTRATAR</a>';
+                                    echo '<a href="CrearConcierto.php?idgrupo=' . $lista['ID_USUARIO'] . '" style = "width:100px" class = "action-button">PROPONER</a>';
                             }
                             echo '</div>';
 

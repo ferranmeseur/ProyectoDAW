@@ -17,7 +17,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
         <script src="JS/jquery.uploadPreview.js" type="text/javascript"></script>
         <script>
             $(document).ready(function () {
-                $("#header").load("Header.html");
+                $("#header").load("Header.php");
                 $("#footer").load("Footer.html");
                 $.uploadPreview({
                     input_field: "#image-upload", // Default: .image-upload
@@ -190,43 +190,48 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                         <div id = "div3" style="border-bottom:2px solid gray">
                         <h1 class="fs-title">PRÓXIMOS CONCIERTOS EN MI LOCAL</h1>';
                     echo '<div style = "ge;height:325px;overflow-y:auto" >';
-                    $fechas = ListaFechasConciertosLocal(true, $info['ID_USUARIO'], 1);
-                    while ($row = $fechas->fetch_assoc()) {
-                        $nuevaFecha = date("w-d-m-Y", strtotime($row["FECHA"]));
-                        $nuevaHora = date("H:i", strtotime($row["FECHA"]));
-                        $fechaFinal = getNombreFecha($nuevaFecha);
-                        $result = ListaConciertosFan($row['FECHA'], null, null, null, $info['ID_USUARIO'], true);
-                        if ($result == null) {
-                            echo '<script language = "javascript">$("#$fechaFinal").empty();</script>';
-                        } else {
+                    if ($fechas = ListaFechasConciertosLocal(true, $info['ID_USUARIO'], 1)) {
 
-                            echo '<div id="resultado" style="text-align:center">';
-                            echo '<table cellspacing=0 style="width:100%;font-size:15px">';
-                            echo '<tr><td>';
-                            echo '<h3 id="' . $fechaFinal . '" class="color_rojo_general">' . $fechaFinal . '</h3>';
-                            echo '</td></tr>';
+                        while ($row = $fechas->fetch_assoc()) {
+                            $nuevaFecha = date("w-d-m-Y", strtotime($row["FECHA"]));
+                            $nuevaHora = date("H:i", strtotime($row["FECHA"]));
+                            $fechaFinal = getNombreFecha($nuevaFecha);
+                            $result = ListaConciertosFan($row['FECHA'], null, null, null, $info['ID_USUARIO'], true);
+                            if ($result == null) {
+                                echo '<script language = "javascript">$("#$fechaFinal").empty();</script>';
+                            } else {
 
-                            while ($lista = $result->fetch_assoc()) {
-                                $nombre_artistico = str_replace(" ", "+", $lista['NOMBRE_ARTISTICO']);
-                                echo '<tr>';
-                                echo '<td style="text-align:center;vertical-align:top">';
-                                echo '<div class="inline">';
-                                echo '<a class="fontblack a_concierto" href=InfoConcierto.php?idcon=' . $lista['ID_CONCIERTO'] . '>';
-                                echo "<b id='h4_lista_img'>" . $lista['NOMBRE_ARTISTICO'] . "</b>";
+                                echo '<div id="resultado" style="text-align:center">';
+                                echo '<table cellspacing=0 style="width:100%;font-size:15px">';
+                                echo '<tr><td>';
+                                echo '<h3 id="' . $fechaFinal . '" class="color_rojo_general">' . $fechaFinal . '</h3>';
+                                echo '</td></tr>';
 
-                                echo "<i>" . $lista['GENERO'] . "</i>";
-                                echo "</a>";
+                                while ($lista = $result->fetch_assoc()) {
+                                    $nombre_artistico = str_replace(" ", "+", $lista['NOMBRE_ARTISTICO']);
+                                    echo '<tr>';
+                                    echo '<td style="text-align:center;vertical-align:top">';
+                                    echo '<div class="inline">';
+                                    echo '<a class="fontblack a_concierto" href=InfoConcierto.php?idcon=' . $lista['ID_CONCIERTO'] . '>';
+                                    echo "<b id='h4_lista_img'>" . $lista['NOMBRE_ARTISTICO'] . "</b>";
 
-                                echo "<a href='CancelarConcierto.php?idcon=" . $lista['ID_CONCIERTO'] . "' id='cancelarConcierto' class='action-button'>CANCELAR</a>";
-                                echo '</div>';
-                                echo '</td>';
-                                echo '</tr>';
+                                    echo "<i>" . $lista['GENERO'] . "</i>";
+                                    echo "</a>";
+
+                                    echo "<a href='CancelarConcierto.php?idcon=" . $lista['ID_CONCIERTO'] . "' id='cancelarConcierto' class='action-button'>CANCELAR</a>";
+                                    echo '</div>';
+                                    echo '</td>';
+                                    echo '</tr>';
+                                }
+
+
+                                echo'</table>';
+                                echo'</div>';
                             }
-
-
-                            echo'</table>';
-                            echo'</div>';
                         }
+                    } else {
+                        echo 'No hay conciertos<br><br>';
+                        echo '<a href="CrearConcierto.php?local=' . $info['ID_USUARIO'] . '" style = "width:100px" class = "action-button">CREAR CONCIERTO</a>';
                     }
 
                     echo'</div>';
@@ -276,6 +281,9 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                                 echo'</div>';
                             }
                         }
+                    } else {
+                        echo 'No hay conciertos<br><br>';
+                        echo '<a href="CrearConcierto.php?local=' . $info['ID_USUARIO'] . '" style = "width:100px" class = "action-button">CREAR CONCIERTO</a>';
                     }
                     echo'</div>';
                     echo'</div>';

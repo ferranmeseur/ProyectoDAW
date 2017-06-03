@@ -12,6 +12,7 @@
             });
         </script> 
         <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
+        <link href="Estilos/RegistrationForm.css" rel="stylesheet" type="text/css"/>
         <link href="Estilos/StarRating.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
@@ -27,7 +28,11 @@
         <div id="busquedaArtistas" style="width:500px;margin:auto auto auto auto;">
             <?php
             include_once'bbdd.php';
-            echo '<form method="POST" action="Local.php">';
+            session_start();
+            if (isset($_SESSION['tipo'])) {
+                $tipoUsuario = $_SESSION['tipo'];
+            }
+            echo '<form method="POST" action="Grupo.php">';
             echo '<span class="inline custom-dropdown border_dropdow">';
             $generos = ListaGeneros();
             echo'<select name="genero">
@@ -50,61 +55,59 @@
             echo '</form>';
             ?>
         </div>
-        <div id="contenedor" class="center" style="width:100%;height:100%">
-            <div id="grupos" class="inline" style="width:30%;padding-right:100px">
-                <?php
-                require_once 'bbdd.php';
-                require_once'BusquedaMusicos.php';
-                if (isset($_POST['ciudad'])) {
-                    $ciudad = $_POST['ciudad'];
-                } else {
-                    $ciudad = null;
-                }
-                if (isset($_POST['genero'])) {
-                    $genero = $_POST['genero'];
-                } else {
-                    $genero = null;
-                }
+        <div id="contenedor" class="center">
+            <?php
+            require_once'BusquedaMusicos.php';
 
-                $letras = getFirstLetterLocales();
-
-                echo'<div style="width:100%">';
-                echo'<h2>LISTA DE LOCALES</h2>';
+            if (isset($_GET['local'])) {
+                echo'<div id="grupos" class="inline" style="padding-right:100px">';
+                $ciudad = null;
+                $genero = null;
+                $letras = getFirstLetterArtistas();
+                echo'<div>';
+                echo'<h2>SELECCIONA UN GRUPO</h2>';
 
                 while ($row = $letras->fetch_assoc()) {
-                    $result = BusquedaTodosLocales($ciudad, $row['LETRA']);
+                    $result = BusquedaTodosArtistas($ciudad, $genero, $row['LETRA']);
                     $letra = strtoupper($row['LETRA']);
                     if ($result == null) {
                         echo '<script language="javascript">$("#' . $letra . '").empty();</script>';
                     } else {
-
                         echo '<div id="resultado">';
                         echo '<div style="float:left;padding:5px;border-bottom: 1px solid #d83c3c">';
                         echo '<h3 id="' . $letra . '" class="color_rojo_general">' . $letra . '</h3>';
                         echo '</div>';
+
                         echo '<table cellspacing=0 style="width:100%">';
                         echo '<col width="auto">';
                         echo '<col width="0">';
                         $i = 0;
                         while ($lista = $result->fetch_assoc()) {
-                            $nombre_local = str_replace(" ", "+", $lista['NOMBRE_LOCAL']);
+                            $nombre_artistico = str_replace(" ", "+", $lista['NOMBRE_ARTISTICO']);
+                            $nombreGenero = getNombreGenero($lista['ID_GENERO']);
                             $nombreCiudad = getNombreCiudad($lista['ID_CIUDAD']);
+
                             echo '<tr>';
                             echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:left;vertical-align:top">';
-                            echo '<a class="fontblack a_concierto" href=InfoLocal.php?nombre=' . $nombre_local . '>';
-                            echo '<div class="inline" id="div_img">';
+                            echo '<a class="fontblack a_concierto" href=InfoGrupo.php?nombre=' . $nombre_artistico . '>';
+                            echo '<div class="inline">';
                             echo '<img id="img_lista_img" class="inline" src="Imagenes/image.jpeg">';
-                            echo '</div>';
-                            echo '<div class="inline" style="vertical-align:top">';
-                            echo '<div>';
-                            echo '<b id="h4_lista_img">' . $lista['NOMBRE_LOCAL'] . '</b>';
-                            echo '</div>';
+                            echo '<b id="h4_lista_img">' . $lista['NOMBRE_ARTISTICO'] . '</b>';
                             $average = votosGrupo($lista['ID_USUARIO']);
+                            echo $average;
                             mostrarEstrellasPuntuacionLocal($average, $i);
                             echo '</div>';
                             echo '</a>';
                             echo '</td>';
                             echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:right;vertical-align:top">';
+                            echo '<div class="inline padding5">';
+                            echo '<i><b>' . $nombreGenero . ', ' . $nombreCiudad . '</b></i><br><BR>';
+                            if (isset($tipoUsuario)) {
+                                if ($tipoUsuario == 'Local')
+                                    echo '<a href="CrearConcierto.php?idgrupo=' . $lista['ID_USUARIO'] . '" style = "width:100px" class = "action-button">PROPONER</a>';
+                            }
+                            echo '</div>';
+
                             echo '</td>';
                             echo '</tr>';
                             $i++;
@@ -113,47 +116,13 @@
                         echo'</div>';
                     }
                 }
-                echo'</div>';
-                ?>
-            </div>
-            <div id="ranking" class="inline" style="vertical-align: top">
+            }
+            ?>
 
-                <div class="center">
-                    <?php
-                    require_once 'bbdd.php';
-                    echo'<h2>LOCALES EN ALZA</h2>';
-
-                    $tituloRanking = "Todos los locales en alza";
-                    if (isset($_POST['submit'])) {
-                        $genero = $_POST['genero'];
-                        $ciudad = $_POST['ciudad'];
-                        if ($ciudad != null) {
-                            $nombreCiudad = getNombreCiudad($ciudad);
-                            $tituloRanking = "Locales en alza de " . $nombreCiudad;
-                        }
-                        if ($ciudad != null && $genero != null)
-                            $tituloRanking = "Locales en alza de " . $nombreCiudad . " con género " . $nombreGenero;
-                        if ($ciudad != null || $genero != null) {
-                            $result = RankingMusicos($genero, $ciudad);
-                            if ($result == null) {
-                                echo "<div class='padding20 center cursiva'>No se ha encontrado ninguna coincidencia</div>";
-                            } else {
-                                LocalesAlza($ciudad, $tituloRanking);
-                            }
-                        } else {
-                            LocalesAlza(null, $tituloRanking);
-                        }
-                    } else {
-                        LocalesAlza(null, $tituloRanking);
-                    }
-                    ?>
-                </div>
-            </div>
         </div>
         <div class="margin_top_200px" id="footer"></div>
     </body>
 
-    <div class="margin_left_100px" style="margin-right: 200px">
 
 
 </html>

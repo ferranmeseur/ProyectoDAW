@@ -18,7 +18,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
         <script src="JS/jquery-3.2.1.js" type="text/javascript"></script>
         <script>
             $(document).ready(function () {
-                $("#header").load("Header.html");
+                $("#header").load("Header.php");
                 $("#footer").load("Footer.html");
             });
 
