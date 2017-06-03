@@ -27,30 +27,16 @@
                     </form>
                 </div>
             </div>
+            <div class='margingtop_30px'></div>
             <div  id="noticias"></div>
+            <div class='margingtop_30px'></div>
             <div class="center inline ">
-                <div class=" inline">
-                    <div class="inline marging_imagenes">
-                        <a href="Ranking.php"><img  class="img_default width_70" src="Imagenes/RANKING.jpg" alt="Ranking" /></a>
-                    </div>
-                </div>
-                <div class=" inline marging_imagenes">
-                    <div class="inline">
-                        <a href="Concierto.php"><img class="img_default width_70" src="Imagenes/CONCIERTO.jpg"  alt="Conciertos" /></a>
-                    </div>
-                </div>
+                <a href="Ranking.php.php"><div id='img_ranking' class="inline"></div></a>
+                <a href="Concierto.php"><div id='img_concierto' class="inline"></div></a>
             </div>
             <div class="center inline ">
-                <div  class="inline marging_imagenes">
-                    <div  class="inline">
-                        <a href="Grupo.php"><img class="img_default width_70" src="Imagenes/GRUPO.jpg"  alt="Grupos" /></a>
-                    </div>
-                </div>
-                <div class=" inline marging_imagenes">
-                    <div class="inline">
-                        <a href="Local.php"><img class="img_default width_70" src="Imagenes/LOCAL.jpg"  alt="Locales" /></a>
-                    </div>
-                </div>
+                <a href="Grupo.php"><div id='img_grupo' class="inline"></div></a>
+                <a href="Local.php"><div id='img_local' class="inline"></div></a>
             </div>
         </div>
     </div>

@@ -127,7 +127,62 @@ width_100{
 .text_align_left{
     text-align: left;
 }
-
+#img_local{
+    margin: 30px;
+    width: 500px;
+    height:300px;
+    background-size: contain;
+    background-image: url("../Imagenes/LOCAL.jpg");
+}
+#img_local:hover{
+    margin: 30px;
+    width: 500px;
+    height:300px;
+    background-size: contain;
+    background-image: url("../Imagenes/LOCAL_HOVER.jpg");
+}
+#img_grupo{
+    margin: 30px;
+    width: 500px;
+    height:300px;
+    background-size: contain;
+    background-image: url("../Imagenes/GRUPO.jpg");
+}
+#img_grupo:hover{
+    margin: 30px;
+    width: 500px;
+    height:300px;
+    background-size: contain;
+    background-image: url("../Imagenes/GRUPO_HOVER.jpg");
+}
+#img_concierto{
+    margin: 30px;
+    width: 500px;
+    height:300px;
+    background-size: contain;
+    background-image: url("../Imagenes/CONCIERTO.jpg");
+}
+#img_concierto:hover{
+    margin: 30px;
+    width: 500px;
+    height:300px;
+    background-size: contain;
+    background-image: url("../Imagenes/CONCIERTO_HOVER.jpg");
+}
+#img_ranking{
+    margin: 30px;
+    width: 500px;
+    height:300px;
+    background-size: contain;
+    background-image: url("../Imagenes/RANKING.jpg");
+}
+#img_ranking:hover{
+    margin: 30px;
+    width: 500px;
+    height:300px;
+    background-size: contain;
+    background-image: url("../Imagenes/RANKING_HOVER.jpg");
+}
 .padding5{
     padding: 5px;
 }
@@ -352,7 +407,7 @@ header{
 }
 table {
     margin: 0 auto; /* or margin: 0 auto 0 auto */
-  }
+}
 #titulo{
     position:fixed;
     left:50%;
