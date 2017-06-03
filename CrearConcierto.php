@@ -17,13 +17,7 @@
     </head>
     <body>
         <div id="header"></div>
-        <div style="height: 50px"></div>
-        <div id="Search" class="height_40">
-            <form class="form-wrapper cf" action="Busqueda.php" method="GET">
-                <input type="text" name="busqueda" placeholder="Busca músicos o locales" required>
-                <button class="button-form" type="submit" value="submit" name="submit">GO!</button>
-            </form>
-        </div>
+
         <div style="height: 20px"></div>
         <div id="busquedaArtistas" style="width:500px;margin:auto auto auto auto;">
             <?php
@@ -59,12 +53,12 @@
             <?php
             require_once'BusquedaMusicos.php';
 
-            if (isset($_GET['local'])) {
+            if (isset($_GET['local']) && !isset($_GET['idgrupo'])) {
                 echo'<div id="grupos" class="inline" style="padding-right:100px">';
                 $ciudad = null;
                 $genero = null;
                 $letras = getFirstLetterArtistas();
-                echo'<div>';
+                $_SESSION['local'] = $_GET['local'];
                 echo'<h2>SELECCIONA UN GRUPO</h2>';
 
                 while ($row = $letras->fetch_assoc()) {
@@ -104,9 +98,11 @@
                             echo '<i><b>' . $nombreGenero . ', ' . $nombreCiudad . '</b></i><br><BR>';
                             if (isset($tipoUsuario)) {
                                 if ($tipoUsuario == 'Local')
-                                    echo '<a href="CrearConcierto.php?idgrupo=' . $lista['ID_USUARIO'] . '" style = "width:100px" class = "action-button">PROPONER</a>';
+                                    echo '<a href="CrearConcierto.php?local=' . $_GET['local'] . '&idgrupo=' . $lista['ID_USUARIO'] . '" style = "width:100px" class = "action-button">PROPONER</a>';
                             }
                             echo '</div>';
+                            echo'</div>';
+
 
                             echo '</td>';
                             echo '</tr>';
@@ -116,15 +112,53 @@
                         echo'</div>';
                     }
                 }
+            }elseif (isset($_GET['local']) && isset($_GET['idgrupo'])) {
+                $infoLocal = getInfoUser($_SESSION['email']);
+                $infoGrupo = getNombreLocal($_GET['idgrupo']);
+                $nombreGrupo = $infoGrupo['NOMBRE_ARTISTICO'];
+                $nombreLocal = $infoLocal['NOMBRE_LOCAL'];
+                echo'<h2 style="padding-top:20px">INFORMACIÓN DEL CONCIERTO</h2>';
+                echo '<form action="" method="POST">';
+                echo '<table style="text-align:left">';
+                echo '<col width="200">';
+                echo '<col width="200">';
+                echo '<tr>';
+                echo '<td>MI LOCAL:</td>';
+                echo '<td>' . $nombreLocal . '</td>';
+                echo '</tr>';
+                echo '<tr>';
+                echo '<td>GRUPO:</td>';
+                echo '<td>' . $nombreGrupo . '</td>';
+                echo '</tr>';
+                echo '</table>';
+                echo '<table style="text-align:left">';
+                echo '<col width="200">';
+                echo '<col width="200">';
+                echo '<tr>';
+                echo '<td class="inline">FECHA: </td>';
+                echo '<td><input type="date" name="fecha" required/></td>';
+                echo '</tr>';
+                echo '<tr>';
+                echo '<td>PRECIO ENTRADA:</td>';
+                echo '<td><input style="width:50px"type="number" name="precio" min=1 required> €</td>';
+                echo '</tr>';
+                echo '<tr>';
+                echo '<td>ENTRADAS TOTALES:</td>';
+                echo '<td><input style="width:50px" type="number" name="totalEntradas" min=1 max="' . $infoLocal['AFORO'] . '"><i> (Límite '.$infoLocal['AFORO'].')</i></td>';
+                //echo '<td><i>(El máximo número de entradas lo marca el aforo de la sala)</i></td>';
+                echo '</tr>';
+                echo '</table>';
+                echo '<button style = "width:35%;margin:50px auto auto auto" type = "submit" name = "crearConcierto" class = "action-button">CREAR CONCIERTO</button>';
+                echo '</form>';
+            }
+            if (isset($_POST['crearConcierto'])) {
+                
             }
             ?>
 
         </div>
         <div class="margin_top_200px" id="footer"></div>
     </body>
-
-
-
 </html>
 
 
