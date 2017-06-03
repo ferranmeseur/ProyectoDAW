@@ -1206,3 +1206,26 @@ function mostrarEstrellasPuntuacionLocal($average, $i) {
     </form> ';
     }
 }
+function getInfoLocalName($name){
+        $conexion = conectar();
+    $sql = "SELECT * FROM USUARIO WHERE NOMBRE_LOCAL = '$name'";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row;
+    } else {
+        return null;
+    }
+    desconectar();
+}
+function comentariosGrupo($id) {
+    $conexion = conectar();
+    $sql = "SELECT * FROM VOTAR_COMENTAR inner join USUARIO on VOTAR_COMENTAR.ID_FAN = USUARIO.ID_USUARIO WHERE ID_VOTADO = '$id' AND VOTO_CONCIERTO = 0;";
+    $resultado = $conexion->query($sql);
+    if ($resultado->num_rows > 0) {
+        return $resultado;
+    } else {
+        return false;
+    }
+    desconectar($conexion);
+}
