@@ -1275,3 +1275,18 @@ function checkVotar($votado, $fan) {
     }
     desconectar($conexion);
 }
+
+function mostrarVotarComentar() {
+    echo'<fieldset class="rating">
+        <input type="radio" id="estrella5" name="erating" value="5" /><label class = "lleno" for="estrella5" title="Fantástico - 5 stars"></label>
+        <input type="radio" id="estrella4medio" name="erating" value="4.5" /><label class="medio" for="estrella4medio" title="Bastante bien - 4.5 stars"></label>
+        <input type="radio" id="estrella4" name="erating" value="4" /><label class = "lleno" for="estrella4" title="Bastante bien - 4 stars"></label>
+        <input type="radio" id="estrella3medio" name="erating" value="3.5" /><label class="medio" for="estrella3medio" title="Meh - 3.5 stars"></label>
+        <input type="radio" id="estrella3" name="erating" value="3" /><label class = "lleno" for="estrella3" title="Meh - 3 stars"></label>
+        <input type="radio" id="estrella2medio" name="erating" value="2.5" /><label class="medio" for="estrella2medio" title="No muy bueno - 2.5 stars"></label>
+        <input type="radio" id="estrella2" name="erating" value="2" /><label class = "lleno" for="estrella2" title=" - 2 stars"></label>
+        <input type="radio" id="estrella1medio" name="erating" value="1.5" /><label class="medio" for="estrella1medio" title="Meh - 1.5 stars"></label>
+        <input type="radio" id="estrella1" name="erating" value="1" /><label class = "lleno" for="estrella" title="Sucks big time - 1 star"></label>
+        <input type="radio" id="estrella" name="erating" value="0.5" /><label class="medio" for="estrellamedio" title="Sucks big time - 0.5 stars"></label>';
+    echo '</fieldset>';
+}

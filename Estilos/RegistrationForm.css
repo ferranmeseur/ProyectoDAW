@@ -14,7 +14,7 @@
     text-align: left;
     position: relative;
 }
-#msform fieldset {
+/*#msform fieldset {
     background: white;
     border: 0 none;
     border-radius: 3px;
@@ -24,13 +24,13 @@
     width: 80%;
     margin: 0 10%;
 
-    /*stacking fieldsets above each other*/
+    stacking fieldsets above each other
     position: relative;
-}
+}*/
 /*Hide all except first fieldset*/
-#msform fieldset:not(:first-of-type) {
+/*#msform fieldset:not(:first-of-type) {
     display: none;
-}
+}*/
 /*inputs*/
 #msform input, #msform textarea {
     padding: 15px;

@@ -39,7 +39,6 @@
                 <a href="Local.php"><div id='img_local' class="inline"></div></a>
             </div>
         </div>
-    </div>
     <div id="footer"></div>
 </body>
 </HTML>
