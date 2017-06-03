@@ -764,11 +764,10 @@ function ShowNoticiasMusico() {
 }
 
 function ShowNoticiasLocal() {
-    $nuevoLocal = NoticiasNuevoLocal()->fetch_assoc();
+    $nuevoLocal = NoticiasNuevoLocal();
     $nombre_local = str_replace(" ", "+", $nuevoLocal['VALOR']);
     $url = "url('Imagenes/img_lights.jpg')";
     $nombre_ciudad = getNombreCiudad($nuevoLocal['ID_CIUDAD']);
-    $nombre_genero = getNombreGenero($nuevoLocal['ID_GENERO']);
     echo '<a class="a_noticia" href="InfoGrupo.php?nombre=' . $nombre_local . '">';
     echo '<div style = "height:250px;background-image:' . $url . ';background-size:cover;background-position:center">';
     echo '<div style="position: relative;top: 0;background-color:rgba(0, 0, 0, 0.8)">';
@@ -776,13 +775,13 @@ function ShowNoticiasLocal() {
     echo '</div>';
     echo '<div style="position: relative;bottom: 0;background-color:rgba(0, 0, 0, 0.8)">';
     echo '<h1>' . $nuevoLocal['VALOR'] . '</h1>';
-    echo '<i style="color:white">' . $nuevoLocal['UBICACION'] . ', ' . $nombre_ciudad . ', ' . $nombre_genero . '</i>';
+    echo '<i style="color:white">' . $nuevoLocal['UBICACION'] . ', ' . $nombre_ciudad . '</i>';
     echo '</div>';
     echo '</div></a>';
 }
 
 function ShowNoticiasConcierto() {
-    $nuevoConcierto = NoticiasNuevoConcierto()->fetch_assoc();
+    $nuevoConcierto = NoticiasNuevoConcierto();
     $nombres = split("-", $nuevoConcierto['VALOR']);
     $url = "url('Imagenes/img_mountains.jpg')";
     $nuevaFecha = date("w-d-m-Y", strtotime($nuevoConcierto["CONCIERTO_FECHA"]));

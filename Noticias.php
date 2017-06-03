@@ -3,25 +3,21 @@
 
 </style>
 
-<div style="max-width:75%; margin:auto" class="center">
-    <div class="mySlides">
-        <?php
-        include_once 'bbdd.php';
-        ShowNoticiasMusico();
-        ?>
-    </div>
-    <div class="mySlides">
-        <?php
-        include_once 'bbdd.php';
-        ShowNoticiasLocal();
-        ?>
-    </div>
-    <div class="mySlides">
-        <?php
-        include_once 'bbdd.php';
-        ShowNoticiasConcierto();
-        ?>
-    </div>
+<div style="max-width:79%; margin:auto" class="center">
+    <?php
+    include_once 'bbdd.php';
+    echo '<div class="mySlides">';
+
+    ShowNoticiasMusico();
+    echo'</div>';
+    echo '<div class="mySlides">';
+    ShowNoticiasLocal();
+    echo'</div>';
+    echo '<div class="mySlides">';
+    ShowNoticiasConcierto();
+    echo'</div>';
+    ?>
+
 </div>
 
 <script>
@@ -31,7 +27,9 @@
     function carousel() {
         var i;
         var x = document.getElementsByClassName("mySlides");
-        for (i = 0; i < x.length; i++) {
+        for (i = 0;
+                i < x.length;
+                i++) {
             x[i].style.display = "none";
         }
         slideIndex++;
