@@ -14,9 +14,8 @@
             });
             function fanRatingFixed() {
                 var puntuacion = $('#puntuacion').html();
-                var pointsRound = roundToHalf(puntuacion);
-                var pointsRoundEntero = Math.floor(pointsRound);
-                var pointsRoundDecimal = pointsRound - pointsRoundEntero;
+                var pointsRoundEntero = Math.floor(puntuacion);
+                var pointsRoundDecimal = puntuacion - pointsRoundEntero;
                 if (pointsRoundDecimal == 0) {
                     $('#star' + pointsRoundEntero).prop('checked', true);
                 } else {
@@ -41,7 +40,7 @@
         $puntuacion = votosLocal($resultado['ID_USUARIO']);
         echo '<h1>' . $resultado['NOMBRE_LOCAL'] . '</h1>';
         echo'<b style="color:#d83c3c">FAN RATING</b><i id="puntuacion" hidden>' . $puntuacion . '</i><br>';
-        echo '<fieldset class="">
+        echo '<fieldset class="rating_fixed">
                         <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
                         <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
                         <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
