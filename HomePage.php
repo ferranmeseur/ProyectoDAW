@@ -2,7 +2,7 @@
 <HTML>
     <head>
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-        <title>INICIO</title>
+        <title>Music and Seek</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
@@ -19,6 +19,7 @@
         <div id="header"></div>
         <div class="content center">
             <div class="center">
+                <h1> Bienvenido a Music And Seek! </h1>
                 <div id="Search" class="height_40 padding20 ">
                     <form class="form-wrapper cf" action="Busqueda.php" method="GET">
                         <input type="text" name="busqueda" placeholder="Busca músicos y locales" required>
@@ -52,6 +53,7 @@
                 </div>
             </div>
         </div>
-        <div id="footer"></div>
-    </body>
+    </div>
+    <div id="footer"></div>
+</body>
 </HTML>

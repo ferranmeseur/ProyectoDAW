@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Login</title>
+         <?php
+        require_once'bbdd.php';
+        echo '<title>' . $_GET['nombre'] . '</title>';
+        ?>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="JS/jquery-3.2.1.js" type="text/javascript"></script>
@@ -35,12 +38,17 @@
             $nombre = $_GET['nombre'];
             TraceEvent("BUSQUEDA", $nombre, "NULL", "LOCAL", "NULL");
         }
-        echo'<div class="center">';
+        echo'<div class="center content">';
+        echo'<div class="inline center">';
+        echo'<img src="Imagenes/image.jpeg" alt=""/>';
+        echo'</div>';
+        echo '<div class="inline">';
         $resultado = getInfoLocalName($_GET['nombre']);
         $puntuacion = votosLocal($resultado['ID_USUARIO']);
+        $comentarios = comentariosGrupo($resultado['ID_USUARIO']);
         echo '<h1>' . $resultado['NOMBRE_LOCAL'] . '</h1>';
-        echo'<b style="color:#d83c3c">FAN RATING</b><i id="puntuacion" hidden>' . $puntuacion . '</i><br>';
-        echo '<fieldset class="rating_fixed">
+        echo'<b style="color:#d83c3c">LOCAL RATING</b><i id="puntuacion" hidden>' . $puntuacion . '</i><br>';
+        echo '<fieldset class="rating_fixed" style="float:none">
                         <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
                         <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
                         <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
@@ -52,10 +60,6 @@
                         <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
                         <input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
                         </fieldset> ';
-        echo'<div class="inline center">';
-        echo'<img src="Imagenes/image.jpeg" alt=""/>';
-        echo'</div>';
-        echo'<div class="inline">';
         echo '<div class="center">Ubicación : ' . $resultado['UBICACION'] . '</div>';
         echo '<div class="center">Ciudad : ' . getNombreCiudad($resultado['ID_CIUDAD']) . '</div>';
         echo '<div class="center">Aforo : ' . $resultado['AFORO'] . '</div>';
@@ -70,17 +74,19 @@
         } else {
             '</div>';
         }
+        if ($comentarios != false) {
+            echo '</br></br><div class="center">Comentarios : <table class="center">';
+            while ($lista = $comentarios->fetch_assoc()) {
+                echo'<tr><th>';
+                $fechacomentario = getNombreFecha(date("w-d-m-Y", strtotime($lista['FECHA'])));
+                echo $lista['NOMBRE'] . ' - ' . $fechacomentario . '</th></tr>';
 
-        echo '</div></div>';
-
-
-
-
-
-
-
-
-        /* NOmbre,ubicacion, contacto: emial, numero, aforo web, ciudad */
+                echo '<tr><th>' . $lista['COMENTARIO'] . '</th></tr>';
+            }
+            echo'</table></div>';
+            echo '</div>';
+        }
+        echo '</div></div></div>';
         ?>
         <div id="footer"></div>
     </body>

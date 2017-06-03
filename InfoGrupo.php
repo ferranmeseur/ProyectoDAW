@@ -32,7 +32,6 @@
     <body>
         <div id="header"></div> 
         <div class="center" style="width: 100%; height: 500px">
-
             <?php
             require_once'bbdd.php';
             if (isset($_GET['b'])) {
@@ -46,7 +45,7 @@
             echo '<div class="inline">';
             $resultado = getInfoGrupoName($_GET['nombre']);
             $puntuacion = votosGrupo($resultado['ID_USUARIO']);
-            $comentarios = comentariosConcierto($resultado['ID_USUARIO']);
+            $comentarios = comentariosGrupo($resultado['ID_USUARIO']);
             echo '<h1>' . $resultado['NOMBRE_ARTISTICO'] . '</h1>';
             echo'<b style="color:#d83c3c">FAN RATING</b><i id="puntuacion" hidden>' . $puntuacion . '</i><br>';
             echo '<fieldset class="rating_fixed">
@@ -83,7 +82,6 @@
                 echo '</div>';
             }
             ?>
-            581386
             <div id="footer"></div>
     </body>
 </html>

@@ -1014,7 +1014,7 @@ function votosConcierto($id) {
     $sql = "SELECT SUM(PUNTOS) as suma,count(*) as count FROM VOTAR_COMENTAR WHERE ID_VOTADO = '$id' AND VOTO_CONCIERTO = 1";
     $resultado = $conexion->query($sql);
     $row = mysqli_fetch_array($resultado);
-    return $row;
+    return $row['suma']/$row['count'];
     desconectar($conexion);
 }
 
