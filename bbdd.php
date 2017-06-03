@@ -768,7 +768,7 @@ function ShowNoticiasLocal() {
     $nombre_local = str_replace(" ", "+", $nuevoLocal['VALOR']);
     $url = "url('Imagenes/img_lights.jpg')";
     $nombre_ciudad = getNombreCiudad($nuevoLocal['ID_CIUDAD']);
-    echo '<a class="a_noticia" href="InfoGrupo.php?nombre=' . $nombre_local . '">';
+    echo '<a class="a_noticia" href="InfoLocal.php?nombre=' . $nombre_local . '">';
     echo '<div style = "height:250px;background-image:' . $url . ';background-size:cover;background-position:center">';
     echo '<div style="position: relative;top: 0;background-color:rgba(0, 0, 0, 0.8)">';
     echo '<b style="color:white;font-size:30px">Un nuevo local se acaba de unir</b>';
@@ -789,7 +789,7 @@ function ShowNoticiasConcierto() {
     $fechaFinal = getNombreFecha($nuevaFecha);
     $nombre_ciudad = getNombreCiudad($nuevoConcierto['ID_CIUDAD']);
 
-    echo '<a class="a_noticia" href="InfoConcierto.php?idCon=' . $nuevoConcierto['ID_CONCIERTO'] . '">';
+    echo '<a class="a_noticia" href="InfoConcierto.php?idcon=' . $nuevoConcierto['ID_CONCIERTO'] . '">';
     echo '<div style = "height:250px;background-image:' . $url . ';background-size:cover;background-position:center">';
     echo '<div style="position: relative;top: 0;background-color:rgba(0, 0, 0, 0.8)">';
     echo '<b style="color:white;font-size:30px">Nuevo concierto</b>';
