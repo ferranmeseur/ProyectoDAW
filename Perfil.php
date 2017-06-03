@@ -31,9 +31,8 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
             });
             function fanRatingFixed() {
                 var puntuacion = $('#puntuacion').html();
-                var pointsRound = roundToHalf(puntuacion);
-                var pointsRoundEntero = Math.floor(pointsRound);
-                var pointsRoundDecimal = pointsRound - pointsRoundEntero;
+                var pointsRoundEntero = Math.floor(puntuacion);
+                var pointsRoundDecimal = puntuacion - pointsRoundEntero;
                 if (pointsRoundDecimal == 0) {
                     $('#star' + pointsRoundEntero).prop('checked', true);
                 } else {
@@ -141,7 +140,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                         <div id = "div2" class = "inline" style = "margin-left:50px;vertical-align: top; width: 25%; height: 150%">';
                     $puntuacion = votosLocal($info['ID_USUARIO']);
                     echo '<div style="float:left;text-align:left">';
-                    echo'<b style="color:#d83c3c">FAN RATING</b><i id="puntuacion" hidden>'.$puntuacion.'</i><br>';
+                    echo'<b style="color:#d83c3c">FAN RATING</b><i id="puntuacion" hidden>' . $puntuacion . '</i><br>';
                     echo '<fieldset class="rating_fixed">
                         <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
                         <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>

@@ -712,7 +712,8 @@ function NoticiasNuevoMusico() {
     $sql = "SELECT * FROM TRACE INNER JOIN USUARIO ON TRACE.VALOR = USUARIO.NOMBRE_ARTISTICO WHERE TIPO = 'REGISTRO' AND COMENTARIO = 'NUEVO MUSICO' ORDER BY FECHA DESC LIMIT 1";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
-        return $result;
+        $row = $result->fetch_assoc();
+        return $row;
     } else {
         return null;
     }
@@ -724,7 +725,8 @@ function NoticiasNuevoLocal() {
     $sql = "SELECT * FROM TRACE INNER JOIN USUARIO ON TRACE.VALOR = USUARIO.NOMBRE_LOCAL WHERE TIPO = 'REGISTRO' AND COMENTARIO = 'NUEVO LOCAL' ORDER BY FECHA DESC LIMIT 1";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
-        return $result;
+        $row = $result->fetch_assoc();
+        return $row;
     } else {
         return null;
     }
@@ -736,7 +738,8 @@ function NoticiasNuevoConcierto() {
     $sql = "SELECT *,(SELECT UBICACION FROM USUARIO WHERE TIPO_USUARIO = 'LOCAL' AND CONCIERTO.ID_LOCAL = USUARIO.ID_USUARIO) AS UBICACION, CONCIERTO.FECHA AS CONCIERTO_FECHA FROM TRACE INNER JOIN CONCIERTO ON TRACE.ID_CONCIERTO = CONCIERTO.ID_CONCIERTO WHERE TIPO = 'CONCIERTO' AND COMENTARIO = 'NUEVO CONCIERTO' ORDER BY TRACE.FECHA DESC LIMIT 1";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
-        return $result;
+        $row = $result->fetch_assoc();
+        return $row;
     } else {
         return null;
     }
@@ -744,7 +747,7 @@ function NoticiasNuevoConcierto() {
 }
 
 function ShowNoticiasMusico() {
-    $nuevoGrupo = NoticiasNuevoMusico()->fetch_assoc();
+    $nuevoGrupo = NoticiasNuevoMusico();
     $url = "url('Imagenes/img_forest.jpg')";
     $nombre_grupo = str_replace(" ", "+", $nuevoGrupo['VALOR']);
     $nombre_ciudad = getNombreCiudad($nuevoGrupo['ID_CIUDAD']);
