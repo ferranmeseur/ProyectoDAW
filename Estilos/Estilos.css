@@ -38,9 +38,8 @@ body{
 .align_right{
     text-align: right;
 }
-.img{
-    width: auto;
-    height: 125px;
+img{
+    height: auto;
     text-align: center;
 }
 
@@ -66,7 +65,9 @@ width_100{
 .width_48{
     width: 48%;
 }
-
+.width_70{
+    width: 600px;
+}
 .width_90{
     width: 90%;
 }
@@ -85,11 +86,7 @@ width_100{
 .height_80{
     height: 80px;
 }
-.img_default {
-    width: auto;
-    height: 100%;
-    text-align: center;
-}
+
 .arrow{
     width: 15%;
     height: 15%;
