@@ -246,12 +246,12 @@ function ListaCiudades() {
 
 /* CONCIERTOS: */
 
-function ListaConciertosFan($fechaConciertos, $genero, $ciudad, $grupo, $local) {
+function ListaConciertosFan($fechaConciertos, $genero, $ciudad, $grupo, $local, $estado) {
     $conexion = conectar();
     if (empty($genero) && empty($ciudad) && empty($grupo) && empty($local)) {
-        $sql = "SELECT *,(SELECT UBICACION FROM USUARIO WHERE ID_USUARIO=CONCIERTO.ID_LOCAL) AS UBICACION, (SELECT NOMBRE FROM GENERO WHERE ID_GENERO = CONCIERTO.ID_GENERO) AS GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = CONCIERTO.ID_CIUDAD) AS CIUDAD, (SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=ID_LOCAL) AS NOMBRE_LOCAL FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE CONCIERTO.FECHA='$fechaConciertos' AND CONCIERTO.ESTADO = 1";
+        $sql = "SELECT *,(SELECT UBICACION FROM USUARIO WHERE ID_USUARIO=CONCIERTO.ID_LOCAL) AS UBICACION, (SELECT NOMBRE FROM GENERO WHERE ID_GENERO = CONCIERTO.ID_GENERO) AS GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = CONCIERTO.ID_CIUDAD) AS CIUDAD, (SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=ID_LOCAL) AS NOMBRE_LOCAL FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE CONCIERTO.FECHA='$fechaConciertos' AND CONCIERTO.ESTADO = $estado";
     } else {
-        $sql = "SELECT *,(SELECT UBICACION FROM USUARIO WHERE ID_USUARIO=CONCIERTO.ID_LOCAL) AS UBICACION, (SELECT NOMBRE FROM GENERO WHERE ID_GENERO = CONCIERTO.ID_GENERO) AS GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = CONCIERTO.ID_CIUDAD) AS CIUDAD, (SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=ID_LOCAL) AS NOMBRE_LOCAL FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE CONCIERTO.FECHA='$fechaConciertos' AND CONCIERTO.ESTADO = 1";
+        $sql = "SELECT *,(SELECT UBICACION FROM USUARIO WHERE ID_USUARIO=CONCIERTO.ID_LOCAL) AS UBICACION, (SELECT NOMBRE FROM GENERO WHERE ID_GENERO = CONCIERTO.ID_GENERO) AS GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = CONCIERTO.ID_CIUDAD) AS CIUDAD, (SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=ID_LOCAL) AS NOMBRE_LOCAL FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE CONCIERTO.FECHA='$fechaConciertos' AND CONCIERTO.ESTADO = $estado";
         if (!empty($genero)) {
             $sql = $sql . ' AND CONCIERTO.ID_GENERO = "' . $genero . '"';
         } else if (!empty($ciudad)) {
@@ -267,6 +267,7 @@ function ListaConciertosFan($fechaConciertos, $genero, $ciudad, $grupo, $local) 
     if ($result->num_rows > 0) {
         return $result;
     } else {
+        echo mysqli_error($conexion);
         return null;
     }
     desconectar($conexion);
@@ -1011,10 +1012,10 @@ function comentariosConcierto($id) {
 
 function votosConcierto($id) {
     $conexion = conectar();
-    $sql = "SELECT SUM(PUNTOS) as suma,count(*) as count FROM VOTAR_COMENTAR WHERE ID_VOTADO = '$id' AND VOTO_CONCIERTO = 1";
+    $sql = "SELECT SUM(PUNTOS) as suma,count(*) as count, TRUNCATE(AVG(PUNTOS),1) AS AVERAGE FROM VOTAR_COMENTAR WHERE ID_VOTADO = '$id' AND VOTO_CONCIERTO = 1";
     $resultado = $conexion->query($sql);
     $row = mysqli_fetch_array($resultado);
-    return $row['suma']/$row['count'];
+    return $row['AVERAGE'];
     desconectar($conexion);
 }
 
@@ -1227,5 +1228,28 @@ function comentariosGrupo($id) {
     } else {
         return false;
     }
+    desconectar($conexion);
+}
+
+function crearConcierto($idgrupo, $idlocal, $fecha, $precio, $totalEntradas, $idgenero, $idciudad) {
+    $conexion = conectar();
+    $sql = "INSERT INTO CONCIERTO VALUES(null,$idgrupo,$idlocal,'$fecha',$precio,1,$totalEntradas,0,$idgenero,$idciudad)";
+    if (mysqli_query($conexion, $sql)) {
+        return true;
+    } else {
+        echo mysqli_error($conexion);
+    }
+    desconectar($conexion);
+}
+
+function finalizarConcierto($idconcierto) {
+    $conexion = conectar();
+    $sql = "UPDATE CONCIERTO SET ESTADO = 1 WHERE ID_CONCIERTO = $idconcierto";
+    if (mysqli_query($conexion, $sql)) {
+        return true;
+    } else {
+        echo mysqli_error($conexion);
+    }
+    header("Location:'Perfil.php'");
     desconectar($conexion);
 }

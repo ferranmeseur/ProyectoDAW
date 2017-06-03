@@ -119,7 +119,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                     }
                 } else {
                     $imagen = showImage($_SESSION['email']);
-                    echo '<h1 class="fs-title">PERFIL LOCAL</h1>';
+                    echo '<h1>PERFIL LOCAL</h1>';
                     echo'<div id = "div1" class = "inline center" style = "vertical-align:top;width: 15%; height: 150%">
                         <h1 class="fs-title">MIS DATOS</h1>
                         <div style = "width:250px; float:left">
@@ -188,6 +188,8 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                         <div class="inline" style="width:200px;height:150%"></div>
                         <div class = "inline" style = ";vertical-align: top; width:30%; height: 150%">
                         <div id = "div3" style="border-bottom:2px solid gray">
+                        <a href = "CrearConcierto.php?local=' . $info['ID_USUARIO'] . '" style = "width:100px" class = "action-button">CREAR CONCIERTO</a><br><br>
+
                         <h1 class="fs-title">PRÓXIMOS CONCIERTOS EN MI LOCAL</h1>';
                     echo '<div style = "ge;height:325px;overflow-y:auto" >';
                     if ($fechas = ListaFechasConciertosLocal(true, $info['ID_USUARIO'], 1)) {
@@ -231,7 +233,6 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                         }
                     } else {
                         echo 'No hay conciertos<br><br>';
-                        echo '<a href="CrearConcierto.php?local=' . $info['ID_USUARIO'] . '" style = "width:100px" class = "action-button">CREAR CONCIERTO</a>';
                     }
 
                     echo'</div>';
@@ -246,7 +247,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                             $nuevaFecha = date("w-d-m-Y", strtotime($row["FECHA"]));
                             $nuevaHora = date("H:i", strtotime($row["FECHA"]));
                             $fechaFinal = getNombreFecha($nuevaFecha);
-                            $result = ListaConciertosFan($row['FECHA'], null, null, null, $info['ID_USUARIO'], true);
+                            $result = ListaConciertosFan($row['FECHA'], null, null, null, $info['ID_USUARIO'], 0);
                             if ($result == null) {
                                 echo '<script language = "javascript">$("#$fechaFinal").empty();</script>';
                             } else {
@@ -267,10 +268,13 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                                     echo '<a class="fontblack a_concierto" href=InfoConcierto.php?idcon=' . $lista['ID_CONCIERTO'] . '>';
                                     echo "<b id='h4_lista_img'>" . $lista['NOMBRE_ARTISTICO'] . "</b>";
 
-                                    echo "<i>" . $lista['GENERO'] . "</i>";
+                                    echo "<i class='color_rojo_general'> " . $lista['GENERO'] . "</i> <b>" . $nuevaHora . "h</b>";
                                     echo "</a>";
-
-                                    echo "<a href='CancelarConcierto.php?idcon=" . $lista['ID_CONCIERTO'] . "' id='cancelarConcierto' class='action-button'>CANCELAR</a>";
+                                    echo '<form action="" method="POST">';
+                                    echo '<input type="text" hidden name="idconcierto" value="'.$lista['ID_CONCIERTO'].'">';
+                                    echo '<button type = "submit" name = "finalizarConcierto" class = "action-button">FINALIZAR</button>';
+                                    echo '<button type = "submit" name = "cancelarConcierto" class = "action-button">CANCELAR</button>';
+                                    echo '</form>';
                                     echo '</div>';
                                     echo '</td>';
                                     echo '</tr>';
@@ -281,9 +285,12 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                                 echo'</div>';
                             }
                         }
+                        if(isset($_POST['finalizarConcierto'])){
+                            $idconcierto = $_POST['idconcierto'];
+                            finalizarConcierto($idconcierto);
+                        }
                     } else {
                         echo 'No hay conciertos<br><br>';
-                        echo '<a href="CrearConcierto.php?local=' . $info['ID_USUARIO'] . '" style = "width:100px" class = "action-button">CREAR CONCIERTO</a>';
                     }
                     echo'</div>';
                     echo'</div>';
