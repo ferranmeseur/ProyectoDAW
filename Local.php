@@ -29,15 +29,7 @@
                 <?php
                 include_once'bbdd.php';
                 echo '<form method="POST" action="Local.php">';
-                echo '<span class="inline custom-dropdown border_dropdow">';
-                $generos = ListaGeneros();
-                echo'<select name="genero">
-                <option selected value="">Todos los generos</option>';
-                while ($fila2 = mysqli_fetch_array($generos)) {
-                    extract($fila2);
-                    echo"<option value='$ID_GENERO'>$NOMBRE</option>";
-                }
-                echo'</select></span>';
+
                 echo '<span class="inline custom-dropdown border_dropdow">';
                 $ciudades = ListaCiudades();
                 echo'<select name="ciudad">
@@ -126,15 +118,13 @@
 
                         $tituloRanking = "Todos los locales en alza";
                         if (isset($_POST['submit'])) {
-                            $genero = $_POST['genero'];
                             $ciudad = $_POST['ciudad'];
                             if ($ciudad != null) {
                                 $nombreCiudad = getNombreCiudad($ciudad);
                                 $tituloRanking = "Locales en alza de " . $nombreCiudad;
                             }
-                            if ($ciudad != null && $genero != null)
-                                $tituloRanking = "Locales en alza de " . $nombreCiudad . " con género " . $nombreGenero;
-                            if ($ciudad != null || $genero != null) {
+                            if ($ciudad != null) {
+                                $tituloRanking = "Locales en alza de " . $nombreCiudad;
                                 $result = RankingMusicos($genero, $ciudad);
                                 if ($result == null) {
                                     echo "<div class='padding20 center cursiva'>No se ha encontrado ninguna coincidencia</div>";

@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<?php
+session_start();
+require_once 'bbdd.php';
+if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
+    
+} else {
+    header("Location:Login.php");
+}
+?>
 <html>
     <head>
         <title>CONCIERTOS</title>
