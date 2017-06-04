@@ -20,14 +20,15 @@
             <div class="inline center"  style="display:inline;">
                 <?php
                 require_once 'bbdd.php';
+                echo '<div style="width:100%">';
+                echo '<div class="inline" style="width:50%">';
                 ArtistasAlza(null, null, '');
-                ?>
-            </div>
-            <div class="inline center" style="display:inline;">
-                <?php
-                require_once 'bbdd.php';
+                echo '</div>';
+                echo '<div class="inline" style="width:50%">';
                 echo'<h1><span class="color_rojo_general">Locales</span> en Alza</h1>';
                 LocalesAlza(null, '');
+                echo '</div>';
+                echo '</div>';
                 ?>
             </div>
         </div>

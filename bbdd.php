@@ -145,9 +145,9 @@ function RankingMusicos($genero, $ciudad) {
     $conexion = conectar();
     $isFirst = 1;
     if (!isset($genero) && !isset($ciudad)) {
-        $sql = "SELECT SUM(PUNTOS) AS PUNTOS,(SELECT NOMBRE FROM GENERO WHERE ID_GENERO = USUARIO.ID_GENERO) AS NOMBRE_GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = USUARIO.ID_CIUDAD) AS NOMBRE_CIUDAD, USUARIO.ID_GENERO AS GENERO, USUARIO.ID_CIUDAD AS CIUDAD, ID_VOTADO, NOMBRE FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO=USUARIO.ID_USUARIO WHERE USUARIO.TIPO_USUARIO = 'MUSICO' GROUP BY ID_VOTADO ORDER BY PUNTOS DESC";
+        $sql = "SELECT *, SUM(PUNTOS) AS PUNTOS,(SELECT NOMBRE FROM GENERO WHERE ID_GENERO = USUARIO.ID_GENERO) AS NOMBRE_GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = USUARIO.ID_CIUDAD) AS NOMBRE_CIUDAD, USUARIO.ID_GENERO AS GENERO, USUARIO.ID_CIUDAD AS CIUDAD, ID_VOTADO, NOMBRE FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO=USUARIO.ID_USUARIO WHERE USUARIO.TIPO_USUARIO = 'MUSICO' GROUP BY ID_VOTADO ORDER BY PUNTOS DESC";
     } else {
-        $sql = "SELECT SUM(PUNTOS) AS PUNTOS,(SELECT NOMBRE FROM GENERO WHERE ID_GENERO = USUARIO.ID_GENERO) AS NOMBRE_GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = USUARIO.ID_CIUDAD) AS NOMBRE_CIUDAD, USUARIO.ID_GENERO AS GENERO, USUARIO.ID_CIUDAD AS CIUDAD, ID_VOTADO, NOMBRE FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO=USUARIO.ID_USUARIO WHERE USUARIO.TIPO_USUARIO = 'MUSICO' GROUP BY ID_VOTADO";
+        $sql = "SELECT *, SUM(PUNTOS) AS PUNTOS,(SELECT NOMBRE FROM GENERO WHERE ID_GENERO = USUARIO.ID_GENERO) AS NOMBRE_GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = USUARIO.ID_CIUDAD) AS NOMBRE_CIUDAD, USUARIO.ID_GENERO AS GENERO, USUARIO.ID_CIUDAD AS CIUDAD, ID_VOTADO, NOMBRE FROM VOTAR_COMENTAR INNER JOIN USUARIO ON VOTAR_COMENTAR.ID_VOTADO=USUARIO.ID_USUARIO WHERE USUARIO.TIPO_USUARIO = 'MUSICO' GROUP BY ID_VOTADO";
         if ($genero != null) {
             $isFirst = 0;
             $sql .= " HAVING GENERO=$genero";
@@ -668,9 +668,13 @@ function ArtistasAlza($genero, $ciudad, $titulo) {
         echo '<div class="div_peque_ranking"></div>';
         echo '<div class="div_ranking">';
         echo '<img class="img_div_ranking inline" src="Imagenes/image.jpeg">';
-        echo '<div class="nombre_artista inline vertical_top" style="padding-top:10px;padding-left:10px"><a href="InfoGrupo.php?nombre=' . $nombre_artistico . '"><b class="fontblack a_concierto" style="font-size:25px">' . $row['NOMBRE'] . '</b><br><i class="color_rojo_general"> ' . $row['NOMBRE_GENERO'] . ' - ' . $row['NOMBRE_CIUDAD'] . '</i></a></div>';
+        echo '<div class="nombre_artista inline vertical_top" style="padding-top:10px;padding-left:10px;text-align:left"><a href="InfoGrupo.php?nombre=' . $nombre_artistico . '"><b class="fontblack a_concierto" style="font-size:25px">' . $row['NOMBRE'] . '</b><br><i class="color_rojo_general"> ' . $row['NOMBRE_GENERO'] . ' - ' . $row['NOMBRE_CIUDAD'] . '</i></a></div>';
         echo '</div>';
         echo '<img class="img_ranking_numero" src="Imagenes/ranking' . $i . '.png">';
+        echo '<div style="padding-right:10px">';
+        $average = votosLocal($row['ID_USUARIO']);
+        mostrarEstrellasPuntuacionLocal($average, $i);
+        echo '</div>';
         echo '</div>';
         echo '<br>';
         $i++;
@@ -695,8 +699,10 @@ function LocalesAlza($ciudad, $titulo) {
         echo '<div class="nombre_artista inline vertical_top" style="padding-top:10px;padding-left:10px"><a href="InfoLocal.php?nombre=' . $nombre_local . '"><b class="fontblack a_concierto" style="font-size:25px">' . $row['NOMBRE'] . '</b><br><i style="float:left" class="color_rojo_general"> ' . $row['NOMBRE_CIUDAD'] . '</i></a></div>';
         echo '</div>';
         echo '<img class="img_ranking_numero" src="Imagenes/ranking' . $i . '.png">';
+        echo '<div style="padding-right:10px">';
         $average = votosLocal($row['ID_USUARIO']);
         mostrarEstrellasPuntuacionLocal($average, $i);
+        echo '</div>';
         echo '</div>';
         echo '<br>';
         $i++;
@@ -907,6 +913,7 @@ function getInfoUser($email) {
         $row = $result->fetch_assoc();
         return $row;
     } else {
+        echo mysqli_error($conexion);
         return null;
     }
     desconectar();
@@ -1256,7 +1263,7 @@ function finalizarConcierto($idconcierto) {
 
 function votarComentarNoConcierto($fan, $votado, $puntos, $comentario) {
     $conexion = conectar();
-    $sql = "INSERT INTO VOTAR_COMENTAR values (null,'$fan','$votado','$puntos',0,'$comentario',now(),A";
+    $sql = "INSERT INTO VOTAR_COMENTAR values (null,'$fan','$votado','$puntos',0,'$comentario',now(),'A')";
     if (mysqli_query($conexion, $sql)) {
         return true;
     } else {

@@ -203,6 +203,10 @@
     background-color:white;
     border: 0px;
 }
+#msformLeft textarea:disabled{
+    background-color:white;
+    border: 0px;
+}
 
 #divConImagen{
     width:200px;
