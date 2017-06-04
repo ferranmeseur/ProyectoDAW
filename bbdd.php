@@ -246,12 +246,12 @@ function ListaCiudades() {
 
 /* CONCIERTOS: */
 
-function ListaConciertosFan($fechaConciertos, $genero, $ciudad, $grupo, $local, $estado) {
+function ListaConciertosFan($fechaConciertos, $genero, $ciudad, $grupo, $local, $estado, $visible) {
     $conexion = conectar();
     if (empty($genero) && empty($ciudad) && empty($grupo) && empty($local)) {
-        $sql = "SELECT *,(SELECT UBICACION FROM USUARIO WHERE ID_USUARIO=CONCIERTO.ID_LOCAL) AS UBICACION, (SELECT NOMBRE FROM GENERO WHERE ID_GENERO = CONCIERTO.ID_GENERO) AS GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = CONCIERTO.ID_CIUDAD) AS CIUDAD, (SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=ID_LOCAL) AS NOMBRE_LOCAL FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE CONCIERTO.FECHA='$fechaConciertos' AND CONCIERTO.ESTADO = $estado";
+        $sql = "SELECT *,(SELECT UBICACION FROM USUARIO WHERE ID_USUARIO=CONCIERTO.ID_LOCAL) AS UBICACION, (SELECT NOMBRE FROM GENERO WHERE ID_GENERO = CONCIERTO.ID_GENERO) AS GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = CONCIERTO.ID_CIUDAD) AS CIUDAD, (SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=ID_LOCAL) AS NOMBRE_LOCAL FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE CONCIERTO.FECHA='$fechaConciertos' AND CONCIERTO.VISIBLE = $visible AND CONCIERTO.ESTADO = $estado";
     } else {
-        $sql = "SELECT *,(SELECT UBICACION FROM USUARIO WHERE ID_USUARIO=CONCIERTO.ID_LOCAL) AS UBICACION, (SELECT NOMBRE FROM GENERO WHERE ID_GENERO = CONCIERTO.ID_GENERO) AS GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = CONCIERTO.ID_CIUDAD) AS CIUDAD, (SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=ID_LOCAL) AS NOMBRE_LOCAL FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE CONCIERTO.FECHA='$fechaConciertos' AND CONCIERTO.ESTADO = $estado";
+        $sql = "SELECT *,(SELECT UBICACION FROM USUARIO WHERE ID_USUARIO=CONCIERTO.ID_LOCAL) AS UBICACION, (SELECT NOMBRE FROM GENERO WHERE ID_GENERO = CONCIERTO.ID_GENERO) AS GENERO, (SELECT NOMBRE FROM CIUDAD WHERE ID_CIUDAD = CONCIERTO.ID_CIUDAD) AS CIUDAD, (SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO=ID_LOCAL) AS NOMBRE_LOCAL FROM CONCIERTO INNER JOIN USUARIO ON CONCIERTO.ID_GRUPO = USUARIO.ID_USUARIO WHERE CONCIERTO.FECHA='$fechaConciertos' AND CONCIERTO.VISIBLE = $visible AND CONCIERTO.ESTADO = $estado";
         if (!empty($genero)) {
             $sql = $sql . ' AND CONCIERTO.ID_GENERO = "' . $genero . '"';
         } else if (!empty($ciudad)) {
@@ -262,7 +262,6 @@ function ListaConciertosFan($fechaConciertos, $genero, $ciudad, $grupo, $local, 
             $sql = $sql . " AND CONCIERTO.ID_LOCAL = '$local'";
         }
     }
-//    echo $sql;
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
         return $result;
@@ -282,6 +281,7 @@ function ListaFechasConciertos($futurosConciertos) {
             return $result;
         } else {
             echo 'error ListaFEchasConciertos';
+            echo mysqli_error($conexion);
         }
     } else {
         $sql = "SELECT FECHA FROM CONCIERTO WHERE FECHA<now() AND ESTADO=1 GROUP BY FECHA";
@@ -290,7 +290,7 @@ function ListaFechasConciertos($futurosConciertos) {
             return $result;
         } else {
             echo 'error ListaFEchasConciertos';
-//echo mysqli_error($conexion);
+            echo mysqli_error($conexion);
         }
     }
     desconectar($conexion);
@@ -940,7 +940,7 @@ function verificarUser($userEmail, $pass) {
     $query = "SELECT PASSWORD FROM USUARIO WHERE EMAIL='$userEmail'";
     $result = $conexion->query($query);
     if ($result->num_rows > 0) {
-        // Comprobamos que la contraseña es correcta
+// Comprobamos que la contraseña es correcta
         $row = $result->fetch_assoc();
         return password_verify($pass, $row['PASSWORD']);
     } else {    // Este else no hace falta
@@ -1041,6 +1041,15 @@ function votosLocal($id) {
 function getNombreLocal($id) {
     $conexion = conectar();
     $sql = "SELECT * FROM USUARIO WHERE ID_USUARIO ='$id'";
+    $resultado = $conexion->query($sql);
+    $row = mysqli_fetch_array($resultado);
+    return $row;
+    desconectar($conexion);
+}
+
+function getNombreGrupo($id) {
+    $conexion = conectar();
+    $sql = "SELECT NOMBRE_ARTISTICO FROM USUARIO WHERE ID_USUARIO ='$id'";
     $resultado = $conexion->query($sql);
     $row = mysqli_fetch_array($resultado);
     return $row;
@@ -1236,6 +1245,7 @@ function comentariosGrupo($id) {
     if ($resultado->num_rows > 0) {
         return $resultado;
     } else {
+        echo mysqli_error($conexion);
         return false;
     }
     desconectar($conexion);
@@ -1243,16 +1253,47 @@ function comentariosGrupo($id) {
 
 function crearConcierto($idgrupo, $idlocal, $fecha, $precio, $totalEntradas, $idgenero, $idciudad) {
     $conexion = conectar();
-    $sql = "INSERT INTO CONCIERTO VALUES(null,$idgrupo,$idlocal,'$fecha',$precio,1,$totalEntradas,0,$idgenero,$idciudad)";
-    if (mysqli_query($conexion, $sql)) {
-        return true;
+    $sql = "SELECT date(FECHA) AS FECHA, ID_GRUPO FROM CONCIERTO WHERE ID_GRUPO = $idgrupo AND ID_LOCAL = $idlocal AND VISIBLE = 1";
+    $resultado = $conexion->query($sql);
+    if ($resultado->num_rows > 0) {
+        $row = $resultado->fetch_assoc();
+        $fechaFormat = date('Y-m-d', strtotime($fecha));
+        if ($fechaFormat != $row['FECHA']) {
+            echo $fechaFormat;
+            echo $row['FECHA'];
+            $sql2 = "INSERT INTO CONCIERTO VALUES(null,$idgrupo,$idlocal,'$fecha',1,$precio,1,$totalEntradas,0,$idgenero,$idciudad)";
+            if (mysqli_query($conexion, $sql2)) {
+                $nombreLocal = getNombreLocal($idlocal);
+                $nombreGrupo = getNombreGrupo($idgrupo);
+                $sql3 = "SELECT ID_CONCIERTO FROM CONCIERTO WHERE ID_LOCAL =$idlocal AND ID_GRUPO = $idgrupo AND FECHA = '$fecha'";
+                $result = $conexion->query($sql);
+                if ($resultado->num_rows > 0) {
+                    $row = $resultado->fetch_assoc();
+                    //TraceEvent("CONCIERTO", $nombreGrupo['NOMBRE_ARTISTICO'] .'-'. $nombreLocal['NOMBRE_LOCAL'], 1, "NUEVO CONCIERTO", $row['ID_CONCIERTO']);
+                    return true;
+                } else {
+                    echo mysqli_error($conexion);
+                    return false;
+                }
+            } else {
+                echo mysqli_error($conexion);
+                return false;
+            }
+        } else {
+            echo '<h2>Actualmente ya hay creado un concierto de este mismo grupo en tu local</h2>';
+            echo '<i>Volviendo a la página de creación</i>';
+            header("refresh:2;url='CrearConcierto.php?local=$idlocal&idgrupo=$idgrupo'");
+            return false;
+        }
     } else {
         echo mysqli_error($conexion);
+        return false;
     }
+
     desconectar($conexion);
 }
 
-function finalizarConcierto($idconcierto) {
+function lanzarConcierto($idconcierto) {
     $conexion = conectar();
     $sql = "UPDATE CONCIERTO SET ESTADO = 1 WHERE ID_CONCIERTO = $idconcierto";
     if (mysqli_query($conexion, $sql)) {
@@ -1262,6 +1303,37 @@ function finalizarConcierto($idconcierto) {
     }
     header("Location:'Perfil.php'");
     desconectar($conexion);
+}
+
+function cancelarConcierto($idconcierto) {
+    $conexion = conectar();
+    if (isset($idconcierto)) {
+        $sql = "UPDATE CONCIERTO SET VISIBLE = 0 WHERE ID_CONCIERTO = $idconcierto";
+        $informacion = getInfoConcierto($idconcierto)->fetch_assoc();
+        $nombreGrupo = getNombreGrupo($informacion['ID_GRUPO']);
+        $nombreLocal = getNombreLocal($informacion['ID_LOCAL']);
+        TraceEvent("CONCIERTO", $nombreGrupo['NOMBRE_ARTISTICO'] .'-'. $nombreLocal['NOMBRE_LOCAL'], 1, "CONCIERTO CANCELADO", $idconcierto);
+    } else {
+        echo 'No has indicado un id_concierto';
+    }
+    if (mysqli_query($conexion, $sql)) {
+        return true;
+    } else {
+        echo mysqli_error($conexion);
+    }
+    desconectar($conexion);
+}
+
+function getInfoConcierto($id) {
+    $conexion = conectar();
+    $sql = "SELECT * FROM CONCIERTO WHERE ID_CONCIERTO = $id";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        return $result;
+    } else {
+        echo mysqli_error($conexion);
+        return false;
+    }
 }
 
 function votarComentarNoConcierto($fan, $votado, $puntos, $comentario) {
