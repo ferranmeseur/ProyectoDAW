@@ -175,7 +175,7 @@
         echo '<div class="center">Email : ' . $resultado['EMAIL'] . '</div>';
         echo '<div class="center">Contacto : ' . $resultado['NUMERO_CONTACTO'] . '</div>';
         if ($resultado['WEB'] != null) {
-            echo'<div class="center">Web : >' . $resultado['WEB'] . '</div>';
+            echo'<div class="center">Web : ' . $resultado['WEB'] . '</div>';
         } 
         if ($resultado['DESCRIPCION'] != null) {
             echo '<div class="center">Descripción : ' . $resultado['DESCRIPCION'] . '</div>';
