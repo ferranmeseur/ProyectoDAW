@@ -3,6 +3,7 @@
     <head>
         <?php
         require_once'bbdd.php';
+        $redirect = $_GET['nombre'];
         echo '<title>' . $_GET['nombre'] . '</title>';
         ?>
         <meta charset="UTF-8">
@@ -33,6 +34,7 @@
     <body>
         <div id="header"></div> 
         <?php
+        session_start();
         require_once'bbdd.php';
         if (isset($_GET['b'])) {
             $nombre = $_GET['nombre'];
@@ -71,8 +73,6 @@
         }
         if ($resultado['DESCRIPCION'] != null) {
             echo '<div class="center">Descripción : ' . $resultado['DESCRIPCION'] . '</div>';
-        } else {
-            '</div>';
         }
         if ($comentarios != false) {
             echo '</br></br><div class="center">Comentarios : <table class="center">';
@@ -88,19 +88,21 @@
         echo '</div>';
 
         if (isset($_POST["enviar"])) {
-            $puntos = $_POST["rating"];
+                            $check = 1;
+            $puntos = $_POST["rating2"];
             $comentario = $_POST["comentario"];
             $user = getInfoUser($_SESSION['email']);
             votarComentarNoConcierto($user['ID_USUARIO'], $resultado['ID_USUARIO'], $puntos, $comentario);
+                if($check == 0 )header("Refresh:0");
         }
-        /* if (isset($_SESSION['email'])) {
-          $user = getInfoUser($_SESSION['email']);
-          $check = checkVotar($resultado['ID_USUARIO'],$user['ID_USUARIO']);
-          } */
-        /* if (isset($_SESSION['pass']) && $user['TIPO_USUARIO'] == "FAN" && $check) { */
-        echo'<h2>Deja tu comentario:</h2>';
-        echo'<form action = "" method = "POST" id="msform">';
-        echo'<div style="width:200px" class="rating">
+        if (isset($_SESSION['email'])) {
+            $user = getInfoUser($_SESSION['email']);
+            $check = checkVotar($resultado['ID_USUARIO'], $user['ID_USUARIO']);
+        }
+        if (isset($_SESSION['pass']) && $user['TIPO_USUARIO'] == "Fan" && $check == 0) {
+            echo'<h2>Deja tu comentario:</h2>';
+            echo'<form action = "" method = "POST" id="msform">';
+            echo'<div style="width:200px" class="rating">
     <input type="radio" id="estrella5" name="rating2" value="5" /><label class = "full" for="estrella5" title="Awesome - 5 estrellas"></label>
     <input type="radio" id="estrella4medio" name="rating2" value="4.5" /><label class="half" for="estrella4medio" title="Pretty good - 4.5 estrellas"></label>
     <input type="radio" id="estrella4" name="rating2" value="4" /><label class = "full" for="estrella4" title="Pretty good - 4 estrellas"></label>
@@ -112,12 +114,12 @@
     <input type="radio" id="estrella1" name="rating2" value="1" /><label class = "full" for="estrella1" title="Sucks big time - 1 estrella"></label>
     <input type="radio" id="estrellamedio" name="rating2" value="medio" /><label class="half" for="estrellamedio" title="Sucks big time - 0.5 estrellas"></label>
 </div> ';
-        echo ' <div id="Descripcion" class="center">
+            echo ' <div  class="center">
                     <textarea name="comentario" maxlength="255" rows="5" cols="50"></textarea>
                     </div>
             <button style="width:400px" type="submit" class="submit action-button"  name = "enviar">Enviar Comentario</button>
        </form></div></div></div></div>';
-        /* } */
+        }
         ?>
         <div id="footer"></div>
     </body>

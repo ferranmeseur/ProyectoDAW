@@ -7,7 +7,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
     header("refresh:2; url=HomePage.php");
     return 0;
 } else {
-
+    
 }
 ?>
 <html>
@@ -39,6 +39,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                     $_POST["valoresok"] = "ok";
                     $email = strtolower($email);
                     $_SESSION['email'] = $email;
+                    $_SESSION['tipo'] = $resultado;
                     $_SESSION['pass'] = $pass;
                 }
             }if (isset($_POST["valoresok"])) {
