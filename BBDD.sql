@@ -77,6 +77,15 @@ FECHA datetime not null,
 TIPO_VOTACION char(10) not null
 );
 
+create table PROPONER(
+ID_PROPUESTA int(10) not null auto_increment primary key,
+ID_LOCAL int(10) not null,
+ID_GRUPO int(10) not null,
+ID_CONCIERTO int(10) not null,
+FECHA date not null,
+ACEPTADO boolean not null
+);
+
 alter table USUARIO add constraint fk_USUARIO_GENERO foreign key(ID_GENERO) references GENERO(ID_GENERO) on update cascade;
 alter table USUARIO add constraint fk_USUARIO_CIUDAD foreign key(ID_CIUDAD) references CIUDAD(ID_CIUDAD) on update cascade;
 
@@ -87,6 +96,9 @@ alter table CONCIERTO add constraint fk_CONCIERTO_GRUPO foreign key (ID_GRUPO) r
 alter table VOTAR_COMENTAR add constraint fk_VOTAR_COMENTAR_USUARIO_FAN foreign key(ID_FAN) references USUARIO(ID_USUARIO) on update cascade;
 alter table VOTAR_COMENTAR add constraint fk_VOTAR_COMENTAR_USUARIO_VOTADO foreign key(ID_VOTADO) references USUARIO(ID_USUARIO) on update cascade;
 
+alter table PROPONER add constraint fk_PROPONER_CONCIERTO foreign key (ID_CONCIERTO) references CONCIERTO (ID_CONCIERTO) on update cascade;
+alter table PROPONER add constraint fk_PROPONER_USUARIO foreign key (ID_LOCAL) references USUARIO (ID_USUARIO) on update cascade;
+alter table PROPONER add constraint fk_PROPONER_GRUPO foreign key (ID_GRUPO) references USUARIO (ID_USUARIO) on update cascade;
 
 INSERT INTO GENERO VALUES (null,"ROCK");
 INSERT INTO GENERO VALUES (null,"POP");
@@ -169,7 +181,6 @@ INSERT INTO CONCIERTO VALUES(null,6,12,"2018-5-1",1,10,TRUE,100,TRUE,1,3);
 INSERT INTO CONCIERTO VALUES(null,1,12,"2017-1-1",1,10,TRUE,100,TRUE,1,3);
 INSERT INTO CONCIERTO VALUES(null,2,11,"2017-1-1",1,10,TRUE,100,TRUE,1,3);
 INSERT INTO CONCIERTO VALUES(null,3,10,"2017-1-1",1,10,TRUE,100,TRUE,1,3);
-
 INSERT INTO CONCIERTO VALUES(null,4,9,"2017-1-2",1,10,TRUE,100,TRUE,1,2);
 INSERT INTO CONCIERTO VALUES(null,5,8,"2017-1-2",1,10,TRUE,100,TRUE,1,2);
 INSERT INTO CONCIERTO VALUES(null,6,7,"2017-1-2",1,10,TRUE,100,TRUE,1,2);
@@ -177,9 +188,8 @@ INSERT INTO CONCIERTO VALUES(null,1,12,"2017-1-3",1,10,TRUE,100,TRUE,4,3);
 INSERT INTO CONCIERTO VALUES(null,6,9,"2017-1-3",1,10,TRUE,100,TRUE,4,3);
 INSERT INTO CONCIERTO VALUES(null,5,8,"2017-1-3",1,10,TRUE,100,TRUE,4,3);
 
-
 INSERT INTO TRACE VALUES(null, 'REGISTRO', 'Girls', now(), null, 'NUEVO MUSICO',null); 
 INSERT INTO TRACE VALUES(null, 'REGISTRO', 'Fan 1', now(), true, 'NUEVO FAN',null); 
-INSERT INTO TRACE VALUES(null, 'CONCIERTO', 'Los Suaves-Freedonia', now(), 1, 'NUEVO CONCIERTO',1);
 INSERT INTO TRACE VALUES(null, 'REGISTRO', 'Sala Apolo', now(), true, 'NUEVO LOCAL',null); 
 
+INSERT INTO TRACE VALUES(null, 'CONCIERTO', 'Los Suaves-Freedonia', now(), 1, 'NUEVO CONCIERTO',1);

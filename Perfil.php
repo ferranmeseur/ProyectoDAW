@@ -93,83 +93,20 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                 informacionLocal($info);
                 break;
             case "Musico":
-                echo "Que ise";
+                informacionMusico($info);
                 break;
         }
 
-        function informacionFan($info) {
-            if (isset($_POST['enviar'])) {
-                $nuevoNombre = $_POST['nombre'];
-                $nuevoApellido = $_POST['apellido'];
-                $nuevaUbicacion = $_POST['ubicacion'];
-                if (modificarDatosFan($_SESSION['email'], $nuevoNombre, $nuevoApellido, $nuevaUbicacion)) {
-                    echo '<h2 class="center fs-title">Datos modificados con éxito</h2>';
-                    header("refresh:5; url=Perfil.php");
-                } else {
-                    echo 'fallo';
-                }
-            } else {
-
-                $imagen = showImage($_SESSION['email']);
-                echo '<h1>Perfil <span class="color_rojo_general"> Fan</span></h1>';
-                echo'<div id = "div1" class = "inline center" style = "vertical-align:top;width: 15%; height: 100%">
-                        <h1 class="fs-title">MIS DATOS</h1>
-                        <div style = "width:250px; float:left">
-                        <div id = "divConImagen" style = "border:1px solid gray">';
-
-                $urlDefaultImage = 'Imagenes/image.jpeg';
-                echo '<div id="image-preview" style="background-image: url(' . $urlDefaultImage . ');background-size:cover">
-                            <label hidden for="image-upload" id="image-label">Escoger foto</label>
-                            <input type="file" name="image" disabled id="image-upload"/>
-                        </div>';
-                echo'</div>
-                        </div>
-                        <div>
-                        <button style = "width:200px;margin:15px auto auto auto" onclick = "modificarPerfil(2)" class = "action-button" id = "editarPerfil"><span class = "icon icon-wrench"></span>EDITAR PERFIL</button>
-                        <a href = "ModificarPassword.php"><button style = "width:100%; margin:15px auto auto auto" id="modificarContraseña" class="action-button" hidden>MODIFICAR PASSWORD</button></a>
-                        </div>
-                        </div>
-                        <div id = "div2" class = "inline" style = "margin-left:50px;vertical-align: top; width: 60%; height: 150%">';
-                echo'<form style="width:100%" method = "POST" action = "" id = "msformLeft">
-                        <table style="width:95%;text-align:left">
-                        <col width="auto">
-                        <col width="auto">
-                        <tr>
-                        <td style="color:#d83c3c">Email:</td><td><input style="width:80%" value = "' . $info['EMAIL'] . '" type = "text" disabled></td>
-                        <td style="color:#d83c3c">Contacto:</td><td><input style="width:80%" name = "contacto" value = "' . $info['NUMERO_CONTACTO'] . '" class = "in" type = "text" disabled></td>
-                        </tr>
-                        <tr>
-                        <td style="color:#d83c3c">Nombre:</td><td><input style="width:80%" name = "nombre" value = "' . $info['NOMBRE'] . '" class = "in" type = "text" disabled></td>
-                        <td style="color:#d83c3c">Apellidos:</td><td><input style="width:80%" name = "apellido" value = "' . $info['APELLIDOS'] . '" class = "in" type = "text" disabled></td>
-                        </tr>
-                        <tr>
-                        <td style="color:#d83c3c">Ubicacion:</td><td><input style="width:80%" name = "ubicacion" value = "' . $info['UBICACION'] . '" class = "in" type = "text" disabled></td>
-                        <td style="color:#d83c3c">Web:</td><td><input style="width:80%" name = "web" value = "' . $info['WEB'] . '" class = "in" type = "text" disabled></td>
-                        </tr>
-                        </table>
-                        <table style="width:95%;text-align:left">
-                        <col width="110px">
-                        <tr>
-                        <td class="inline" style="color:#d83c3c">Descripción:</td><td><textarea class="in" disabled style="resize:none;width:90%; height:200px; overflow-y:auto" form="msformLeft" name="descripcion" value="' . $info['DESCRIPCION'] . '"></textarea></td> 
-                        </tr>
-                        </table>
-                        <button style = "width:100%;margin:auto auto auto auto" id = "aplicarCambiosButton" hidden type = "submit" name = "enviar" class = "action-button">MODIFICAR DATOS</button>
-                        </form>';
-                echo '</table > ';
-
-                echo '</div>';
-            }
-        }
-
-        function informacionLocal($info) {
+        function informacionMusico($info) {
             if (isset($_POST['enviar'])) {
                 $nuevaUbicacion = $_POST['ubicacion'];
                 $nuevoNumeroContacto = $_POST['numeroContacto'];
-                $nuevoNombreLocal = $_POST['nombreLocal'];
-                $nuevoAforo = $_POST['aforo'];
+                $nuevoNombreArtistico = $_POST['nombreArtistico'];
+                $nuevoNumeroComponentes = $_POST['numeroComponentes'];
+                $nuevaDescripcion = $_POST['descripcion'];
                 $nuevaWeb = $_POST['web'];
 
-                if (modificarDatosLocal($_SESSION['email'], $nuevaUbicacion, $nuevoNumeroContacto, $nuevoNombreLocal, $nuevoAforo, $nuevaWeb)) {
+                if (modificarDatosMusico($_SESSION['email'], $nuevaUbicacion, $nuevoNumeroContacto, $nuevoNombreArtistico, $nuevoNumeroComponentes, $nuevaDescripcion, $nuevaWeb)) {
                     echo '<h1 class="center">Datos modificados con éxito</h1>';
                     header("refresh:5; url=Perfil.php");
                 } else {
@@ -177,7 +114,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                 }
             } else {
                 $imagen = showImage($_SESSION['email']);
-                echo '<h1>Perfil <span class="color_rojo_general"> Local</span></h1>';
+                echo '<h1>Perfil <span class="color_rojo_general"> Musico</span></h1>';
                 echo'<div id = "div1" class = "inline center" style = "vertical-align:top;width: 15%; height: 150%">
                         <h1 class="fs-title">MIS DATOS</h1>
                         <div style = "width:250px; float:left">
@@ -196,9 +133,9 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                         </div>
                         </div>
                         <div id = "div2" class = "inline" style = "margin-left:50px;vertical-align: top; width: 25%; height: 150%">';
-                $puntuacion = votosLocal($info['ID_USUARIO']);
+                $puntuacion = votosGrupo($info['ID_USUARIO']);
                 echo '<div style="float:left;text-align:left">';
-                echo'<b style="color:#d83c3c">LOCAL RATING</b><i id="puntuacion" hidden>' . $puntuacion . '</i><br>';
+                echo'<b style="color:#d83c3c">RATING DEL GRUPO</b><i id="puntuacion" hidden>' . $puntuacion . '</i><br>';
                 echo '<fieldset class="rating_fixed">
                         <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
                         <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
@@ -212,6 +149,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                         <input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
                         </fieldset> ';
                 echo '</div>';
+                $genero = getNombreGenero($info['ID_GENERO']);
                 echo'<form style="width:100%" method = "POST" action = "" id = "msformLeft">
                         <table style="width:95%">
                         <col width="100">
@@ -219,14 +157,19 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                             <td style="color:#d83c3c">Email:</td><td><input style="width:100%" value = "' . $info['EMAIL'] . '" type = "text" disabled></td>
                         </tr>
                         <tr>
-                        <td style="color:#d83c3c">Nombre:</td><td><input style="width:100%" name = "nombreLocal" value = "' . $info['NOMBRE_LOCAL'] . '" class = "in" type = "text" disabled></td>
+                            <td style="color:#d83c3c">Genero:</td><td><input style="width:100%" value = "' . $genero . '" type = "text" disabled></td>
+                        </tr>
+                        
+                        <tr>
+                        <td style="color:#d83c3c">Nombre:</td><td><input style="width:100%" name = "nombreArtistico" value = "' . $info['NOMBRE_ARTISTICO'] . '" class = "in" type = "text" disabled></td>
+                        </tr>
+                        <tr>
+                        <td style="color:#d83c3c">Numero de componentes:</td><td><input style="width:100%" name = "numeroComponentes" value = "' . $info['NUMERO_COMPONENTES'] . '" class = "in" type = "numer" disabled></td>
                         </tr>
                         <tr>
                         <td style="color:#d83c3c">Ubicacion:</td><td><input style="width:100%" name = "ubicacion" value = "' . $info['UBICACION'] . '" class = "in" type = "text" disabled></td>
                         </tr>
-                        <tr>
-                        <td style="color:#d83c3c">Aforo:</td><td><input style="width:100%" name = "aforo" value = "' . $info['AFORO'] . '" class = "in" type = "text" disabled></td>
-                        </tr>
+                        
                         <tr>
                         <td style="color:#d83c3c">Web:</td><td><input style="width:100%" name = "web" value = "' . $info['WEB'] . '" class = "in" type = "text" disabled></td>
                         </tr>
@@ -246,11 +189,9 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                         <div class="inline" style="width:200px;height:150%"></div>
                         <div class = "inline" style = ";vertical-align: top; width:30%; height: 150%">
                         <div id = "div3" style="border-bottom:2px solid gray">
-                        <a href = "CrearConcierto.php?local=' . $info['ID_USUARIO'] . '" style = "width:100px" class = "action-button">CREAR CONCIERTO</a><br><br>
-
-                        <h1 class="fs-title">PRÓXIMOS CONCIERTOS EN MI LOCAL</h1>';
+                        <h1 class="fs-title">MIS PRÓXIMOS CONCIERTOS</h1>';
                 echo '<div style = "max-height:325px;display:inline-block;overflow-y:auto; overflow-x:hidden" >';
-                if ($fechas = ListaFechasConciertosLocal(true, $info['ID_USUARIO'], 1)) {
+                if ($fechas = ListaFechasConciertosGrupo(true, $info['ID_USUARIO'], 1)) {
 
                     while ($row = $fechas->fetch_assoc()) {
                         $nuevaFecha = date("w-d-m-Y", strtotime($row["FECHA"]));
@@ -258,7 +199,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                         $fechaFinal = getNombreFecha($nuevaFecha);
                         $estado = 1;
                         $visible = 1;
-                        $result = ListaConciertosFan($row['FECHA'], null, null, null, $info['ID_USUARIO'], $estado, $visible);
+                        $result = ListaConciertosMusico($row['FECHA'], $info['ID_USUARIO'], 1);
                         if ($result == null) {
                             echo '<script language = "javascript">$("#$fechaFinal").empty();</script>';
                         } else {
@@ -276,8 +217,6 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                                 echo '<div class="inline">';
                                 echo '<a class="fontblack a_concierto" href=InfoConcierto.php?idcon=' . $lista['ID_CONCIERTO'] . '>';
                                 echo "<b id='h4_lista_img'>" . $lista['NOMBRE_ARTISTICO'] . "</b>";
-
-                                echo "<i>" . $lista['GENERO'] . "</i>";
                                 echo "</a>";
                                 echo '<form action="" method="POST">';
                                 echo '<input type="text" hidden name="idconcierto" value="' . $lista['ID_CONCIERTO'] . '">';
@@ -304,9 +243,9 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                 echo'</div>';
 
                 echo '<div style="padding-top:20px">';
-                echo '<h1 class = "fs-title">CONCIERTOS PENDIENTES</h1>';
+                echo '<h1 class = "fs-title">PROPUESTAS Y CONCIERTOS PENDIENTES</h1>';
                 echo '<div style = "max-height:325px;display:inline-block;text-align:center;height:325px;overflow-y:auto" >';
-                $fechas = ListaFechasConciertosLocal(true, $info['ID_USUARIO'], 0);
+                $fechas = ListaFechasConciertosGrupo(true, $info['ID_USUARIO'], 0);
                 if (!(empty($fechas))) {
                     while ($row = $fechas->fetch_assoc()) {
                         $nuevaFecha = date("w-d-m-Y", strtotime($row["FECHA"]));
@@ -314,8 +253,9 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                         $fechaFinal = getNombreFecha($nuevaFecha);
                         $estado = 0;
                         $visible = 1;
-                        $result = ListaConciertosFan($row['FECHA'], null, null, null, $info['ID_USUARIO'], $estado, $visible);
+                        $result = ListaConciertosMusico($row['FECHA'], $info['ID_USUARIO'], 0);
                         if ($result == null) {
+                            echo 'No hay conciertos<br><br>';
                             echo '<script language = "javascript">$("#$fechaFinal").empty();</script>';
                         } else {
 
@@ -325,21 +265,31 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                             echo '<h3 id="' . $fechaFinal . '" class="color_rojo_general">' . $fechaFinal . '</h3>';
                             echo '</td></tr>';
                             while ($lista = $result->fetch_assoc()) {
+                                $propuestaAceptada = getInfoPropuesta($lista['ID_CONCIERTO']);
                                 $nombre_artistico = str_replace(" ", "+", $lista['NOMBRE_ARTISTICO']);
                                 echo '<tr>';
                                 echo '<td style="vertical-align:top">';
                                 echo '<div class="inline">';
                                 echo '<a class="fontblack a_concierto" href=InfoConcierto.php?idcon=' . $lista['ID_CONCIERTO'] . '>';
                                 echo "<b id='h4_lista_img'>" . $lista['NOMBRE_ARTISTICO'] . "</b>";
-
-                                echo "<i class='color_rojo_general'> " . $lista['GENERO'] . "</i> <b>" . $nuevaHora . "h</b>";
+                                if ($propuestaAceptada == 'A') {
+                                    $estadoPropuesta = " - <b class='color_rojo_general'>ACEPTADO</b>";
+                                } elseif ($propuestaAceptada == 'P') {
+                                    $estadoPropuesta = " - <b class='color_rojo_general'>PENDIENTE</b>";
+                                } else {
+                                    $estadoPropuesta = " - <b class='color_rojo_general'>CANCELADO</b>";
+                                }
+                                echo "<br><i class='color_rojo_general'> " . $lista['UBICACION'] . "</i> <b>" . $nuevaHora . "h </b>" . $estadoPropuesta;
                                 echo "</a>";
                                 echo '<form action="" method="POST">';
                                 echo '<input type="text" hidden name="idconcierto" value="' . $lista['ID_CONCIERTO'] . '">';
-                                echo '<input type="text" hidden name="idgrupo" value="' . $lista['ID_GRUPO'] . '">';
-                                echo '<button type = "submit" name = "modificarConcierto" class = "action-button">MODIFICAR</button>';
-                                echo '<button type = "submit" name = "lanzarConcierto" class = "action-button">LANZAR</button>';
-                                echo '<button type = "submit" name = "cancelarConcierto" class = "action-button">CANCELAR</button>';
+                                if ($propuestaAceptada == 'P') {
+                                    echo '<button type = "submit" name = "aceptarConcierto" class = "action-button">ACEPTAR</button>';
+                                    echo '<button type = "submit" name = "rechazarConcierto" class = "action-button">RECHAZAR</button>';
+                                } else {
+                                    
+                                }
+
                                 echo '</form>';
                                 echo '</div>';
                                 echo '</td>';
@@ -351,19 +301,15 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                             echo'</div>';
                         }
                     }
-                    if (isset($_POST['lanzarConcierto'])) {
+                    if (isset($_POST['rechazarConcierto'])) {
                         $idconcierto = $_POST['idconcierto'];
-                        lanzarConcierto($idconcierto);
+                        echo (ResponderPropuesta($idconcierto, 'C'));
                         redirectURL('Perfil.php');
                     }
-                    if (isset($_POST['cancelarConcierto'])) {
+                    if (isset($_POST['aceptarConcierto'])) {
                         $idconcierto = $_POST['idconcierto'];
-                        cancelarConcierto($idconcierto);
-                    }
-                    if (isset($_POST['modificarConcierto'])) {
-                        $idconcierto = $_POST['idconcierto'];
-                        $idgrupo = $_POST['idgrupo'];
-                        echo'<script>window.location.replace("CrearConcierto.php?idgrupo=' . $idgrupo . '&idconcierto=' . $idconcierto . '&mod=true");</script>';
+                        echo(ResponderPropuesta($idconcierto, 'A'));
+                        redirectURL('Perfil.php');
                     }
                 } else {
                     echo 'No hay conciertos<br><br>';
@@ -372,9 +318,8 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                 echo'</div>';
 
                 echo'</div>
-<div id = "div4" class = "center" style = "width:85.6%;height:400px;margin:auto auto auto auto">
-</div>
-';
+                <div id = "div4" class = "center" style = "width:85.6%;height:400px;margin:auto auto auto auto">
+                </div>';
             }
         }
         ?>
