@@ -12,6 +12,7 @@
             });
         </script> 
         <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
+        <link href="Estilos/StarRating.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div id="header"></div>
@@ -30,7 +31,7 @@
                     $local = $_POST['id_local'];
                     $fechas = ListaFechasConciertos($futurosConciertos);
                     echo'<div style="margin-right: 200px; margin-left:200px">';
-
+                    $i = 0;
                     while ($row = $fechas->fetch_assoc()) {
                         $nuevaFecha = date("w-d-m-Y", strtotime($row["FECHA"]));
                         $nuevaHora = date("H:i", strtotime($row["FECHA"]));
@@ -45,6 +46,7 @@
                             echo '<table cellspacing=0 style="width:100%">';
                             echo '<col width="auto">';
                             echo '<col width="300">';
+                            echo '<col width="400">';
 
                             while ($lista = $result->fetch_assoc()) {
                                 $nombre_artistico = str_replace(" ", "+", $lista['NOMBRE_ARTISTICO']);
@@ -59,6 +61,10 @@
                                 echo "<i>" . $lista['GENERO'] . "</i>";
                                 echo '</div>';
                                 echo '</td>';
+                                echo '<td align="center" style="border-bottom:1px solid gray">';
+                                $average = votosLocal($lista['ID_USUARIO']);
+                                mostrarEstrellasPuntuacionLocal($average, $i);
+                                echo '</td>';
                                 echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:right;vertical-align:top">';
                                 echo "<div class='inline padding5'>";
                                 echo "<b>" . $lista['NOMBRE_LOCAL'] . "</b><br>";
@@ -67,6 +73,7 @@
                                 echo "</a>";
                                 echo '</td>';
                                 echo '</tr>';
+                                $i++;
                             }
                             echo'</table>';
                             echo'</div>';
