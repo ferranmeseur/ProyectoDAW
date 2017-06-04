@@ -82,8 +82,9 @@ ID_PROPUESTA int(10) not null auto_increment primary key,
 ID_LOCAL int(10) not null,
 ID_GRUPO int(10) not null,
 ID_CONCIERTO int(10) not null,
-FECHA date not null,
-ACEPTADO boolean not null
+FECHA_CONCIERTO date not null,
+FECHA_PROPUESTA date not null,
+ESTADO char not null
 );
 
 alter table USUARIO add constraint fk_USUARIO_GENERO foreign key(ID_GENERO) references GENERO(ID_GENERO) on update cascade;
