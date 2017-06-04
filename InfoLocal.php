@@ -2,6 +2,7 @@
 <html>
     <head>
         <?php
+        session_start();
         require_once'bbdd.php';
         $redirect = $_GET['nombre'];
         echo '<title>' . $_GET['nombre'] . '</title>';
@@ -141,14 +142,13 @@
     <body>
         <div id="header"></div> 
         <?php
-        session_start();
         require_once'bbdd.php';
         if (isset($_GET['b'])) {
             $nombre = $_GET['nombre'];
             TraceEvent("BUSQUEDA", $nombre, "NULL", "LOCAL", "NULL");
         }
         echo'<div class="center content">';
-        echo'<div class="inline center">';
+        echo'<div class="inline center" style="vertical-align:top">';
         echo'<img src="Imagenes/image.jpeg" alt=""/>';
         echo'</div>';
         echo '<div class="inline">';
@@ -157,7 +157,7 @@
         $comentarios = comentariosGrupo($resultado['ID_USUARIO']);
         echo '<h1>' . $resultado['NOMBRE_LOCAL'] . '</h1>';
         echo'<b style="color:#d83c3c">LOCAL RATING</b><i id="puntuacion" hidden>' . $puntuacion . '</i><br>';
-        echo '<fieldset class="rating_fixed center" style="float:none">
+        echo '<fieldset class="rating_fixed center" style="float:none;width:70%">
                         <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
                         <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
                         <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
@@ -172,12 +172,11 @@
         echo '<div class="center">Ubicación : ' . $resultado['UBICACION'] . '</div>';
         echo '<div class="center">Ciudad : ' . getNombreCiudad($resultado['ID_CIUDAD']) . '</div>';
         echo '<div class="center">Aforo : ' . $resultado['AFORO'] . '</div>';
-        echo '<div class="center">Contacto : ' . $resultado['NUMERO_CONTACTO'] . ' , ' . $resultado['EMAIL'];
+        echo '<div class="center">Email : ' . $resultado['EMAIL'] . '</div>';
+        echo '<div class="center">Contacto : ' . $resultado['NUMERO_CONTACTO'] . '</div>';
         if ($resultado['WEB'] != null) {
-            echo' , ' . $resultado['WEB'] . '</div>';
-        } else {
-            '</div>';
-        }
+            echo'<div class="center">Web : >' . $resultado['WEB'] . '</div>';
+        } 
         if ($resultado['DESCRIPCION'] != null) {
             echo '<div class="center">Descripción : ' . $resultado['DESCRIPCION'] . '</div>';
         }
