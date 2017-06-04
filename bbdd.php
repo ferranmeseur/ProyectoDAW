@@ -672,7 +672,7 @@ function ArtistasAlza($genero, $ciudad, $titulo) {
         echo '<div class="nombre_artista inline vertical_top" style="padding-top:10px;padding-left:10px;text-align:left"><a href="InfoGrupo.php?nombre=' . $nombre_artistico . '"><b class="fontblack a_concierto" style="font-size:25px">' . $row['NOMBRE'] . '</b><br><i class="color_rojo_general"> ' . $row['NOMBRE_GENERO'] . ' - ' . $row['NOMBRE_CIUDAD'] . '</i></a></div>';
         echo '</div>';
         echo '<img class="img_ranking_numero" src="Imagenes/ranking' . $i . '.png">';
-        echo '<div style="padding-right:10px">';
+        echo '<div style="vertical-align:bottom;padding-right:10px">';
         $average = votosLocal($row['ID_USUARIO']);
         mostrarEstrellasPuntuacionLocal($average, $i);
         echo '</div>';
@@ -1051,7 +1051,7 @@ function getNombreLocal($id) {
 
 function getNombreGrupo($id) {
     $conexion = conectar();
-    $sql = "SELECT NOMBRE_ARTISTICO FROM USUARIO WHERE ID_USUARIO ='$id'";
+    $sql = "SELECT * FROM USUARIO WHERE ID_USUARIO ='$id'";
     $resultado = $conexion->query($sql);
     $row = mysqli_fetch_array($resultado);
     return $row;
@@ -1253,45 +1253,61 @@ function comentariosGrupo($id) {
     desconectar($conexion);
 }
 
+function modificarConcierto($idconcierto, $idgrupo, $idlocal, $fecha, $precio, $totalEntradas) {
+    $conexion = conectar();
+    $fechaSinHora = date('Y-m-d', strtotime($fecha));
+    $sql = "SELECT * FROM CONCIERTO WHERE ID_GRUPO = $idgrupo AND ID_LOCAL = $idlocal AND DATE(FECHA) = '$fechaSinHora' AND VISIBLE = 1";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        echo '<h1>Ya existe un concierto del mismo grupo el mismo día</h1>';
+        $idconcierto = $row['ID_CONCIERTO'];
+        header("Refresh:2;url='CrearConcierto.php?idgrupo=$idgrupo&idconcierto=$idconcierto&mod=true'");
+        return false;
+    } else {
+        $sql = "UPDATE CONCIERTO SET FECHA = '$fecha' AND PRECIO = $precio AND TOTAL_ENTRADAS = $totalEntradas WHERE ID_CONCIERTO = $idconcierto";
+        if (mysqli_query($conexion, $sql)) {
+            $nombreGrupo = getNombreGrupo($idgrupo);
+            $nombreLocal = getNombreLocal($idlocal);
+            TraceEvent("CONCIERTO", $nombreGrupo['NOMBRE_ARTISTICO'] . '-' . $nombreLocal['NOMBRE_LOCAL'], 1, "CONCIERTO MODIFICADO", $idconcierto);
+            return true;
+        } else {
+            echo mysqli_error($conexion);
+        }
+    }
+
+    desconectar($conexion);
+}
+
 function crearConcierto($idgrupo, $idlocal, $fecha, $precio, $totalEntradas, $idgenero, $idciudad) {
     $conexion = conectar();
-    $sql = "SELECT date(FECHA) AS FECHA, ID_GRUPO FROM CONCIERTO WHERE ID_GRUPO = $idgrupo AND ID_LOCAL = $idlocal AND VISIBLE = 1";
-    $resultado = $conexion->query($sql);
-    if ($resultado->num_rows > 0) {
-        $row = $resultado->fetch_assoc();
-        $fechaFormat = date('Y-m-d', strtotime($fecha));
-        if ($fechaFormat != $row['FECHA']) {
-            echo $fechaFormat;
-            echo $row['FECHA'];
-            $sql2 = "INSERT INTO CONCIERTO VALUES(null,$idgrupo,$idlocal,'$fecha',1,$precio,1,$totalEntradas,0,$idgenero,$idciudad)";
-            if (mysqli_query($conexion, $sql2)) {
-                $nombreLocal = getNombreLocal($idlocal);
+    $fechaSinHora = date('Y-m-d', strtotime($fecha));
+    $sql = "SELECT * FROM CONCIERTO WHERE ID_GRUPO = $idgrupo AND ID_LOCAL = $idlocal AND DATE(FECHA) = '$fechaSinHora' AND VISIBLE = 1";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        echo '<h1>Ya existe un concierto del mismo grupo el mismo día</h1>';
+        header("Refresh:2;url='CrearConcierto.php?local=$idlocal&idgrupo=$idgrupo'");
+        return false;
+    } else {
+        $sql2 = "INSERT INTO CONCIERTO VALUES(null,$idgrupo,$idlocal,'$fecha',1,$precio,1,$totalEntradas,0,$idgenero,$idciudad)";
+        if (mysqli_query($conexion, $sql2)) {
+            $sql3 = "SELECT ID_CONCIERTO FROM CONCIERTO WHERE ID_GRUPO =$idgrupo AND ID_LOCAL = $idlocal AND FECHA = '$fecha'";
+            $result = $conexion->query($sql3);
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
                 $nombreGrupo = getNombreGrupo($idgrupo);
-                $sql3 = "SELECT ID_CONCIERTO FROM CONCIERTO WHERE ID_LOCAL =$idlocal AND ID_GRUPO = $idgrupo AND FECHA = '$fecha'";
-                $result = $conexion->query($sql);
-                if ($resultado->num_rows > 0) {
-                    $row = $resultado->fetch_assoc();
-                    //TraceEvent("CONCIERTO", $nombreGrupo['NOMBRE_ARTISTICO'] .'-'. $nombreLocal['NOMBRE_LOCAL'], 1, "NUEVO CONCIERTO", $row['ID_CONCIERTO']);
-                    return true;
-                } else {
-                    echo mysqli_error($conexion);
-                    return false;
-                }
+                $nombreLocal = getNombreLocal($idlocal);
+                TraceEvent("CONCIERTO", $nombreGrupo['NOMBRE_ARTISTICO'] . '-' . $nombreLocal['NOMBRE_LOCAL'], 1, "NUEVO CONCIERTO", $row['ID_CONCIERTO']);
+                return true;
             } else {
                 echo mysqli_error($conexion);
                 return false;
             }
         } else {
-            echo '<h2>Actualmente ya hay creado un concierto de este mismo grupo en tu local</h2>';
-            echo '<i>Volviendo a la página de creación</i>';
-            header("refresh:2;url='CrearConcierto.php?local=$idlocal&idgrupo=$idgrupo'");
+            echo mysqli_error($conexion);
             return false;
         }
-    } else {
-        echo mysqli_error($conexion);
-        return false;
     }
-
     desconectar($conexion);
 }
 
@@ -1303,7 +1319,7 @@ function lanzarConcierto($idconcierto) {
     } else {
         echo mysqli_error($conexion);
     }
-    header("Location:'Perfil.php'");
+    redirectURL('Perfil.php');
     desconectar($conexion);
 }
 

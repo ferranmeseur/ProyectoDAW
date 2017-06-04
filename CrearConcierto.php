@@ -79,8 +79,6 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                             echo '<a href="CrearConcierto.php?local=' . $_GET['local'] . '&idgrupo=' . $lista['ID_USUARIO'] . '" style = "width:100px" class = "action-button">PROPONER</a>';
                             echo '</div>';
                             echo'</div>';
-
-
                             echo '</td>';
                             echo '</tr>';
                             $i++;
@@ -95,16 +93,16 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                 if (isset($_POST['crearConcierto'])) {
                     $fecha = $_POST['fecha'];
                     $hora = $_POST['hora'];
-                    $fechaFinal = $fecha.' '.$hora;
+                    $fechaFinal = $fecha . ' ' . $hora;
                     $precio = $_POST['precio'];
                     $totalEntradas = $_POST['totalEntradas'];
-                    $result = crearConcierto($_SESSION['idgrupo'], $_SESSION['local'], $fechaFinal, $precio, $totalEntradas,$_SESSION['idgenero'],$_SESSION['idciudad']);
-                    if($result){
+                    $result = crearConcierto($_SESSION['idgrupo'], $_SESSION['local'], $fechaFinal, $precio, $totalEntradas, $_SESSION['idgenero'], $_SESSION['idciudad']);
+                    if ($result) {
                         echo '<h2>CONCIERTO CREADO CON ÉXITO<h2>';
                         echo '<h5><i>REDIRIGIENDO A TU PERFIL</i></h5>';
-                        header("refresh:2;url='Perfil.php'");
+                        header("refresh:2;url=Perfil.php");
+                    }else{
                     }
-                    
                 } else {
                     $infoLocal = getInfoUser($_SESSION['email']);
                     $infoGrupo = getNombreLocal($_GET['idgrupo']);
@@ -149,6 +147,70 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                     echo '</tr>';
                     echo '</table>';
                     echo '<button style = "width:35%;margin:50px auto auto auto" type = "submit" name = "crearConcierto" class = "action-button">CREAR CONCIERTO</button>';
+                    echo '</form>';
+                }
+            } elseif (isset($_GET['mod'])) {
+                $idconcierto = $_GET['idconcierto'];
+
+                if (isset($_POST['modificarConcierto'])) {
+                    echo 'hola';
+                    $fecha = $_POST['fecha'];
+                    $hora = $_POST['hora'];
+                    $fechaFinal = $fecha . ' ' . $hora;
+                    $precio = $_POST['precio'];
+                    $totalEntradas = $_POST['totalEntradas'];
+                    $idgrupo = $_GET['idgrupo'];
+                    $result = modificarConcierto($idconcierto,$idgrupo, $_SESSION['idlocal'], $fecha, $precio, $totalEntradas);
+                    if ($result) {
+                        echo '<h2>CONCIERTO MODIICADO CON ÉXITO<h2>';
+                        echo '<h5><i>REDIRIGIENDO A TU PERFIL</i></h5>';
+                        header("refresh:2;url=Perfil.php");
+                    }
+                } else {
+                    $infoConcierto = infoConcierto($idconcierto);
+                    $infoLocal = getInfoUser($_SESSION['email']);
+                    $infoGrupo = getNombreGrupo($infoConcierto['ID_GRUPO']);
+                    $_SESSION['idgenero'] = $infoGrupo['ID_GENERO'];
+                    $_SESSION['idciudad'] = $infoLocal['ID_CIUDAD'];
+                    $_SESSION['idlocal'] = $infoLocal['ID_LOCAL'];
+                    $nombreGrupo = $infoGrupo['NOMBRE_ARTISTICO'];
+                    $nombreLocal = $infoLocal['NOMBRE_LOCAL'];
+                    echo'<h2 style="padding-top:20px">INFORMACIÓN DEL CONCIERTO</h2>';
+                    echo '<form action="" method="POST">';
+                    echo '<table style="text-align:left">';
+                    echo '<col width="200">';
+                    echo '<col width="200">';
+                    echo '<tr>';
+                    echo '<td>MI LOCAL:</td>';
+                    echo '<td>' . $nombreLocal . '</td>';
+                    echo '</tr>';
+                    echo '<tr>';
+                    echo '<td>GRUPO:</td>';
+                    echo '<td>' . $nombreGrupo . '</td>';
+                    echo '</tr>';
+                    echo '</table>';
+                    echo '<table style="text-align:left">';
+                    echo '<col width="200">';
+                    echo '<col width="200">';
+                    echo '<tr>';
+                    echo '<td class="inline">FECHA: </td>';
+                    $dateNow = date('Y-m-d');
+                    echo '<td><input type="date" name="fecha" max="2020-01-01" min="' . $dateNow . '" required/></td>';
+                    echo '</tr>';
+                    echo '<tr>';
+                    echo '<td>HORA:</td>';
+                    echo '<td><input type="time" required name="hora"></td>';
+                    echo '</tr>';
+                    echo '<tr>';
+                    echo '<td>PRECIO ENTRADA:</td>';
+                    echo '<td><input style="width:50px"type="number" name="precio" min=1 required> €</td>';
+                    echo '</tr>';
+                    echo '<tr>';
+                    echo '<td>ENTRADAS TOTALES:</td>';
+                    echo '<td><input style="width:50px" required type="number" name="totalEntradas" min=1 max="' . $infoLocal['AFORO'] . '"><i> (Límite ' . $infoLocal['AFORO'] . ')</i></td>';
+                    echo '</tr>';
+                    echo '</table>';
+                    echo '<button style = "width:35%;margin:50px auto auto auto" type = "submit" name = "modificarConcierto" class = "action-button">MODIFICAR CONCIERTO</button>';
                     echo '</form>';
                 }
             }
