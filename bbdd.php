@@ -1,6 +1,6 @@
 <?php
 
-$rutaImagen = 'C:/Users/THOR/Desktop/Subidas/';
+$rutaImagen = '../ImagenesSubidas/';
 
 function conectar() {
     $conexion = mysqli_connect('localhost', 'root', '', 'musicandseek')
