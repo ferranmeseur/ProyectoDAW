@@ -16,7 +16,7 @@
     </head>
     <body>
         <div id="header"></div> 
-        <div class="center padding20">
+        <div class="center content">
             <?php
             session_start();
             require_once'bbdd.php';
@@ -31,9 +31,10 @@
                     $_SESSION['email'] = $email;
                     echo'
                     <form method="POST" id="msform"></br>
-                <b style="font-size:15px;text-transform:uppercase">Pregunta de seguridad:</b></br></br>  ' . $resultado . '</br></br>
+                            <h1> Pregunta de  <span class="color_rojo_general">Seguridad</span></h1>
+                </b></br></br>  ' . $resultado . ' ?</br></br>
                 <input type="text" placeholder="Respuesta de seguridad" name="respuesta" required></br></br>
-                <input type="submit" value="Enviar" class="submit action-button" name="cambiarpass">
+                       </br><button style="width:400px" type="submit" class="submit action-button"  name = "cambiarpass">Enviar</button>
             </form>';
                 }
             } else {
@@ -51,15 +52,15 @@
 
                     echo'
             <form method="POST" id="msform">
-            <p style="font-size:30px;text-transform:uppercase">Recuperar Contraseña</p>
+            <h1> Recupera tu  <span class="color_rojo_general">Contraseña</span></h1>
             </br></br>
-                <input type="email" name="email" placeholder="EMAIL" required>
-                <input type="submit" name="enviar" class="submit action-button" value="Siguiente" />
+                <input type="email" name="email" placeholder="Email" required>
+       </br><button style="width:400px" type="submit" class="submit action-button"  name = "enviar">Siguiente</button>
             </form>';
                 }
             }
             ?>
         </div>
-        <div class="margin_top_200px" id="footer"></div>
+        <div id="footer"></div>
     </body>
 </html>

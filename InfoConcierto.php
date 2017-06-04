@@ -26,6 +26,7 @@
         <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
         <link href="Estilos/RegistrationForm.css" rel="stylesheet" type="text/css"/>
         <link href="Estilos/StarRating.css" rel="stylesheet" type="text/css"/>
+        <link href="Estilos/Comments.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div id="header"></div> 
@@ -75,16 +76,30 @@
             } 
             echo $local['EMAIL'] . ', ' . $local['NUMERO_CONTACTO'] . '</div>';
             if ($comentarios != false) {
-                echo '</br></br><div class="center">Comentarios : <table class="center">';
-                while ($lista = $comentarios->fetch_assoc()) {
-                    echo'<tr><th>';
-                    $fechacomentario = getNombreFecha(date("w-d-m-Y", strtotime($lista['FECHA'])));
-                    echo $lista['NOMBRE'] . ' - ' . $fechacomentario . '</th></tr>';
-                    echo '<tr><th>' . $lista['COMENTARIO'] . '</th></tr>';
-                }
-                echo'</table></div>';
-                echo '</div>';
+               echo '</br></br><div class="container">';
+            while ($lista = $comentarios->fetch_assoc()) {
+                echo'<div class="row">
+                    <div class="col-sm-8">
+                    <div class="panel panel-white post panel-shadow">
+                    <div class="post-heading">
+                    <div class="pull-left meta">
+                    <div class="title h5">
+                    <b>' . $lista['NOMBRE'] . ' ' . $lista['APELLIDOS'] . '</b>
+                            ha realizado un comentario
+                        </div>
+                        <h6 class="text-muted time">El ' . getNombreFecha(date("w-d-m-Y", strtotime($lista['FECHA']))) . '</h6>
+                    </div>
+                </div> 
+                <div class="post-description"> 
+                   <p> ' . $lista['COMENTARIO'] . '</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>';
             }
+            echo'</div>';
+        }
             echo '</div>';
              echo '</div>';
                           echo '</div>';

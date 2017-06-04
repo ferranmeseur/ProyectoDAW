@@ -28,6 +28,7 @@
                 </div>
             </div>
             <div class='margingtop_30px'></div>
+            <h2>Actividad Reciente</h2>
             <div  id="noticias"></div>
             <div class='margingtop_30px'></div>
             <div class="center inline ">
