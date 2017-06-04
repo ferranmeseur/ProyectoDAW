@@ -425,6 +425,7 @@ function redirectURL($url) {
 function Registro($tipo, $nombre, $apellido, $email, $pswd, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes, $pregunta, $respuesta, $descripcion) {
     $con = conectar();
     $resultado = "";
+    $descripcion = '<pre>' . $descripcion;
     $email = strtolower($email);
     $alta = date('Y-m-d H:i:s');
     $answer = password_hash($respuesta, PASSWORD_DEFAULT);
@@ -1356,6 +1357,7 @@ function getInfoConcierto($id) {
 
 function votarComentarNoConcierto($fan, $votado, $puntos, $comentario) {
     $conexion = conectar();
+    $comentario = '<pre>' . $comentario;
     $sql = "INSERT INTO VOTAR_COMENTAR values (null,'$fan','$votado','$puntos',0,'$comentario',now(),'A')";
     if (mysqli_query($conexion, $sql)) {
         return true;
@@ -1394,6 +1396,7 @@ function mostrarVotarComentar() {
 
 function votarComentarConcierto($fan, $votado, $puntos, $comentario) {
     $conexion = conectar();
+    $comentario = '<pre>' . $comentario;
     $sql = "INSERT INTO VOTAR_COMENTAR values (null,$fan,$votado,$puntos,1,'$comentario',Now(),'A')";
     if (mysqli_query($conexion, $sql)) {
         return true;

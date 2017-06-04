@@ -74,11 +74,14 @@
             if ($resultado['WEB'] != null) {
                 echo $local['WEB'] . ' , ';
             } 
+            echo'</div>';            echo'</div>';
+
             echo $local['EMAIL'] . ', ' . $local['NUMERO_CONTACTO'] . '</div>';
             if ($comentarios != false) {
                echo '</br></br><div class="container">';
             while ($lista = $comentarios->fetch_assoc()) {
-                echo'<div class="row">
+                
+                echo'<div class="row center">
                     <div class="col-sm-8">
                     <div class="panel panel-white post panel-shadow">
                     <div class="post-heading">
@@ -101,11 +104,9 @@
         </div>
         </div>';
             }
-            echo'</div>';
+         echo'</div>';
         }
-            echo '</div>';
-             echo '</div>';
-                          echo '</div>';
+        echo '</div></div>';
 
             if (isset($_POST["enviar"])) {
                 $check = 1;
@@ -141,6 +142,9 @@
             <button style="width:400px" type="submit" class="submit action-button"  name = "enviar">Enviar Comentario</button>
        </form></div></div></div></div></div>';
             }
+            echo'</div>';
+            echo'</div>';
+            echo'</div>';echo'</div>';
             ?>
             <div id="footer"></div>
     </body>

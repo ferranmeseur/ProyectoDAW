@@ -94,10 +94,11 @@
                     </div>
                 </div>
             </div>
-        </div>
-        </div>';
+   ';
                 }
+                
             }
+
             if (isset($_POST["enviar"])) {
                 $check = 1;
                 $puntos = $_POST["rating2"];
