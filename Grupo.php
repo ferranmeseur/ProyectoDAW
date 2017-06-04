@@ -17,9 +17,7 @@
     </head>
     <body>
         <div id="header"></div>
-        <div style="height: 50px"></div>
         <div class="content center">
-            <h1> Encuentra los <span class="color_rojo_general">Grupos</span> más trascendentes </h1>
             <div id="Search" class="height_40">
                 <form class="form-wrapper cf" action="Busqueda.php" method="GET">
                     <input type="text" name="busqueda" placeholder="Busca músicos o locales" required>
@@ -27,6 +25,7 @@
                 </form>
             </div>
             <div style="height: 20px"></div>
+            <h1> Encuentra los <span class="color_rojo_general">Grupos</span> más trascendentes </h1>
             <div id="busquedaArtistas" style="width:500px;margin:auto auto auto auto;">
                 <?php
                 include_once'bbdd.php';

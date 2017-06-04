@@ -17,7 +17,6 @@
     <body>
         <div id="header"></div>
         <div class="content center">
-            <h1> ¿ En qué <span class="color_rojo_general">Local</span> nos vemos ?</h1>
             <div id="Search" class="height_40">
                 <form class="form-wrapper cf" action="Busqueda.php" method="GET">
                     <input type="text" name="busqueda" placeholder="Busca músicos o locales" required>
@@ -25,6 +24,7 @@
                 </form>
             </div>
             <div style="height: 20px"></div>
+            <h1> ¿ En qué <span class="color_rojo_general">Local</span> nos vemos ?</h1>
             <div id="busquedaArtistas" style="width:500px;margin:auto auto auto auto;">
                 <?php
                 include_once'bbdd.php';
