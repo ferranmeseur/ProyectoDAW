@@ -659,7 +659,6 @@ function getNombreFecha($fecha) {
 function ArtistasAlza($genero, $ciudad, $titulo) {
     $result = RankingMusicos($genero, $ciudad);
     $i = 1;
-    echo'<h1><span class="color_rojo_general">Artistas</span> en Alza</h1>';
     echo'<i>' . $titulo . '</i><br><br><br>';
     echo '<div id="div_parent_ranking">';
     while ($row = $result->fetch_assoc()) {
@@ -772,19 +771,23 @@ function ShowNoticiasMusico() {
 
 function ShowNoticiasLocal() {
     $nuevoLocal = NoticiasNuevoLocal();
-    $nombre_local = str_replace(" ", "+", $nuevoLocal['VALOR']);
-    $url = "url('Imagenes/img_lights.jpg')";
-    $nombre_ciudad = getNombreCiudad($nuevoLocal['ID_CIUDAD']);
-    echo '<a class="a_noticia" href="InfoLocal.php?nombre=' . $nombre_local . '">';
-    echo '<div style = "height:250px;background-image:' . $url . ';background-size:cover;background-position:center">';
-    echo '<div style="position: relative;top: 0;background-color:rgba(0, 0, 0, 0.8)">';
-    echo '<b style="color:white;font-size:30px">Un nuevo local se acaba de unir</b>';
-    echo '</div>';
-    echo '<div style="position: relative;bottom: 0;background-color:rgba(0, 0, 0, 0.8)">';
-    echo '<h1>' . $nuevoLocal['VALOR'] . '</h1>';
-    echo '<i style="color:white">' . $nuevoLocal['UBICACION'] . ', ' . $nombre_ciudad . '</i>';
-    echo '</div>';
-    echo '</div></a>';
+    if (isset($nuevoLocal)) {
+        $nombre_local = str_replace(" ", "+", $nuevoLocal['VALOR']);
+        $url = "url('Imagenes/img_lights.jpg')";
+        $nombre_ciudad = getNombreCiudad($nuevoLocal['ID_CIUDAD']);
+        echo '<a class="a_noticia" href="InfoLocal.php?nombre=' . $nombre_local . '">';
+        echo '<div style = "height:250px;background-image:' . $url . ';background-size:cover;background-position:center">';
+        echo '<div style="position: relative;top: 0;background-color:rgba(0, 0, 0, 0.8)">';
+        echo '<b style="color:white;font-size:30px">Un nuevo local se acaba de unir</b>';
+        echo '</div>';
+        echo '<div style="position: relative;bottom: 0;background-color:rgba(0, 0, 0, 0.8)">';
+        echo '<h1>' . $nuevoLocal['VALOR'] . '</h1>';
+        echo '<i style="color:white">' . $nuevoLocal['UBICACION'] . ', ' . $nombre_ciudad . '</i>';
+        echo '</div>';
+        echo '</div></a>';
+    } else {
+        echo 'No hay nuevo local';
+    }
 }
 
 function ShowNoticiasConcierto() {
@@ -1267,8 +1270,7 @@ function votarComentarNoConcierto($fan, $votado, $puntos, $comentario) {
     if (mysqli_query($conexion, $sql)) {
         return true;
     } else {
-                echo mysqli_error($conexion);
-
+        echo mysqli_error($conexion);
     }
     desconectar($conexion);
 }
@@ -1299,14 +1301,14 @@ function mostrarVotarComentar() {
         <input type="radio" id="estrella" name="erating" value="0.5" /><label class="medio" for="estrellamedio" title="Sucks big time - 0.5 stars"></label>';
     echo '</fieldset>';
 }
+
 function votarComentarConcierto($fan, $votado, $puntos, $comentario) {
     $conexion = conectar();
     $sql = "INSERT INTO VOTAR_COMENTAR values (null,$fan,$votado,$puntos,1,'$comentario',Now(),'A')";
     if (mysqli_query($conexion, $sql)) {
         return true;
     } else {
-                echo mysqli_error($conexion);
-
+        echo mysqli_error($conexion);
     }
     desconectar($conexion);
 }

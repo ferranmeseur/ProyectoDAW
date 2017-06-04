@@ -181,4 +181,5 @@ INSERT INTO CONCIERTO VALUES(null,5,8,"2017-1-3",1,10,TRUE,100,TRUE,4,3);
 INSERT INTO TRACE VALUES(null, 'REGISTRO', 'Girls', now(), null, 'NUEVO MUSICO',null); 
 INSERT INTO TRACE VALUES(null, 'REGISTRO', 'Fan 1', now(), true, 'NUEVO FAN',null); 
 INSERT INTO TRACE VALUES(null, 'CONCIERTO', 'Los Suaves-Freedonia', now(), 1, 'NUEVO CONCIERTO',1);
+INSERT INTO TRACE VALUES(null, 'REGISTRO', 'Sala Apolo', now(), true, 'NUEVO LOCAL',null); 
 
