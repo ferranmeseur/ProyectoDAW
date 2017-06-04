@@ -1,5 +1,7 @@
 <?php
 
+$rutaImagen = 'C:/Users/THOR/Desktop/Subidas/';
+
 function conectar() {
     $conexion = mysqli_connect('localhost', 'root', '', 'musicandseek')
             or die("Error conectando");
@@ -659,7 +661,7 @@ function getNombreFecha($fecha) {
 function ArtistasAlza($genero, $ciudad, $titulo) {
     $result = RankingMusicos($genero, $ciudad);
     $i = 1;
-    echo'<i>' . $titulo . '</i><br><br><br>';
+    echo $titulo . '<br>';
     echo '<div id="div_parent_ranking">';
     while ($row = $result->fetch_assoc()) {
         $nombre_artistico = str_replace(" ", "+", $row['NOMBRE']);
@@ -687,7 +689,7 @@ function ArtistasAlza($genero, $ciudad, $titulo) {
 function LocalesAlza($ciudad, $titulo) {
     $result = RankingLocales($ciudad);
     $i = 1;
-    echo'<i>' . $titulo . '</i><br><br><br>';
+    echo'<i>' . $titulo . '</i><br>';
     echo '<div id="div_parent_ranking">';
     while ($row = $result->fetch_assoc()) {
         $nombre_local = str_replace(" ", "+", $row['NOMBRE_LOCAL']);
@@ -840,7 +842,7 @@ function getNombreGenero($id_genero) {
 }
 
 function fileUpload($email) {
-    $target_dir = "C:/Users/THOR/Desktop/Subidas/";
+    $target_dir = $rutaImagen;
     $extension = explode(".", $_FILES["fileToUpload"]["name"]);
     $newFileName = randomString(6) . '.' . end($extension);
     $target_file = $target_dir . $newFileName;
@@ -1312,7 +1314,7 @@ function cancelarConcierto($idconcierto) {
         $informacion = getInfoConcierto($idconcierto)->fetch_assoc();
         $nombreGrupo = getNombreGrupo($informacion['ID_GRUPO']);
         $nombreLocal = getNombreLocal($informacion['ID_LOCAL']);
-        TraceEvent("CONCIERTO", $nombreGrupo['NOMBRE_ARTISTICO'] .'-'. $nombreLocal['NOMBRE_LOCAL'], 1, "CONCIERTO CANCELADO", $idconcierto);
+        TraceEvent("CONCIERTO", $nombreGrupo['NOMBRE_ARTISTICO'] . '-' . $nombreLocal['NOMBRE_LOCAL'], 1, "CONCIERTO CANCELADO", $idconcierto);
     } else {
         echo 'No has indicado un id_concierto';
     }
@@ -1381,6 +1383,23 @@ function votarComentarConcierto($fan, $votado, $puntos, $comentario) {
         return true;
     } else {
         echo mysqli_error($conexion);
+    }
+    desconectar($conexion);
+}
+
+function getImage($id) {
+    $conexion = conectar();
+    $sql = "SELECT * FROM USUARIO WHERE ID_USUARIO = '$id'";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        if ($row['IMAGEN'] != null) {
+            return $rutaImagen + $result['IMAGEN'];
+        } else {
+            return 'Imagenes/image.jpeg';
+        }
+    } else {
+        return false;
     }
     desconectar($conexion);
 }

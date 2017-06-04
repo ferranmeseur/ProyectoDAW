@@ -74,7 +74,7 @@
 
                     $letras = getFirstLetterArtistas();
                     echo'<div>';
-                    echo'<h2>LISTA DE ARTISTAS</h2>';
+                    echo'  <h1>Lista de <span class="color_rojo_general">Artistas</span></h2>';
 
                     while ($row = $letras->fetch_assoc()) {
                         $result = BusquedaTodosArtistas($ciudad, $genero, $row['LETRA']);
@@ -132,7 +132,7 @@
                     <div class="center">
                         <?php
                         require_once 'bbdd.php';
-                        $tituloRanking = "Todos los artistas en alza";
+                        $tituloRanking = '<h1>Todos los<span class="color_rojo_general"> Artistas</span> en Alza</h2>';
                         if (isset($_POST['submit'])) {
                             $genero = $_POST['genero'];
                             $ciudad = $_POST['ciudad'];
