@@ -36,10 +36,12 @@
                         $nuevaFecha = date("w-d-m-Y", strtotime($row["FECHA"]));
                         $nuevaHora = date("H:i", strtotime($row["FECHA"]));
                         $fechaFinal = getNombreFecha($nuevaFecha);
-                        $result = ListaConciertosFan($row['FECHA'], $genero, $ciudad, $grupo, $local, $futurosConciertos);
+                        $estado = 1;
+                        $visible = 1;
+                        $result = ListaConciertosFan($row['FECHA'], $genero, $ciudad, $grupo, $local, $estado, $visible);
 
                         if ($result == null) {
-                            echo '<script language="javascript">$("#$fechaFinal").empty();</script>';
+                            //echo '<script language="javascript">$("#$fechaFinal").empty();</script>';
                         } else {
                             echo '<div id="resultado">';
                             echo '<h3 id="' . $fechaFinal . '" class="color_rojo_general">' . $fechaFinal . '</h3>';
@@ -61,10 +63,12 @@
                                 echo "<i>" . $lista['GENERO'] . "</i>";
                                 echo '</div>';
                                 echo '</td>';
-                                echo '<td align="center" style="border-bottom:1px solid gray">';
-                                $average = votosLocal($lista['ID_USUARIO']);
-                                mostrarEstrellasPuntuacionLocal($average, $i);
-                                echo '</td>';
+                                if ($futurosConciertos == 'false') {
+                                    echo '<td align="center" style="border-bottom:1px solid gray">';
+                                    $average = votosLocal($lista['ID_USUARIO']);
+                                    mostrarEstrellasPuntuacionLocal($average, $i);
+                                    echo '</td>';
+                                }
                                 echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:right;vertical-align:top">';
                                 echo "<div class='inline padding5'>";
                                 echo "<b>" . $lista['NOMBRE_LOCAL'] . "</b><br>";

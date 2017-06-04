@@ -32,7 +32,8 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
         <div id="contenedor" class="center">
             <?php
             require_once'BusquedaMusicos.php';
-            session_start();
+            $miInformacion = getInfoUser($_SESSION['email']);
+            $local = $miInformacion['ID_USUARIO'];
             if (isset($_GET['local']) && !isset($_GET['idgrupo'])) {
                 echo'<div id="grupos" class="inline" style="padding-right:100px">';
                 $ciudad = null;
@@ -88,8 +89,8 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                         echo'</div>';
                     }
                 }
-            } elseif (isset($_GET['local']) && isset($_GET['idgrupo'])) {
-                $_SESSION['local'] = $_GET['local'];
+            } elseif (isset($local) && isset($_GET['idgrupo'])) {
+                $_SESSION['local'] = $local;
                 $_SESSION['idgrupo'] = $_GET['idgrupo'];
                 if (isset($_POST['crearConcierto'])) {
                     $fecha = $_POST['fecha'];
