@@ -26,7 +26,26 @@
                     $('#star' + pointsRoundEntero + 'half').prop('checked', true);
                 }
             }
-        </script> 
+        </script>
+        <style>
+            table.one {									 
+                margin-bottom: 3em;	
+                border-collapse:collapse;
+            }	
+            td {							
+                text-align: center;     
+                width: 10em;					
+                padding: 1em; 	
+            }
+            tr {   
+                height: 2em;    }
+            table tr:nth-child(even) {           
+                background-color: #fff;    
+            }
+            table tr:nth-child(odd) {        
+                background-color:#d83c3c;      
+            }
+        </style>
         <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
         <link href="Estilos/RegistrationForm.css" rel="stylesheet" type="text/css"/>
         <link href="Estilos/StarRating.css" rel="stylesheet" type="text/css"/>
@@ -50,7 +69,7 @@
         $comentarios = comentariosGrupo($resultado['ID_USUARIO']);
         echo '<h1>' . $resultado['NOMBRE_LOCAL'] . '</h1>';
         echo'<b style="color:#d83c3c">LOCAL RATING</b><i id="puntuacion" hidden>' . $puntuacion . '</i><br>';
-        echo '<fieldset class="rating_fixed" style="float:none">
+        echo '<fieldset class="rating_fixed center" style="float:none">
                         <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
                         <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
                         <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
@@ -85,15 +104,16 @@
             }
             echo'</table></div>';
         }
-        echo '</div>';
+        echo '</div></div>';
 
         if (isset($_POST["enviar"])) {
-                            $check = 1;
+            $check = 1;
             $puntos = $_POST["rating2"];
             $comentario = $_POST["comentario"];
             $user = getInfoUser($_SESSION['email']);
             votarComentarNoConcierto($user['ID_USUARIO'], $resultado['ID_USUARIO'], $puntos, $comentario);
-                if($check == 0 )header("Refresh:0");
+            if ($check == 0)
+                header("Refresh:0");
         }
         if (isset($_SESSION['email'])) {
             $user = getInfoUser($_SESSION['email']);
@@ -118,7 +138,7 @@
                     <textarea name="comentario" maxlength="255" rows="5" cols="50"></textarea>
                     </div>
             <button style="width:400px" type="submit" class="submit action-button"  name = "enviar">Enviar Comentario</button>
-       </form></div></div></div></div>';
+       </form></div></div></div>';
         }
         ?>
         <div id="footer"></div>

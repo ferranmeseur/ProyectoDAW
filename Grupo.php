@@ -103,7 +103,6 @@
                                 echo '<img id="img_lista_img" class="inline" src="Imagenes/image.jpeg">';
                                 echo '<b id="h4_lista_img">' . $lista['NOMBRE_ARTISTICO'] . '</b>';
                                 $average = votosGrupo($lista['ID_USUARIO']);
-                                echo $average;
                                 mostrarEstrellasPuntuacionLocal($average, $i);
                                 echo '</div>';
                                 echo '</a>';
