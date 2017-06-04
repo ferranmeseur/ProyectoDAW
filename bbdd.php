@@ -1256,11 +1256,12 @@ function finalizarConcierto($idconcierto) {
 
 function votarComentarNoConcierto($fan, $votado, $puntos, $comentario) {
     $conexion = conectar();
-    $sql = "INSERT INTO VOTAR_COMENTAR values (null,'$fan','$votado','$puntos',0,'$comentario',now(),A";
+    $sql = "INSERT INTO VOTAR_COMENTAR values (null,$fan,$votado,$puntos,0,'$comentario',Now(),'A')";
     if (mysqli_query($conexion, $sql)) {
         return true;
     } else {
-        
+                echo mysqli_error($conexion);
+
     }
     desconectar($conexion);
 }
@@ -1268,7 +1269,8 @@ function votarComentarNoConcierto($fan, $votado, $puntos, $comentario) {
 function checkVotar($votado, $fan) {
     $conexion = conectar();
     $sql = "SELECT * FROM VOTAR_COMENTAR WHERE ID_VOTADO ='$votado' AND ID_FAN='$fan'";
-    if (mysqli_query($conexion, $sql)) {
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
         return true;
     } else {
         return false;
@@ -1289,4 +1291,15 @@ function mostrarVotarComentar() {
         <input type="radio" id="estrella1" name="erating" value="1" /><label class = "lleno" for="estrella" title="Sucks big time - 1 star"></label>
         <input type="radio" id="estrella" name="erating" value="0.5" /><label class="medio" for="estrellamedio" title="Sucks big time - 0.5 stars"></label>';
     echo '</fieldset>';
+}
+function votarComentarConcierto($fan, $votado, $puntos, $comentario) {
+    $conexion = conectar();
+    $sql = "INSERT INTO VOTAR_COMENTAR values (null,$fan,$votado,$puntos,1,'$comentario',Now(),'A')";
+    if (mysqli_query($conexion, $sql)) {
+        return true;
+    } else {
+                echo mysqli_error($conexion);
+
+    }
+    desconectar($conexion);
 }
