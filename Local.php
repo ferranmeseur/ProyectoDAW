@@ -44,7 +44,7 @@
                 ?>
             </div>
             <div id="contenedor" class="center" style="width:100%;height:100%">
-                <div id="grupos" class="inline" style="width:30%;padding-right:100px">
+                <div id="grupos" class="inline" style="width:40%;padding-right:100px">
                     <?php
                     require_once 'bbdd.php';
                     require_once'BusquedaMusicos.php';
@@ -89,15 +89,16 @@
                                 echo '<img id="img_lista_img" class="inline" src="Imagenes/image.jpeg">';
                                 echo '</div>';
                                 echo '<div class="inline" style="vertical-align:top">';
-                                echo '<div>';
                                 echo '<b id="h4_lista_img">' . $lista['NOMBRE_LOCAL'] . '</b>';
                                 echo '</div>';
+                                echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:right;vertical-align:top">';
+                                $nombreCiudad = getNombreCiudad($lista['ID_CIUDAD']);
+                                echo "<i>" . $lista['UBICACION'] . "</i>, <i class='color_rojo_general'>" . $nombreCiudad . "</i><br>";
                                 $average = votosGrupo($lista['ID_USUARIO']);
                                 mostrarEstrellasPuntuacionLocal($average, $i);
-                                echo '</div>';
-                                echo '</a>';
                                 echo '</td>';
-                                echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:right;vertical-align:top">';
+
+                                echo '</a>';
                                 echo '</td>';
                                 echo '</tr>';
                                 $i++;

@@ -72,7 +72,8 @@
                                 echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:right;vertical-align:top">';
                                 echo "<div class='inline padding5'>";
                                 echo "<b>" . $lista['NOMBRE_LOCAL'] . "</b><br>";
-                                echo "<i>" . $lista['UBICACION'] . "</i>";
+                                $nombreCiudad = getNombreCiudad($lista['ID_CIUDAD']);
+                                echo "<i>" . $lista['UBICACION'] . "</i>, <i class='color_rojo_general'>".$nombreCiudad."</i>";
                                 echo "</div>";
                                 echo "</a>";
                                 echo '</td>';

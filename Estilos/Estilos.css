@@ -759,8 +759,8 @@ select option:hover{
 }
 
 #musicoRanking1{
-    width:500px;
-    background-color: #BDBDBD;
+    width:550px;
+    background-color: #e8e8e8;
     height: 70px;
     position:relative;
     margin: 5px auto auto auto;
@@ -770,8 +770,8 @@ select option:hover{
     box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
 }
 #musicoRanking2{
-    width:450px;
-    background-color: #BDBDBD;
+    width:480px;
+    background-color: #e8e8e8;
     height: 70px;
     position:relative;
     margin: 5px auto auto auto;
@@ -781,8 +781,8 @@ select option:hover{
     box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
 }
 #musicoRanking3{
-    width:400px;
-    background-color: #BDBDBD;
+    width:435px;
+    background-color: #e8e8e8;
     height: 70px;
     position:relative;
     margin: 5px auto auto auto;
@@ -792,8 +792,8 @@ select option:hover{
     box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
 }
 #musicoRanking4{
-    width:350px;
-    background-color: #BDBDBD;
+    width:400px;
+    background-color: #e8e8e8;
     height: 70px;
     position:relative;
     margin: 5px auto auto auto;
@@ -803,8 +803,8 @@ select option:hover{
     box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
 }
 #musicoRanking5{
-    width:300px;
-    background-color: #BDBDBD;
+    width:365px;
+    background-color: #e8e8e8;
     height: 70px;
     position:relative;
     margin: 5px auto auto auto;

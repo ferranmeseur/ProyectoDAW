@@ -3,9 +3,10 @@
 
 </style>
 
-<div style="max-width:79%; margin:auto" class="center">
+<div style="max-width:71%; margin:auto" class="center">
     <?php
     include_once 'bbdd.php';
+    echo '<div>';
     echo '<div class="mySlides">';
 
     ShowNoticiasMusico();
@@ -15,6 +16,7 @@
     echo'</div>';
     echo '<div class="mySlides">';
     ShowNoticiasConcierto();
+    echo'</div>';
     echo'</div>';
     ?>
 
