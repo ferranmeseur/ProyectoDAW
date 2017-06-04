@@ -56,36 +56,6 @@ primary key(ID_GENERO)
 );
 
 
-create table PROPONER(
-ID_LOCAL int(10) not null,
-ID_GRUPO int(10) not null,
-FECHA datetime not null,
-PRECIO_CONTRATO int(5),
--- ESTADO ACEPTADO/RECHAZADO
-ESTADO boolean not null,
-ID_CONCIERTO int(10) not null,
-primary key(ID_GRUPO, FECHA)
-);
-
-create table VOTAR_CONCIERTO(
-ID_FAN int(10) not null,
-ID_CONCIERTO int(10) not null,
-FECHA datetime not null,
-PUNTOS int(2) not null,
-primary key(ID_FAN, ID_CONCIERTO, FECHA)
-);
-
-
-
-
-create table APUNTAR(
-ID_CONCIERTO int(10) not null,
-ID_USUARIO int(10) not null,
-FECHA datetime not null,
-primary key(ID_CONCIERTO, ID_USUARIO, FECHA)
-);
-
-
 create table TRACE(
 ID_TRACE int(10) not null auto_increment,
 TIPO char(10) not null,
@@ -117,17 +87,6 @@ alter table CONCIERTO add constraint fk_CONCIERTO_GRUPO foreign key (ID_GRUPO) r
 alter table VOTAR_COMENTAR add constraint fk_VOTAR_COMENTAR_USUARIO_FAN foreign key(ID_FAN) references USUARIO(ID_USUARIO) on update cascade;
 alter table VOTAR_COMENTAR add constraint fk_VOTAR_COMENTAR_USUARIO_VOTADO foreign key(ID_VOTADO) references USUARIO(ID_USUARIO) on update cascade;
 
-alter table PROPONER add constraint fk_PROPONER_CONCIERTO foreign key(ID_CONCIERTO) references CONCIERTO(ID_CONCIERTO) on update cascade;
-alter table PROPONER add constraint fk_PROPONER_LOCAL foreign key(ID_LOCAL) references CONCIERTO(ID_LOCAL) on update cascade;
-alter table PROPONER add constraint fk_PORPONER_GRUPO foreign key(ID_GRUPO) references USUARIO(ID_USUARIO) on update cascade;
-
-alter table VOTAR_CONCIERTO add constraint fk_VOTAR_CONCIERTO_FAN foreign key(ID_FAN) references USUARIO(ID_USUARIO) on update cascade;
-alter table VOTAR_CONCIERTO add constraint fk_VOTAR_CONCIERTO_CONCIERTO foreign key(ID_CONCIERTO) references CONCIERTO(ID_CONCIERTO) on update cascade;
-
-alter table APUNTAR add constraint fk_APUNTAR_USUARIO foreign key(ID_USUARIO) references USUARIO(ID_USUARIO) on update cascade;
-alter table APUNTAR add constraint fk_APUNTAR_CONCIERTO foreign key(ID_CONCIERTO) references CONCIERTO(ID_CONCIERTO) on update cascade;
-
-
 
 INSERT INTO GENERO VALUES (null,"ROCK");
 INSERT INTO GENERO VALUES (null,"POP");
@@ -140,26 +99,26 @@ INSERT INTO CIUDAD VALUES (null,"Nancy","Francia");
 INSERT INTO CIUDAD VALUES (null,"Frankfurt","Alemania");
 
 
-INSERT INTO USUARIO VALUES (null,"MUSICO","Los Suaves",null,null,"Los@Suaves.com","625478542",null,null,"Los Suaves",3,"1234",null,"lossuaves.com",1,1,"Mejor amigo de pequeño","perro","",now(),null);
-INSERT INTO USUARIO VALUES (null,"MUSICO","Pink Floyd",null,null,"pink@floyd.com","625478542",null,null,"Pink Floyd",120,"1234",null,"pinkfloyd.com",2,2,"Mejor amigo de pequeño","perro","",now(),null);
-INSERT INTO USUARIO VALUES (null,"MUSICO","Ivan Ferreiro",null,null,"ivan@ferreiro.com","625478542",null,null,"Ivan Ferreiro",1,"1234",null,"ivanferreiro.com",3,3,"Mejor amigo de pequeño","perro","",now(),null);
-INSERT INTO USUARIO VALUES (null,"MUSICO","Girls",null,null,"da@girls.com","625478542",null,null,"Girls",3,"1234",null,"girls.com",1,3,"Mejor amigo de pequeño","perro","",now(),null);
-INSERT INTO USUARIO VALUES (null,"MUSICO","Queen",null,null,"the@queen.com","625478542",null,null,"Queen",3,"1234",null,"queen.com",2,1,"Mejor amigo de pequeño","perro","",now(),null);
-INSERT INTO USUARIO VALUES (null,"MUSICO","Mando Diao",null,null,"mando@diao.com","625478542",null,null,"Mando Diao",3,"1234",null,"mandodiao.com",2,1,"Mejor amigo de pequeño","perro","",now(),null);
+INSERT INTO USUARIO VALUES (null,"MUSICO","Los Suaves",null,null,"Los@Suaves.com","625478542",null,null,"Los Suaves",3,"1234",null,"lossuaves.com",1,1,"Mejor amigo de pequeño","perro","HOLA",now(),null);
+INSERT INTO USUARIO VALUES (null,"MUSICO","Pink Floyd",null,null,"pink@floyd.com","625478542",null,null,"Pink Floyd",120,"1234",null,"pinkfloyd.com",2,2,"Mejor amigo de pequeño","perro","HOLA",now(),null);
+INSERT INTO USUARIO VALUES (null,"MUSICO","Ivan Ferreiro",null,null,"ivan@ferreiro.com","625478542",null,null,"Ivan Ferreiro",1,"1234",null,"ivanferreiro.com",3,3,"Mejor amigo de pequeño","perro","HOLA",now(),null);
+INSERT INTO USUARIO VALUES (null,"MUSICO","Girls",null,null,"da@girls.com","625478542",null,null,"Girls",3,"1234",null,"girls.com",1,3,"Mejor amigo de pequeño","perro","HOLA",now(),null);
+INSERT INTO USUARIO VALUES (null,"MUSICO","Queen",null,null,"the@queen.com","625478542",null,null,"Queen",3,"1234",null,"queen.com",2,1,"Mejor amigo de pequeño","perro","HOLA",now(),null);
+INSERT INTO USUARIO VALUES (null,"MUSICO","Mando Diao",null,null,"mando@diao.com","625478542",null,null,"Mando Diao",3,"1234",null,"mandodiao.com",2,1,"Mejor amigo de pequeño","perro","HOLA",now(),null);
 
-INSERT INTO USUARIO VALUES (null,"LOCAL","Freedonia",null,"C/ cera","free@donia.com","625478542",null,"Freedonia",null,null,"1234",100,"freedonia.com",1,3,"Mejor amigo de pequeño","perro","",now(),null);
-INSERT INTO USUARIO VALUES (null,"LOCAL","Razzmatazz",null,"C/ marina","razz@matazz.com","625478542",null,"Razzmatazz",null,null,"1234",100,"razzmatazz.com",1,2,"Mejor amigo de pequeño","perro","",now(),null);
-INSERT INTO USUARIO VALUES (null,"LOCAL","Sala Apolo",null,"C/ nou rambla","sala@apolo.com","625478542",null,"Sala Apolo",null,null,"1234",100,"salapolo.com",4,3,"Mejor amigo de pequeño","perro","",now(),null);
-INSERT INTO USUARIO VALUES (null,"LOCAL","Freedom",null,"C/ casa","free@dom.com","625478542",null,"Freedom",null,null,"1234",100,"freedom.com",1,1,"Mejor amigo de pequeño","perro","",now(),null);
-INSERT INTO USUARIO VALUES (null,"LOCAL","Bikini",null,"C/ nose","bi@kini.com","625478542",null,"Bikini",null,null,"1234",100,"bikini.com",3,1,"Mejor amigo de pequeño","perro","",now(),null);
-INSERT INTO USUARIO VALUES (null,"LOCAL","Tecla",null,"C/ nose","bi@kini.com","625478542",null,"Bikini",null,null,"1234",100,"bikini.com",2,2,"Mejor amigo de pequeño","perro","",now(),null);
+INSERT INTO USUARIO VALUES (null,"LOCAL","Freedonia",null,"C/ cera","free@donia.com","625478542",null,"Freedonia",null,null,"1234",100,"freedonia.com",1,3,"Mejor amigo de pequeño","perro","HOLA",now(),null);
+INSERT INTO USUARIO VALUES (null,"LOCAL","Razzmatazz",null,"C/ marina","razz@matazz.com","625478542",null,"Razzmatazz",null,null,"1234",100,"razzmatazz.com",1,2,"Mejor amigo de pequeño","perro","HOLA",now(),null);
+INSERT INTO USUARIO VALUES (null,"LOCAL","Sala Apolo",null,"C/ nou rambla","sala@apolo.com","625478542",null,"Sala Apolo",null,null,"1234",100,"salapolo.com",4,3,"Mejor amigo de pequeño","perro","HOLA",now(),null);
+INSERT INTO USUARIO VALUES (null,"LOCAL","Freedom",null,"C/ casa","free@dom.com","625478542",null,"Freedom",null,null,"1234",100,"freedom.com",1,1,"Mejor amigo de pequeño","perro","HOLA",now(),null);
+INSERT INTO USUARIO VALUES (null,"LOCAL","Bikini",null,"C/ nose","bi@kini.com","625478542",null,"Bikini",null,null,"1234",100,"bikini.com",3,1,"Mejor amigo de pequeño","perro","HOLA",now(),null);
+INSERT INTO USUARIO VALUES (null,"LOCAL","Tecla",null,"C/ nose","te@cla.com","625478542",null,"Tecla",null,null,"1234",100,"Tecla.com",2,2,"Mejor amigo de pequeño","perro","HOLA",now(),null);
 
-INSERT INTO USUARIO VALUES (null,"FAN","Irene","Cabezas","C/ nose","irene@cabezas.com","625478542",null,null,null,null,"1234",null,null,null,null,"Mejor amigo de pequeño","perro","",now(),null);
-INSERT INTO USUARIO VALUES (null,"FAN","Ferran","Meseguer","C/ nose","ferran@meseguer.com","625478542",null,null,null,null,"1234",null,null,null,null,"Mejor amigo de pequeño","perro","",now(),null);
-INSERT INTO USUARIO VALUES (null,"FAN","Cristian","C","C/ nose","cristian@ca.com","625478542",null,null,null,null,"1234",null,null,null,null,"Mejor amigo de pequeño","perro","",now(),null);
-INSERT INTO USUARIO VALUES (null,"FAN","Albert","Ba","C/ nose","albert@ba.com","625478542",null,null,null,null,"1234",null,null,null,null,"Mejor amigo de pequeño","perro","",now(),null);
-INSERT INTO USUARIO VALUES (null,"FAN","Robertu","Carlos","C/ nose","robertu@carlos.com","625478542",null,null,null,null,"1234",null,null,null,null,"Mejor amigo de pequeño","perro","",now(),null);
-INSERT INTO USUARIO VALUES (null,"FAN","Emma","Ge","C/ nose","emma@ge.com","625478542",null,null,null,null,"1234",null,null,null,null,"Mejor amigo de pequeño","perro","",now(),null);
+INSERT INTO USUARIO VALUES (null,"FAN","Irene","Cabezas","C/ nose","irene@cabezas.com","625478542",null,null,null,null,"1234",null,null,null,null,"Mejor amigo de pequeño","perro","HOLA",now(),null);
+INSERT INTO USUARIO VALUES (null,"FAN","Ferran","Meseguer","C/ nose","ferran@meseguer.com","625478542",null,null,null,null,"1234",null,null,null,null,"Mejor amigo de pequeño","perro","HOLA",now(),null);
+INSERT INTO USUARIO VALUES (null,"FAN","Cristian","C","C/ nose","cristian@ca.com","625478542",null,null,null,null,"1234",null,null,null,null,"Mejor amigo de pequeño","perro","HOLA",now(),null);
+INSERT INTO USUARIO VALUES (null,"FAN","Albert","Ba","C/ nose","albert@ba.com","625478542",null,null,null,null,"1234",null,null,null,null,"Mejor amigo de pequeño","perro","HOLA",now(),null);
+INSERT INTO USUARIO VALUES (null,"FAN","Robertu","Carlos","C/ nose","robertu@carlos.com","625478542",null,null,null,null,"1234",null,null,null,null,"Mejor amigo de pequeño","perro","HOLA",now(),null);
+INSERT INTO USUARIO VALUES (null,"FAN","Emma","Ge","C/ nose","emma@ge.com","625478542",null,null,null,null,"1234",null,null,null,null,"Mejor amigo de pequeño","perro","HOLA",now(),null);
 
 
 INSERT INTO VOTAR_COMENTAR VALUES (null,13,1,1,TRUE,"NORMAL","2017-1-1","A");
@@ -167,11 +126,11 @@ INSERT INTO VOTAR_COMENTAR VALUES (null,13,2,2,TRUE,"NORMAL","2017-1-1","A");
 INSERT INTO VOTAR_COMENTAR VALUES (null,13,3,3,TRUE,"NORMAL","2017-1-1","A");
 INSERT INTO VOTAR_COMENTAR VALUES (null,13,4,4,TRUE,"NORMAL","2017-1-1","A");
 INSERT INTO VOTAR_COMENTAR VALUES (null,13,5,5,TRUE,"NORMAL","2017-1-1","A");
-INSERT INTO VOTAR_COMENTAR VALUES (null,13,6,7,TRUE,"NORMAL","2017-1-1","A");
-INSERT INTO VOTAR_COMENTAR VALUES (null,14,1,8,TRUE,"NORMAL","2017-1-1","A");
-INSERT INTO VOTAR_COMENTAR VALUES (null,14,3,10,TRUE,"NORMAL","2017-1-1","A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,13,6,4,TRUE,"NORMAL","2017-1-1","A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,14,1,3,TRUE,"NORMAL","2017-1-1","A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,14,3,0,TRUE,"NORMAL","2017-1-1","A");
 INSERT INTO VOTAR_COMENTAR VALUES (null,14,2,5,TRUE,"NORMAL","2017-1-1","A");
-INSERT INTO VOTAR_COMENTAR VALUES (null,14,6,8,TRUE,"NORMAL","2017-1-1","A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,14,6,2,TRUE,"NORMAL","2017-1-1","A");
 INSERT INTO VOTAR_COMENTAR VALUES (null,14,5,4,TRUE,"NORMAL","2017-1-1","A");
 INSERT INTO VOTAR_COMENTAR VALUES (null,14,4,5,TRUE,"NORMAL","2017-1-1","A");
 
@@ -180,26 +139,26 @@ INSERT INTO VOTAR_COMENTAR VALUES (null,13,2,2,FALSE,"NORMAL","2017-1-1","A");
 INSERT INTO VOTAR_COMENTAR VALUES (null,13,3,3,FALSE,"NORMAL","2017-1-1","A");
 INSERT INTO VOTAR_COMENTAR VALUES (null,13,4,4,FALSE,"NORMAL","2017-1-1","A");
 INSERT INTO VOTAR_COMENTAR VALUES (null,13,5,5,FALSE,"NORMAL","2017-1-1","A");
-INSERT INTO VOTAR_COMENTAR VALUES (null,13,6,7,FALSE,"NORMAL","2017-1-1","A");
-INSERT INTO VOTAR_COMENTAR VALUES (null,14,1,8,FALSE,"NORMAL","2017-1-1","A");
-INSERT INTO VOTAR_COMENTAR VALUES (null,14,3,10,FALSE,"NORMAL","2017-1-1","A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,13,6,3,FALSE,"NORMAL","2017-1-1","A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,14,1,0,FALSE,"NORMAL","2017-1-1","A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,14,3,0,FALSE,"NORMAL","2017-1-1","A");
 INSERT INTO VOTAR_COMENTAR VALUES (null,14,2,5,FALSE,"NORMAL","2017-1-1","A");
-INSERT INTO VOTAR_COMENTAR VALUES (null,14,6,8,FALSE,"NORMAL","2017-1-1","A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,14,6,4,FALSE,"NORMAL","2017-1-1","A");
 INSERT INTO VOTAR_COMENTAR VALUES (null,14,5,4,FALSE,"NORMAL","2017-1-1","A");
-INSERT INTO VOTAR_COMENTAR VALUES (null,14,4,5,FALSE,"NORMAL","2017-1-1","A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,14,4,3,FALSE,"NORMAL","2017-1-1","A");
 
-INSERT INTO VOTAR_COMENTAR VALUES (null,13,7,1,0, "NORMAL", now(), "A");
-INSERT INTO VOTAR_COMENTAR VALUES (null,13,8,2,0, "NORMAL", now(), "A");
-INSERT INTO VOTAR_COMENTAR VALUES (null,13,9,3,0, "NORMAL", now(), "A");
-INSERT INTO VOTAR_COMENTAR VALUES (null,13,10,4,0, "NORMAL", now(), "A");
-INSERT INTO VOTAR_COMENTAR VALUES (null,13,11,5,0, "NORMAL", now(), "A");
-INSERT INTO VOTAR_COMENTAR VALUES (null,13,12,6,0, "NORMAL", now(), "A");
-INSERT INTO VOTAR_COMENTAR VALUES (null,14,7,2,0, "NORMAL", now(), "A");
-INSERT INTO VOTAR_COMENTAR VALUES (null,14,8,5,0, "NORMAL", now(), "A");
-INSERT INTO VOTAR_COMENTAR VALUES (null,14,9,7,0, "NORMAL", now(), "A");
-INSERT INTO VOTAR_COMENTAR VALUES (null,14,10,2,0, "NORMAL", now(), "A");
-INSERT INTO VOTAR_COMENTAR VALUES (null,14,11,1,0, "NORMAL", now(), "A");
-INSERT INTO VOTAR_COMENTAR VALUES (null,14,12,9,0, "NORMAL", now(), "A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,13,7,1,FALSE, "NORMAL", now(), "A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,13,8,2,FALSE, "NORMAL", now(), "A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,13,9,3,FALSE, "NORMAL", now(), "A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,13,10,4,FALSE, "NORMAL", now(), "A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,13,11,5,FALSE, "NORMAL", now(), "A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,13,12,2,FALSE, "NORMAL", now(), "A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,14,7,2,FALSE, "NORMAL", now(), "A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,14,8,5,FALSE, "NORMAL", now(), "A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,14,9,1,FALSE, "NORMAL", now(), "A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,14,10,2,FALSE, "NORMAL", now(), "A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,14,11,1,FALSE, "NORMAL", now(), "A");
+INSERT INTO VOTAR_COMENTAR VALUES (null,14,12,4,FALSE, "NORMAL", now(), "A");
 
 INSERT INTO CONCIERTO VALUES(null,1,7,"2018-3-4",1,10,TRUE,100,TRUE,1,3);
 INSERT INTO CONCIERTO VALUES(null,2,8,"2018-3-4",1,10,TRUE,100,TRUE,1,2);
@@ -217,24 +176,8 @@ INSERT INTO CONCIERTO VALUES(null,6,7,"2017-1-2",1,10,TRUE,100,TRUE,1,2);
 INSERT INTO CONCIERTO VALUES(null,1,12,"2017-1-3",1,10,TRUE,100,TRUE,4,3);
 INSERT INTO CONCIERTO VALUES(null,6,9,"2017-1-3",1,10,TRUE,100,TRUE,4,3);
 INSERT INTO CONCIERTO VALUES(null,5,8,"2017-1-3",1,10,TRUE,100,TRUE,4,3);
-INSERT INTO VOTAR_CONCIERTO VALUES(13,1,"2017-1-1",5);
-INSERT INTO VOTAR_CONCIERTO VALUES(13,2,"2017-1-1",5);
-INSERT INTO VOTAR_CONCIERTO VALUES(13,3,"2017-1-1",5);
-INSERT INTO VOTAR_CONCIERTO VALUES(13,4,"2017-1-1",5);
-INSERT INTO VOTAR_CONCIERTO VALUES(13,5,"2017-1-1",5);
-INSERT INTO VOTAR_CONCIERTO VALUES(13,6,"2017-1-1",5);
-INSERT INTO VOTAR_CONCIERTO VALUES(13,7,"2017-1-1",5);
-INSERT INTO VOTAR_CONCIERTO VALUES(13,8,"2017-1-1",5);
-INSERT INTO VOTAR_CONCIERTO VALUES(14,1,"2017-1-1",10);
-INSERT INTO VOTAR_CONCIERTO VALUES(14,2,"2017-1-1",9);
-INSERT INTO VOTAR_CONCIERTO VALUES(14,3,"2017-1-1",8);
-INSERT INTO VOTAR_CONCIERTO VALUES(14,4,"2017-1-1",7);
-INSERT INTO VOTAR_CONCIERTO VALUES(14,5,"2017-1-1",6);
-INSERT INTO VOTAR_CONCIERTO VALUES(14,6,"2017-1-1",5);
-INSERT INTO VOTAR_CONCIERTO VALUES(14,7,"2017-1-1",4);
-INSERT INTO VOTAR_CONCIERTO VALUES(14,8,"2017-1-1",3);
 
-INSERT INTO TRACE VALUES(null, 'REGISTRO', 'FERRANCACA', now(), null, 'NUEVO LOCAL',null); 
+
 INSERT INTO TRACE VALUES(null, 'REGISTRO', 'Girls', now(), null, 'NUEVO MUSICO',null); 
 INSERT INTO TRACE VALUES(null, 'REGISTRO', 'Fan 1', now(), true, 'NUEVO FAN',null); 
 INSERT INTO TRACE VALUES(null, 'CONCIERTO', 'Los Suaves-Freedonia', now(), 1, 'NUEVO CONCIERTO',1);
