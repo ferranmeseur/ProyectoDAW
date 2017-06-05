@@ -3,8 +3,7 @@
 session_start();
 require_once 'bbdd.php';
 if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
-    echo 'Ya estás en sesión';
-    header("refresh:2; url=HomePage.php");
+    header("refresh:0; url=Perfil.php");
     return 0;
 } else {
     

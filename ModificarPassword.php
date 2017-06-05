@@ -5,9 +5,7 @@ require_once 'bbdd.php';
 if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
     
 } else {
-    echo "Acceso denegado";
-    header("refresh:2; url=Login.php");
-    return 0;
+    header("refresh:0; url=Login.php");
 }
 ?>
 <html>
@@ -29,40 +27,40 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
     <body>
         <div id="header"></div>
         <div class="center content">
-<h1>Modificar<span class="color_rojo_general"> Contraseña</span></h1></div>
-        </div>
-        <div>
-            <?php
-            require_once 'bbdd.php';
+            <h1>Modificar<span class="color_rojo_general"> Contraseña</span></h1></div>
+    </div>
+    <div>
+        <?php
+        require_once 'bbdd.php';
 
-            function check() {
-                $userEmail = $_SESSION['email'];
-                $oldpassword = $_POST['oldpassword'];
-                $newpassword1 = $_POST['newpassword1'];
-                $newpassword1 = $_POST['newpassword1'];
-                $newpassword2 = $_POST['newpassword2'];
+        function check() {
+            $userEmail = $_SESSION['email'];
+            $oldpassword = $_POST['oldpassword'];
+            $newpassword1 = $_POST['newpassword1'];
+            $newpassword1 = $_POST['newpassword1'];
+            $newpassword2 = $_POST['newpassword2'];
 
-                if (!checkPassword($newpassword1, $newpassword2)) {
-                    showAlert('La nueva contraseña no coincide');
-                } elseif (checkPassword($oldpassword, $newpassword1)) {
-                    showAlert('Las contraseñas actual y nueva no pueden coincidir');
-                } else {
-                    $resultado = login($userEmail, $oldpassword);
-                    if ($resultado != false) {
-                        ModificarPassword($userEmail, $newpassword1);
-                    }
-                    $_POST['valoresok'] = true;
-                }
-            }
-
-            if (isset($_POST['modificar'])) {
-                check();
-            }
-            if (isset($_POST['valoresok'])) {
-              echo '<h4 class="center"><i>Contraseña modificada con éxito.<br> Redirigiendo al perfil.</i><h4>';
-              header("refresh:2;url='Perfil.php'");
+            if (!checkPassword($newpassword1, $newpassword2)) {
+                showAlert('La nueva contraseña no coincide');
+            } elseif (checkPassword($oldpassword, $newpassword1)) {
+                showAlert('Las contraseñas actual y nueva no pueden coincidir');
             } else {
-                echo'<div class="center">
+                $resultado = login($userEmail, $oldpassword);
+                if ($resultado != false) {
+                    ModificarPassword($userEmail, $newpassword1);
+                }
+                $_POST['valoresok'] = true;
+            }
+        }
+
+        if (isset($_POST['modificar'])) {
+            check();
+        }
+        if (isset($_POST['valoresok'])) {
+            echo '<h4 class="center"><i>Contraseña modificada con éxito.<br> Redirigiendo al perfil.</i><h4>';
+            header("refresh:2;url='Perfil.php'");
+        } else {
+            echo'<div class="center">
             <form id="msform" method="POST" action="">
                 <input type="text" name="oldpassword" placeholder="Contraseña actual" required/>
                 <input type="text" name="newpassword1" placeholder="Nueva contraseña" required/>
@@ -70,13 +68,13 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                <button style="width:400px" type="submit" class="submit action-button"  name = "modidificar">Modificar Contraseña</button>
             </form>
         </div>';
-            }
-            ?>
-        </div>
-        <div id="footer"></div>
+        }
+        ?>
+    </div>
+    <div id="footer"></div>
 
 
-    </body>
+</body>
 
 </html>
 
