@@ -48,6 +48,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                     $('#aplicarCambiosButton').prop('hidden', true);
                     $('#modificarContraseña').prop('hidden', true);
                     $('#image-upload').prop('disabled', true);
+                    $('#guardarimagen').prop('hidden', true);
                     enabled = false;
                 } else {
                     enabled = true
@@ -56,6 +57,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                     $('#image-label').removeAttr('hidden');
                     $('#aplicarCambiosButton').removeAttr('hidden');
                     $('#modificarContraseña').removeAttr('hidden');
+                    $('#guardarimagen').removeAttr('hidden');
                 }
             }
             function roundToHalf(value) {
@@ -97,6 +99,8 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                 informacionMusico($info);
                 break;
         }
+
+        
         ?>
     </div>
     <div id="footer"></div>
