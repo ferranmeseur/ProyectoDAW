@@ -44,7 +44,7 @@
                 <a class="inline fonts" href="Perfil.php">AREA PERSONAL</a>
                 <?php
                 session_start();
-                if (isset($_SESSION['tipo'])) {
+                if (isset($_SESSION['pass'])) {
                     echo '<a id="logout" class = "inline fonts" href = "Logout.php">LOG OUT</a>';
                 }
                 ?>

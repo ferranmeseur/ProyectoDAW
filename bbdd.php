@@ -2137,3 +2137,14 @@ function modificarImagenEmail($imagen, $email) {
     }
     desconectar($conexion);
 }
+
+function darBaja($id) {
+    $conexion = conectar();
+    $sql = "UPDATE USUARIO SET FECHA_BAJA = Now() WHERE ID_USUARIO = '$id'";
+    if (mysqli_query($conexion, $sql)) {
+        return true;
+    } else {
+        return false
+    }
+    desconectar($conexion);
+}
