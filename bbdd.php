@@ -1568,6 +1568,8 @@ function informacionLocal($info) {
     } else {
         $descripcion = str_replace("<pre>", "", $info['DESCRIPCION']);
         $urlDefaultImage = getImageEmail($_SESSION['email']);
+        $mensaje = "Seguro que quieres darte de baja?";
+        echo '<a href="Baja.php" class="action-button" >Darse de baja</a>';
         echo '<h1>Perfil <span class="color_rojo_general"> Local</span></h1>';
         echo'<div id = "div1" class = "inline center" style = "vertical-align:top;width: 15%; height: 150%">
                         <div style = "width:250px; float:left">
@@ -1819,7 +1821,7 @@ function informacionFan($info) {
         $descripcion = str_replace("<pre>", "", $info['DESCRIPCION']);
         $imagen = getImageEmail($_SESSION['email']);
         $mensaje = "Seguro que quieres darte de baja?";
-        echo '<a href="Baja.php" class="action-button" onclick="return confirm(' . $mensaje . ');">Darse de baja</a>';
+        echo '<a href="Baja.php" class="action-button" >Darse de baja</a>';
         echo '<h1>Perfil <span class="color_rojo_general"> Fan</span></h1>';
         echo'<div id = "div1" class = "inline center" style = "vertical-align:top;width: 15%; height: 100%">
                         <div style = "width:250px; float:left">
@@ -1894,6 +1896,8 @@ function informacionMusico($info) {
         }
         $descripcion = str_replace("<pre>", "", $info['DESCRIPCION']);
         $imagen = showImage($_SESSION['email']);
+        $mensaje = "Seguro que quieres darte de baja?";
+        echo '<a href="Baja.php" class="action-button" >Darse de baja</a>';
         echo '<h1>Perfil <span class="color_rojo_general"> Musico</span></h1>';
         echo'<div id = "div1" class = "inline center" style = "vertical-align:top;width: 15%; height: 150%">
                         <div style = "width:250px; float:left">
