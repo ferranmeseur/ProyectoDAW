@@ -48,38 +48,47 @@
             echo'<div class="inline center" style="vertical-align:top">';
             echo'<img src="' . $imagen . '" alt="" style="width:250px"/>';
             echo'</div>';
-            echo '<div class="inline" style="height:auto">';
+            echo '<div class="inline" style="width:25%">';
             echo '<h1>' . $resultado['NOMBRE_ARTISTICO'] . '</h1>';
             echo'<b style="color:#d83c3c">GRUPO RATING</b><i id="puntuacion" hidden>' . $puntuacion . '</i><br>';
-            echo '<fieldset class="rating_fixed">
-                        <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
-                        <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
-                        <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
-                        <input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
-                        <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
-                        <input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="No muy bueno - 2.5 stars"></label>
-                        <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title=" - 2 stars"></label>
-                        <input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
-                        <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
-                        <input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
-                        </fieldset> ';
-            echo '<table>';
-            echo '<div class="center">Componentes : ' . $resultado['NUMERO_COMPONENTES'] . '</div>';
-            echo '<div class="center">Genero : ' . getNombreGenero(($resultado['ID_GENERO'])) . '</div>';
-            echo '<div class="center">Ciudad : ' . getNombreCiudad($resultado['ID_CIUDAD']) . '</div>';
+            echo '<fieldset class="rating_fixed center" style="float:left;margin:auto auto auto auto;width:70%">
+            <input type="radio" id="star5" name="rating" value="5.0" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
+            <input type="radio" id="star4half" name="rating" value="4.0" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
+            <input type="radio" id="star4" name="rating" value="4.0" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
+            <input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+            <input type="radio" id="star3" name="rating" value="3.0" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+            <input type="radio" id="star2half" name="rating" value="2.0" /><label class="half" for="star2half" title="No muy bueno - 2.5 stars"></label>
+            <input type="radio" id="star2" name="rating" value="2.0" /><label class = "full" for="star2" title=" - 2 stars"></label>
+            <input type="radio" id="star1half" name="rating" value="1.0" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+            <input type="radio" id="star1" name="rating" value="1.0" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+            <input type="radio" id="starhalf" name="rating" value="0.5" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+            </fieldset> ';
+
+
+            echo '<br><br><br><table cellspacing="20" style="text-align:left">';
+            if ($resultado['UBICACION'] != null) {
+                echo '<tr><td>UBICACIÓN: </td><td>' . $resultado['UBICACION'] . '</td></tr>';
+            }
+            echo '<tr><td>CIUDAD : </td><td>' . getNombreCiudad($resultado['ID_CIUDAD']) . '</td></tr>';
+            echo '<tr><td>COMPONENTES : </td><td>' . $resultado['NUMERO_COMPONENTES'] . '</td></tr>';
+            echo '<tr><td>GÉNERO : </td><td>' . getNombreGenero($resultado['ID_GENERO']) . '</td></tr>';
+            echo '<tr><td>EMAIL : </td><td>' . $resultado['EMAIL'] . '</td></tr>';
+            echo '<tr><td>CONTACTO : </td><td>' . $resultado['NUMERO_CONTACTO'] . '</td></tr>';
             if ($resultado['WEB'] != null) {
-                echo '<div class="center">Contacto : ' . $resultado['WEB'] . '</div>';
+                echo'<tr><td>WEB : </td><td>' . $resultado['WEB'] . '</td></tr>';
             }
             if ($resultado['DESCRIPCION'] != null) {
-                echo '<div class="center">Descripción : ' . $resultado['DESCRIPCION'] . '</div>';
-            } echo '</div>';
+                echo '<tr><td style="vertical-align:top">DESCRIPCIÓN : </td><td>' . $resultado['DESCRIPCION'] . '</td></tr>';
+            }
+            echo '</table>';
+            echo '<div style="padding-bottom:50px"></div>';
             if ($comentarios != false) {
                 echo '</div>';
                 echo '<div style="margin:auto auto auto auto;width:500px">';
                 echo '<div class="container">';
                 while ($lista = $comentarios->fetch_assoc()) {
                     $imagen = getImageID($lista['ID_USUARIO']);
-                    echo '<div class="row center">';
+                    echo '<div class="row center" style="padding-bottom:20px">';
                     echo '<div class="col-sm-8">';
                     echo '<div class="panel panel-white post panel-shadow">';
                     echo '<div class="post-heading">';
