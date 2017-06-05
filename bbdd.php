@@ -1051,15 +1051,13 @@ function modificarDatosLocal($usuario, $nuevaUbicacion, $nuevoNumeroContacto, $n
     desconectar($conexion);
 }
 
-function modificarDatosMusico($usuario, $nuevaUbicacion, $nuevoNumeroContacto, $nuevoNombreArtistico, $nuevoNumeroComponentes, $nuevaDescripcion, $nuevaWeb) {
+function modificarDatosMusico($usuario, $nuevaUbicacion, $nuevoNumeroContacto, $nuevoNombreArtistico, $nuevoNumeroComponentes, $nuevadescripcion, $nuevaWeb) {
     $conexion = conectar();
     $nuevadescripcion = '<pre>' . $nuevadescripcion;
-    echo $nuevaDescripcion;
-    $nuevaDescripcion = '<pre>' . $nuevaDescripcion;
     $query = "SELECT * FROM USUARIO WHERE EMAIL = '$usuario'";
     $result = $conexion->query($query);
     if ($result->num_rows > 0) {
-        $queryUpdate = "UPDATE USUARIO SET UBICACION='$nuevaUbicacion', NUMERO_CONTACTO = $nuevoNumeroContacto, NOMBRE_ARTISTICO = '$nuevoNombreArtistico', NUMERO_COMPONENTES = $nuevoNumeroComponentes, DESCRIPCION = '$nuevaDescripcion', WEB='$nuevaWeb' WHERE EMAIL ='$usuario'";
+        $queryUpdate = "UPDATE USUARIO SET UBICACION='$nuevaUbicacion', NUMERO_CONTACTO = $nuevoNumeroContacto, NOMBRE_ARTISTICO = '$nuevoNombreArtistico', NUMERO_COMPONENTES = $nuevoNumeroComponentes, DESCRIPCION = '$nuevadescripcion', WEB='$nuevaWeb' WHERE EMAIL ='$usuario'";
         if (mysqli_query($conexion, $queryUpdate)) {
             return true;
         } else {
