@@ -99,8 +99,6 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                 informacionMusico($info);
                 break;
         }
-
-        
         ?>
     </div>
     <div id="footer"></div>

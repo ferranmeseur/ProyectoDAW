@@ -50,8 +50,6 @@
             }
             ?>
         </div>
-        <!--BARRA BUSQUEDA-->
-
     </div>
 
     <div style = "height:50px;background-color: white"></div>
