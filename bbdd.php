@@ -1625,7 +1625,7 @@ function informacionLocal($info) {
                         <td style="color:#d83c3c">Contacto:</td><td><input style="width:100%" name = "numeroContacto" value = "' . $info['NUMERO_CONTACTO'] . '" class = "in" type = "text" disabled></td>
                         </tr>
                         <tr>
-                        <td style="color:#d83c3c">Descripción:</td><td><textarea class="in" disabled style="resize:none;width:220px; height:250px; overflow-y:auto" form="msformLeft" name="descripcion">' . $descripcion . '</textarea></td>
+                        <td style = "color:#d83c3c">Descripción:</td><td><textarea class = "in" disabled style = "resize:none;width:100%;max-height:200px; height:auto; overflow-y:hidden" form = "msformLeft" name = "descripcion" >' . $descripcion . '</textarea></td>
                         </tr>
                         </table>
                         <button style = "width:100%;margin:auto auto auto auto" id = "aplicarCambiosButton" hidden type = "submit" name = "enviar" class = "action-button">MODIFICAR DATOS</button>
@@ -1856,7 +1856,7 @@ function informacionFan($info) {
                         <table style="width:95%;text-align:left">
                         <col width="110px">
                         <tr>
-                        <td class="inline" style="color:#d83c3c">Descripción:</td><td><textarea class="in" disabled style="resize:none;width:90%; height:200px; overflow-y:auto" form="msformLeft" name="descripcion">' . $descripcion . '</textarea></td> 
+                        <td style = "color:#d83c3c">Descripción:</td><td><textarea class = "in" disabled style = "resize:none;width:100%;max-height:200px; height:auto; overflow-y:hidden" form = "msformLeft" name = "descripcion" >' . $descripcion . '</textarea></td>
                         </tr>
                         </table>
                         <button style = "width:100%;margin:auto auto auto auto" id = "aplicarCambiosButton" hidden type = "submit" name = "enviar" class = "action-button">MODIFICAR DATOS</button>
@@ -1866,60 +1866,61 @@ function informacionFan($info) {
         echo '</div>';
     }
 }
-    
-    
-    function informacionMusico($info) {
-            if (isset($_POST['enviar'])) {
-                $nuevaUbicacion = $_POST['ubicacion'];
-                $nuevoNumeroContacto = $_POST['numeroContacto'];
-                $nuevoNombreArtistico = $_POST['nombreArtistico'];
-                $nuevoNumeroComponentes = $_POST['numeroComponentes'];
-                $nuevaDescripcion = $_POST['descripcion'];
-                $nuevaWeb = $_POST['web'];
 
-                if (modificarDatosMusico($_SESSION['email'], $nuevaUbicacion, $nuevoNumeroContacto, $nuevoNombreArtistico, $nuevoNumeroComponentes, $nuevaDescripcion, $nuevaWeb)) {
-                    echo '<h1 class=center">Datos <span class="color_rojo_general">Modificados</span> con Éxito</h1>';
-                    header("refresh:1; url=Perfil.php");
-                } else {
-                    echo 'fallo';
-                }
-            } else {
-                if (isset($_POST['guardarImagen']) && isset($_POST['image'])) {
-                    $nuevaImagen = $_POST['image'];
-                    $result = modificarImagenEmail($nuevaImagen, $_SESSION['email']);
-                } else {
-                }
-                $descripcion = str_replace("<pre>", "", $info['DESCRIPCION']);
-                $imagen = showImage($_SESSION['email']);
-                echo '<h1>Perfil <span class="color_rojo_general"> Musico</span></h1>';
-                echo'<div id = "div1" class = "inline center" style = "vertical-align:top;width: 15%; height: 150%">
+function informacionMusico($info) {
+    if (isset($_POST['enviar'])) {
+        $nuevaUbicacion = $_POST['ubicacion'];
+        $nuevoNumeroContacto = $_POST['numeroContacto'];
+        $nuevoNombreArtistico = $_POST['nombreArtistico'];
+        $nuevoNumeroComponentes = $_POST['numeroComponentes'];
+        $nuevaDescripcion = $_POST['descripcion'];
+        $nuevaWeb = $_POST['web'];
+
+        if (modificarDatosMusico($_SESSION['email'], $nuevaUbicacion, $nuevoNumeroContacto, $nuevoNombreArtistico, $nuevoNumeroComponentes, $nuevaDescripcion, $nuevaWeb)) {
+            echo '<h1 class=center">Datos <span class="color_rojo_general">Modificados</span> con Éxito</h1>';
+            header("refresh:1; url=Perfil.php");
+        } else {
+            echo 'fallo';
+        }
+    } else {
+        if (isset($_POST['guardarImagen']) && isset($_POST['image'])) {
+            $nuevaImagen = $_POST['image'];
+            echo $nuevaImagen;
+            $result = modificarImagenEmail($nuevaImagen, $_SESSION['email']);
+        } else {
+            
+        }
+        $descripcion = str_replace("<pre>", "", $info['DESCRIPCION']);
+        $imagen = showImage($_SESSION['email']);
+        echo '<h1>Perfil <span class="color_rojo_general"> Musico</span></h1>';
+        echo'<div id = "div1" class = "inline center" style = "vertical-align:top;width: 15%; height: 150%">
                         <div style = "width:250px; float:left">
                         <div id = "divConImagen" style = "border:1px solid gray">';
 
-                $urlDefaultImage = getImageEmail($_SESSION['email']);
-                echo '<div id="image-preview" style="background-image: url(' . $urlDefaultImage . ');background-size:cover">';
-                echo '<label hidden for="image-upload" id="image-label">Escoger foto</label>';
-                echo '<form action="" method="POST" id="formimg">';
-                echo '<input type="file" name="image" disabled id="image-upload"/>';
+        $urlDefaultImage = getImageEmail($_SESSION['email']);
+        echo '<div id="image-preview" style="background-image: url(' . $urlDefaultImage . ');background-size:cover">';
+        echo '<label hidden for="image-upload" id="image-label">Escoger foto</label>';
+        echo '<form action="" method="POST" id="formimg">';
+        echo '<input type="file" name="image" disabled id="image-upload"/>';
 
-                echo '</div>';
-                echo'</div>';
-                echo '</div>';
+        echo '</div>';
+        echo'</div>';
+        echo '</div>';
 
-                echo '<div style="width:70%">';
-                echo '<button style = "width:200px;margin:15px auto auto auto" name="guardarImagen" value="guardarImagen" type = "submit" id="guardarimagen" hidden class = "action-button">GUARDAR IMAGEN</button>';
+        echo '<div style="width:70%">';
+        echo '<button style = "width:200px;margin:15px auto auto auto" name="guardarImagen" value="guardarImagen" type = "submit" id="guardarimagen" hidden class = "action-button">GUARDAR IMAGEN</button>';
 
-                echo '</form>';
+        echo '</form>';
 
-                echo'<button style = "width:200px;margin:15px auto auto auto" onclick = "modificarPerfil(2)" class = "action-button" id = "editarPerfil"><span class = "icon icon-wrench"></span>EDITAR PERFIL</button>
+        echo'<button style = "width:200px;margin:15px auto auto auto" onclick = "modificarPerfil(2)" class = "action-button" id = "editarPerfil"><span class = "icon icon-wrench"></span>EDITAR PERFIL</button>
         <a href = "ModificarPassword.php"><button style = "width:100%; margin:15px auto auto auto" id = "modificarContraseña" class = "action-button" hidden>MODIFICAR PASSWORD</button></a>
         </div>
         </div>
         <div id = "div2" class = "inline" style = "margin-left:50px;vertical-align: top; width: 25%; height: 150%">';
-                $puntuacion = votosGrupo($info['ID_USUARIO']);
-                echo '<div style = "float:left;text-align:left">';
-                echo'<b style = "color:#d83c3c">RATING DEL GRUPO</b><i id = "puntuacion" hidden>' . $puntuacion . '</i><br>';
-                echo '<fieldset class = "rating_fixed">
+        $puntuacion = votosGrupo($info['ID_USUARIO']);
+        echo '<div style = "float:left;text-align:left">';
+        echo'<b style = "color:#d83c3c">RATING DEL GRUPO</b><i id = "puntuacion" hidden>' . $puntuacion . '</i><br>';
+        echo '<fieldset class = "rating_fixed">
         <input type = "radio" id = "star5" name = "rating" value = "5" /><label class = "full" for = "star5" title = "Fantástico - 5 stars"></label>
         <input type = "radio" id = "star4half" name = "rating" value = "4 and a half" /><label class = "half" for = "star4half" title = "Bastante bien - 4.5 stars"></label>
         <input type = "radio" id = "star4" name = "rating" value = "4" /><label class = "full" for = "star4" title = "Bastante bien - 4 stars"></label>
@@ -1931,9 +1932,9 @@ function informacionFan($info) {
         <input type = "radio" id = "star1" name = "rating" value = "1" /><label class = "full" for = "star1" title = "Sucks big time - 1 star"></label>
         <input type = "radio" id = "starhalf" name = "rating" value = "half" /><label class = "half" for = "starhalf" title = "Sucks big time - 0.5 stars"></label>
         </fieldset> ';
-                echo '</div>';
-                $genero = getNombreGenero($info['ID_GENERO']);
-                echo'<form style = "width:100%" method = "POST" action = "" id = "msformLeft">
+        echo '</div>';
+        $genero = getNombreGenero($info['ID_GENERO']);
+        echo'<form style = "width:100%" method = "POST" action = "" id = "msformLeft">
         <table style = "width:95%">
         <col width = "100">
         <tr>
@@ -1960,7 +1961,7 @@ function informacionFan($info) {
         <td style = "color:#d83c3c">Contacto:</td><td><input style = "width:100%" name = "numeroContacto" value = "' . $info['NUMERO_CONTACTO'] . '" class = "in" type = "text" disabled></td>
         </tr>
         <tr>
-        <td style = "color:#d83c3c">Descripción:</td><td><textarea class = "in" disabled style = "resize:none;width:220px; height:250px; overflow-y:auto" form = "msformLeft" name = "descripcion" >' . $descripcion . '</textarea></td>
+        <td style = "color:#d83c3c">Descripción:</td><td><textarea class = "in" disabled style = "resize:none;width:100%;max-height:200px; height:auto; overflow-y:hidden" form = "msformLeft" name = "descripcion" >' . $descripcion . '</textarea></td>
         </tr>
         </table>
         <button style = "width:100%;margin:auto auto auto auto" id = "aplicarCambiosButton" hidden type = "submit" name = "enviar" class = "action-button">MODIFICAR DATOS</button>
@@ -1970,173 +1971,171 @@ function informacionFan($info) {
         <div class = "inline" style = ";vertical-align: top; width:30%; height: 150%">
         <div id = "div3" style = "border-bottom:2px solid gray">
         <h1 class = "fs-title">MIS PRÓXIMOS CONCIERTOS</h1>';
-                echo '<div style = "max-height:325px;display:inline-block;overflow-y:auto; overflow-x:hidden" >';
-                if ($fechas = ListaFechasConciertosGrupo(true, $info['ID_USUARIO'], 1)) {
+        echo '<div style = "max-height:325px;display:inline-block;overflow-y:auto; overflow-x:hidden" >';
+        if ($fechas = ListaFechasConciertosGrupo(true, $info['ID_USUARIO'], 1)) {
 
-                    while ($row = $fechas->fetch_assoc()) {
-                        $nuevaFecha = date("w-d-m-Y", strtotime($row["FECHA"]));
-                        $nuevaHora = date("H:i", strtotime($row["FECHA"]));
-                        $fechaFinal = getNombreFecha($nuevaFecha);
-                        $estado = 1;
-                        $visible = 1;
-                        $result = ListaConciertosMusico($row['FECHA'], $info['ID_USUARIO'], 1);
-                        if ($result == null) {
-                            echo '<script language = "javascript">$("#$fechaFinal").empty();</script>';
-                        } else {
-
-                            echo '<div id="resultado" style="text-align:center">';
-                            echo '<table cellspacing=0 style="width:100%;font-size:15px">';
-                            echo '<tr><td>';
-                            echo '<h3 id="' . $fechaFinal . '" class="color_rojo_general">' . $fechaFinal . '</h3>';
-                            echo '</td></tr>';
-
-                            while ($lista = $result->fetch_assoc()) {
-                                $nombre_artistico = str_replace(" ", "+", $lista['NOMBRE_ARTISTICO']);
-                                echo '<tr>';
-                                echo '<td style="text-align:center;vertical-align:top">';
-                                echo '<div class="inline">';
-                                echo '<a class="fontblack a_concierto" href=InfoConcierto.php?idcon=' . $lista['ID_CONCIERTO'] . '>';
-                                echo "<b id='h4_lista_img'>" . $lista['NOMBRE_ARTISTICO'] . "</b>";
-                                echo "</a>";
-                                echo '<form action="" method="POST">';
-                                echo '<input type="text" hidden name="idconcierto" value="' . $lista['ID_CONCIERTO'] . '">';
-                                echo '<button type = "submit" name = "cancelarConciertoEstado1" class = "action-button">CANCELAR</button>';
-                                echo '</form>';
-                                echo '</div>';
-                                echo '</td>';
-                                echo '</tr>';
-                            }
-                            echo'</table>';
-                            echo'</div>';
-                        }
-                    }
-                    if (isset($_POST['cancelarConciertoEstado1'])) {
-                        $idconcierto = $_POST['idconcierto'];
-                        cancelarConcierto($idconcierto);
-                        redirectURL('Perfil.php');
-                    }
+            while ($row = $fechas->fetch_assoc()) {
+                $nuevaFecha = date("w-d-m-Y", strtotime($row["FECHA"]));
+                $nuevaHora = date("H:i", strtotime($row["FECHA"]));
+                $fechaFinal = getNombreFecha($nuevaFecha);
+                $estado = 1;
+                $visible = 1;
+                $result = ListaConciertosMusico($row['FECHA'], $info['ID_USUARIO'], 1);
+                if ($result == null) {
+                    echo '<script language = "javascript">$("#$fechaFinal").empty();</script>';
                 } else {
-                    echo 'No hay conciertos<br><br>';
-                }
 
-                echo'</div>';
-                echo'</div>';
+                    echo '<div id="resultado" style="text-align:center">';
+                    echo '<table cellspacing=0 style="width:100%;font-size:15px">';
+                    echo '<tr><td>';
+                    echo '<h3 id="' . $fechaFinal . '" class="color_rojo_general">' . $fechaFinal . '</h3>';
+                    echo '</td></tr>';
 
-                echo '<div style="padding-top:20px">';
-                echo '<h1 class = "fs-title">PROPUESTAS Y CONCIERTOS PENDIENTES</h1>';
-                echo '<div style = "max-height:325px;display:inline-block;text-align:center;height:325px;overflow-y:auto" >';
-                $fechas = ListaFechasConciertosGrupo(true, $info['ID_USUARIO'], 0);
-                if (!(empty($fechas))) {
-                    while ($row = $fechas->fetch_assoc()) {
-                        $nuevaFecha = date("w-d-m-Y", strtotime($row["FECHA"]));
-                        $nuevaHora = date("H:i", strtotime($row["FECHA"]));
-                        $fechaFinal = getNombreFecha($nuevaFecha);
-                        $estado = 0;
-                        $visible = 1;
-                        $result = ListaConciertosMusico($row['FECHA'], $info['ID_USUARIO'], 0);
-                        if ($result == null) {
-                            echo 'No hay conciertos<br><br>';
-                            echo '<script language = "javascript">$("#$fechaFinal").empty();</script>';
-                        } else {
-
-                            echo '<div id="resultado" style="text-align:center">';
-                            echo '<table cellspacing=0 style="width:100%;font-size:15px">';
-                            echo '<tr><td>';
-                            echo '<h3 id="' . $fechaFinal . '" class="color_rojo_general">' . $fechaFinal . '</h3>';
-                            echo '</td></tr>';
-                            while ($lista = $result->fetch_assoc()) {
-                                $propuestaAceptada = getInfoPropuesta($lista['ID_CONCIERTO']);
-                                $nombre_artistico = str_replace(" ", "+", $lista['NOMBRE_ARTISTICO']);
-                                echo '<tr>';
-                                echo '<td style="vertical-align:top">';
-                                echo '<div class="inline">';
-                                echo '<a class="fontblack a_concierto" href=InfoConcierto.php?idcon=' . $lista['ID_CONCIERTO'] . '>';
-                                echo "<b id='h4_lista_img'>" . $lista['NOMBRE_ARTISTICO'] . "</b>";
-                                if ($propuestaAceptada == 'A') {
-                                    $estadoPropuesta = " - <b class='color_rojo_general'>ACEPTADO</b>";
-                                } elseif ($propuestaAceptada == 'P') {
-                                    $estadoPropuesta = " - <b class='color_rojo_general'>PENDIENTE</b>";
-                                } else {
-                                    $estadoPropuesta = " - <b class='color_rojo_general'>CANCELADO</b>";
-                                }
-                                echo "<br><i class='color_rojo_general'> " . $lista['UBICACION'] . "</i> <b>" . $nuevaHora . "h </b>" . $estadoPropuesta;
-                                echo "</a>";
-                                echo '<form action="" method="POST">';
-                                echo '<input type="text" hidden name="idconcierto" value="' . $lista['ID_CONCIERTO'] . '">';
-                                if ($propuestaAceptada == 'P') {
-                                    echo '<button type = "submit" name = "aceptarConcierto" class = "action-button">ACEPTAR</button>';
-                                    echo '<button type = "submit" name = "rechazarConcierto" class = "action-button">RECHAZAR</button>';
-                                } else {
-                                    
-                                }
-                                echo '</form>';
-                                echo '</div>';
-                                echo '</td>';
-                                echo '</tr>';
-                            }
-                            echo'</table>';
-                            echo'</div>';
-                        }
+                    while ($lista = $result->fetch_assoc()) {
+                        $nombre_artistico = str_replace(" ", "+", $lista['NOMBRE_ARTISTICO']);
+                        echo '<tr>';
+                        echo '<td style="text-align:center;vertical-align:top">';
+                        echo '<div class="inline">';
+                        echo '<a class="fontblack a_concierto" href=InfoConcierto.php?idcon=' . $lista['ID_CONCIERTO'] . '>';
+                        echo "<b id='h4_lista_img'>" . $lista['NOMBRE_ARTISTICO'] . "</b>";
+                        echo "</a>";
+                        echo '<form action="" method="POST">';
+                        echo '<input type="text" hidden name="idconcierto" value="' . $lista['ID_CONCIERTO'] . '">';
+                        echo '<button type = "submit" name = "cancelarConciertoEstado1" class = "action-button">CANCELAR</button>';
+                        echo '</form>';
+                        echo '</div>';
+                        echo '</td>';
+                        echo '</tr>';
                     }
-                    if (isset($_POST['rechazarConcierto'])) {
-                        $idconcierto = $_POST['idconcierto'];
-                        echo (ResponderPropuesta($idconcierto, 'C'));
-                        redirectURL('Perfil.php');
-                    }
-                    if (isset($_POST['aceptarConcierto'])) {
-                        $idconcierto = $_POST['idconcierto'];
-                        echo(ResponderPropuesta($idconcierto, 'A'));
-                        redirectURL('Perfil.php');
-                    }
-                } else {
-                    echo 'No hay conciertos<br><br>';
-                }
-                echo'</div>';
-                echo'</div>';
-                echo'</div>';
-                echo'<div id = "div4" class = "center" style = "width:60%;margin:auto auto 100px auto">';
-                $comentarios = comentariosGrupo($info['ID_USUARIO']);
-                if ($comentarios != false) {
-                    echo '<div class="container">';
-                    while ($lista = $comentarios->fetch_assoc()) {
-                        $imagen = getImageID($lista['ID_USUARIO']);
-                        echo '<div class="row center">';
-                        echo '<div class="col-sm-8">';
-                        echo '<div class="panel panel-white post panel-shadow">';
-                        echo '<div class="post-heading">';
-                        echo '<div class="pull-left image">';
-                        echo '<img src="' . $imagen . '" class="img-circle avatar" alt="user profile image">';
-                        echo '</div>';
-                        echo '<div class="pull-left meta">';
-                        echo '<div class="title h5">';
-                        echo '<b>' . $lista['NOMBRE'] . ' ' . $lista['APELLIDOS'] . '</b>';
-                        echo 'ha realizado un comentario';
-                        echo '</div>';
-                        echo '<h6 class="text-muted time">El ' . getNombreFecha(date("w-d-m-Y", strtotime($lista['FECHA']))) . '</h6>';
-                        echo '</div>';
-                        echo '</div>';
-                        echo '<div class="post-description">';
-                        echo '<p> ' . $lista['COMENTARIO'] . '</p>';
-                        echo '</div>';
-                        echo '</div>';
-                        echo '</div>';
-                        echo '</div>';
-                    }
+                    echo'</table>';
                     echo'</div>';
                 }
-                echo'</div>';
             }
-        }
-
-    function modificarImagenEmail($imagen, $email) {
-        $conexion = conectar();
-        $sql = "UPDATE USUARIO SET IMAGEN = '$imagen' WHERE EMAIL = '$email'";
-        if (mysqli_query($conexion, $sql)) {
-            return true;
+            if (isset($_POST['cancelarConciertoEstado1'])) {
+                $idconcierto = $_POST['idconcierto'];
+                cancelarConcierto($idconcierto);
+                redirectURL('Perfil.php');
+            }
         } else {
-            echo mysqli_error($conexion);
+            echo 'No hay conciertos<br><br>';
         }
-        desconectar($conexion);
+
+        echo'</div>';
+        echo'</div>';
+
+        echo '<div style="padding-top:20px">';
+        echo '<h1 class = "fs-title">PROPUESTAS Y CONCIERTOS PENDIENTES</h1>';
+        echo '<div style = "max-height:325px;display:inline-block;text-align:center;height:325px;overflow-y:auto" >';
+        $fechas = ListaFechasConciertosGrupo(true, $info['ID_USUARIO'], 0);
+        if (!(empty($fechas))) {
+            while ($row = $fechas->fetch_assoc()) {
+                $nuevaFecha = date("w-d-m-Y", strtotime($row["FECHA"]));
+                $nuevaHora = date("H:i", strtotime($row["FECHA"]));
+                $fechaFinal = getNombreFecha($nuevaFecha);
+                $estado = 0;
+                $visible = 1;
+                $result = ListaConciertosMusico($row['FECHA'], $info['ID_USUARIO'], 0);
+                if ($result == null) {
+                    echo 'No hay conciertos<br><br>';
+                    echo '<script language = "javascript">$("#$fechaFinal").empty();</script>';
+                } else {
+
+                    echo '<div id="resultado" style="text-align:center">';
+                    echo '<table cellspacing=0 style="width:100%;font-size:15px">';
+                    echo '<tr><td>';
+                    echo '<h3 id="' . $fechaFinal . '" class="color_rojo_general">' . $fechaFinal . '</h3>';
+                    echo '</td></tr>';
+                    while ($lista = $result->fetch_assoc()) {
+                        $propuestaAceptada = getInfoPropuesta($lista['ID_CONCIERTO']);
+                        $nombre_artistico = str_replace(" ", "+", $lista['NOMBRE_ARTISTICO']);
+                        echo '<tr>';
+                        echo '<td style="vertical-align:top">';
+                        echo '<div class="inline">';
+                        echo '<a class="fontblack a_concierto" href=InfoConcierto.php?idcon=' . $lista['ID_CONCIERTO'] . '>';
+                        echo "<b id='h4_lista_img'>" . $lista['NOMBRE_ARTISTICO'] . "</b>";
+                        if ($propuestaAceptada == 'A') {
+                            $estadoPropuesta = " - <b class='color_rojo_general'>ACEPTADO</b>";
+                        } elseif ($propuestaAceptada == 'P') {
+                            $estadoPropuesta = " - <b class='color_rojo_general'>PENDIENTE</b>";
+                        } else {
+                            $estadoPropuesta = " - <b class='color_rojo_general'>CANCELADO</b>";
+                        }
+                        echo "<br><i class='color_rojo_general'> " . $lista['UBICACION'] . "</i> <b>" . $nuevaHora . "h </b>" . $estadoPropuesta;
+                        echo "</a>";
+                        echo '<form action="" method="POST">';
+                        echo '<input type="text" hidden name="idconcierto" value="' . $lista['ID_CONCIERTO'] . '">';
+                        if ($propuestaAceptada == 'P') {
+                            echo '<button type = "submit" name = "aceptarConcierto" class = "action-button">ACEPTAR</button>';
+                            echo '<button type = "submit" name = "rechazarConcierto" class = "action-button">RECHAZAR</button>';
+                        } else {
+                            
+                        }
+                        echo '</form>';
+                        echo '</div>';
+                        echo '</td>';
+                        echo '</tr>';
+                    }
+                    echo'</table>';
+                    echo'</div>';
+                }
+            }
+            if (isset($_POST['rechazarConcierto'])) {
+                $idconcierto = $_POST['idconcierto'];
+                echo (ResponderPropuesta($idconcierto, 'C'));
+                redirectURL('Perfil.php');
+            }
+            if (isset($_POST['aceptarConcierto'])) {
+                $idconcierto = $_POST['idconcierto'];
+                echo(ResponderPropuesta($idconcierto, 'A'));
+                redirectURL('Perfil.php');
+            }
+        } else {
+            echo 'No hay conciertos<br><br>';
+        }
+        echo'</div>';
+        echo'</div>';
+        echo'</div>';
+        echo'<div id = "div4" class = "center" style = "width:60%;margin:auto auto 100px auto">';
+        $comentarios = comentariosGrupo($info['ID_USUARIO']);
+        if ($comentarios != false) {
+            echo '<div class="container">';
+            while ($lista = $comentarios->fetch_assoc()) {
+                $imagen = getImageID($lista['ID_USUARIO']);
+                echo '<div class="row center">';
+                echo '<div class="col-sm-8">';
+                echo '<div class="panel panel-white post panel-shadow">';
+                echo '<div class="post-heading">';
+                echo '<div class="pull-left image">';
+                echo '<img src="' . $imagen . '" class="img-circle avatar" alt="user profile image">';
+                echo '</div>';
+                echo '<div class="pull-left meta">';
+                echo '<div class="title h5">';
+                echo '<b>' . $lista['NOMBRE'] . ' ' . $lista['APELLIDOS'] . '</b>';
+                echo 'ha realizado un comentario';
+                echo '</div>';
+                echo '<h6 class="text-muted time">El ' . getNombreFecha(date("w-d-m-Y", strtotime($lista['FECHA']))) . '</h6>';
+                echo '</div>';
+                echo '</div>';
+                echo '<div class="post-description">';
+                echo '<p> ' . $lista['COMENTARIO'] . '</p>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+            }
+            echo'</div>';
+        }
+        echo'</div>';
     }
+}
 
-
+function modificarImagenEmail($imagen, $email) {
+    $conexion = conectar();
+    $sql = "UPDATE USUARIO SET IMAGEN = '$imagen' WHERE EMAIL = '$email'";
+    if (mysqli_query($conexion, $sql)) {
+        return true;
+    } else {
+        echo mysqli_error($conexion);
+    }
+    desconectar($conexion);
+}
