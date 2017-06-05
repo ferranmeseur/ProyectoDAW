@@ -14,6 +14,7 @@
             });
         </script> 
         <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
+        <link href="Estilos/Comments.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div id="header"></div>
@@ -29,7 +30,7 @@
             </div>
             <div class='margingtop_30px'></div>
             <h2>Actividad Reciente</h2>
-            <div  id="noticias"></div>
+            <div  id="noticias" style="width:50%;margin:auto auto auto auto" class="panel panel-white post panel-shadow"></div>
             <div class='margingtop_30px'></div>
             <div class="center inline ">
                 <a href="Ranking.php.php"><div id='img_ranking' class="inline"></div></a>

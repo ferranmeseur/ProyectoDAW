@@ -3,7 +3,7 @@
 
 </style>
 
-<div style="max-width:71%; margin:auto" class="center">
+<div style="max-width:100%; margin:auto" class="center">
     <?php
     include_once 'bbdd.php';
     echo '<div>';
