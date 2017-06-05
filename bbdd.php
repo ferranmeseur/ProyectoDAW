@@ -1176,8 +1176,18 @@ function votosGrupo($id) {
     desconectar($conexion);
 }
 
+function roundToHalf($num) {
+    if ($num >= ($half = ($ceil = ceil($num)) - 0.5) + 0.25)
+        return $ceil;
+    else if ($num < $half - 0.25)
+        return floor($num);
+    else
+        return $half;
+}
+
 function mostrarEstrellasPuntuacionLocal($average, $i) {
-    if ($average == '5') {
+    $puntos = roundToHalf($average);
+    if ($puntos == '5') {
         echo '<form style="padding-left:0" class="inline rating_fixed">
                         <input type="radio" id="star5' . $i . '" checked name="rating' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
                         <input type="radio" id="star4half' . $i . '" name="rating' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
@@ -1190,7 +1200,7 @@ function mostrarEstrellasPuntuacionLocal($average, $i) {
                         <input type="radio" id="star1' . $i . '" name="rating' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
                         <input type="radio" id="star' . $i . '" name="rating' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
     </form> ';
-    } elseif ($average == '4.5') {
+    } elseif ($puntos == '4.5') {
         echo '<form style="padding-left:0" class="inline rating_fixed">
                         <input type="radio" id="star5' . $i . '" name="rating' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
                         <input type="radio" id="star4half' . $i . '" checked name="rating' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
@@ -1203,7 +1213,7 @@ function mostrarEstrellasPuntuacionLocal($average, $i) {
                         <input type="radio" id="star1' . $i . '" name="rating' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
                         <input type="radio" id="star' . $i . '" name="rating' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
     </form> ';
-    } elseif ($average == '4') {
+    } elseif ($puntos == '4') {
         echo '<form style="padding-left:0" class="inline rating_fixed">
                         <input type="radio" id="star5' . $i . '" name="rating' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
                         <input type="radio" id="star4half' . $i . '" name="rating' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
@@ -1216,7 +1226,7 @@ function mostrarEstrellasPuntuacionLocal($average, $i) {
                         <input type="radio" id="star1' . $i . '" name="rating' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
                         <input type="radio" id="star' . $i . '" name="rating' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
     </form> ';
-    } elseif ($average == '3.5') {
+    } elseif ($puntos == '3.5') {
         echo '<form style="padding-left:0" class="inline rating_fixed">
                         <input type="radio" id="star5' . $i . '" name="rating' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
                         <input type="radio" id="star4half' . $i . '" name="rating' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
@@ -1229,7 +1239,7 @@ function mostrarEstrellasPuntuacionLocal($average, $i) {
                         <input type="radio" id="star1' . $i . '" name="rating' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
                         <input type="radio" id="star' . $i . '" name="rating' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
     </form> ';
-    } elseif ($average == '3') {
+    } elseif ($puntos == '3') {
         echo '<form style="padding-left:0" class="inline rating_fixed">
                         <input type="radio" id="star5' . $i . '" name="rating' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
                         <input type="radio" id="star4half' . $i . '" name="rating' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
@@ -1242,7 +1252,7 @@ function mostrarEstrellasPuntuacionLocal($average, $i) {
                         <input type="radio" id="star1' . $i . '" name="rating' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
                         <input type="radio" id="star' . $i . '" name="rating' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
     </form> ';
-    } elseif ($average == '2.5') {
+    } elseif ($puntos == '2.5') {
         echo '<form id="' . $i . '" style="padding-left:0" class="inline rating_fixed">
                         <input type="radio" id="star5' . $i . '" name="rating2' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
                         <input type="radio" id="star4half' . $i . '" name="rating2' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
@@ -1255,7 +1265,7 @@ function mostrarEstrellasPuntuacionLocal($average, $i) {
                         <input type="radio" id="star1' . $i . '" name="rating2' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
                         <input type="radio" id="star' . $i . '" name="rating2' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
     </form> ';
-    } elseif ($average == '2') {
+    } elseif ($puntos == '2') {
         echo '<form style="padding-left:0" class="inline rating_fixed">
                         <input type="radio" id="star5' . $i . '" name="rating' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
                         <input type="radio" id="star4half' . $i . '" name="rating' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
@@ -1268,7 +1278,7 @@ function mostrarEstrellasPuntuacionLocal($average, $i) {
                         <input type="radio" id="star1' . $i . '" name="rating' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
                         <input type="radio" id="star' . $i . '" name="rating' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
     </form> ';
-    } elseif ($average == '1.5') {
+    } elseif ($puntos == '1.5') {
         echo '<form style="padding-left:0" class="inline rating_fixed">
                         <input type="radio" id="star5' . $i . '" name="rating' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
                         <input type="radio" id="star4half' . $i . '" name="rating' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
@@ -1281,7 +1291,7 @@ function mostrarEstrellasPuntuacionLocal($average, $i) {
                         <input type="radio" id="star1' . $i . '" name="rating' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
                         <input type="radio" id="star' . $i . '" name="rating' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
     </form> ';
-    } elseif ($average == '1') {
+    } elseif ($puntos == '1') {
         echo '<form style="padding-left:0" class="inline rating_fixed">
                         <input type="radio" id="star5' . $i . '" name="rating' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
                         <input type="radio" id="star4half' . $i . '" name="rating' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
@@ -1294,7 +1304,7 @@ function mostrarEstrellasPuntuacionLocal($average, $i) {
                         <input type="radio" id="star1' . $i . '" checked name="rating' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
                         <input type="radio" id="star' . $i . '" name="rating' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
     </form> ';
-    } elseif ($average == '0.5') {
+    } elseif ($puntos == '0.5') {
         echo '<form style="padding-left:0" class="inline rating_fixed">
                         <input type="radio" id="star5' . $i . '" name="rating' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
                         <input type="radio" id="star4half' . $i . '" name="rating' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
@@ -1307,7 +1317,7 @@ function mostrarEstrellasPuntuacionLocal($average, $i) {
                         <input type="radio" id="star1' . $i . '" name="rating' . $i . '" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
                         <input type="radio" id="star' . $i . '" checked name="rating' . $i . '" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
     </form> ';
-    } elseif ($average == null) {
+    } elseif ($puntos == null) {
         echo '<form style="padding-left:0" class="inline rating_fixed">
                         <input type="radio" id="star5' . $i . '" name="rating' . $i . '" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
                         <input type="radio" id="star4half' . $i . '" name="rating' . $i . '" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>

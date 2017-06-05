@@ -48,7 +48,7 @@
             echo'<div class="inline center" style="vertical-align:top">';
             echo'<img src="' . $imagen . '" alt="" style="width:250px"/>';
             echo'</div>';
-            echo '<div class="inline" style="width:25%">';
+            echo '<div class="inline" style="width:30%">';
             echo '<h1>' . $resultado['NOMBRE_ARTISTICO'] . '</h1>';
             echo'<b style="color:#d83c3c">GRUPO RATING</b><i id="puntuacion" hidden>' . $puntuacion . '</i><br>';
             echo '<fieldset class="rating_fixed center" style="float:left;margin:auto auto auto auto;width:70%">
