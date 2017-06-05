@@ -27,154 +27,152 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
     <body>
         <div id="header"></div>
         </br><div id="result" class="center content">
-        <h1> <span class="color_rojo_general">Registrate </span>en Music and Seek</h1>
-        <div class="center">
-            <div class="inline">
-                <div id="Labels" class="inline text_align_left ">
-                    <?php
-                    require_once 'bbdd.php';
-                    function check() {
-                        switch ($_SESSION['tipo']) {
-                            case "Local":
-                                if (!existTelefono($_POST["telefono"])) {
-                                    showAlert("El telefono ya existe");
-                                } elseif (!existNombreLocal($_POST["nombrelocal"])) {
-                                    showAlert("Ya existe este local");
-                                } else {
-                                    $_POST["valoresok"] = "submit";
-                                }
-                                break;
-                            case "Musico":
-                                if (!existTelefono($_POST["telefono"])) {
-                                    showAlert("El telefono ya existe");
-                                } elseif (!existNombreArtistico($_POST["nombreartistico"])) {
-                                    showAlert("Ya existe este nombre artistico");
-                                } else {
-                                    $_POST["valoresok"] = "submit";
-                                }
-                                break;
-                            case "Fan":
-                                if (!existTelefono($_POST["telefono"])) {
-                                    showAlert("El telefono ya existe");
-                                } else {
-                                    $_POST["valoresok"] = "submit";
-                                }
-                                break;
-                        }
-                    }
-                    $tipo = $_SESSION['tipo'];
-                    $mail = $_SESSION['mail'];
-                    $nombre = $_SESSION['nombre'];
-                    $apellido = $_SESSION['apellido'];
-                    $pas = $_SESSION['pas'];
-                    $pregunta = $_SESSION['pregunta'];
-                    $respuesta = $_SESSION['respuesta'];
 
-                    if (isset($_POST["enviar"])) {
-                        $ciudad = $_POST["ciudad"];
-                        $ubicacion = $_POST["ubicacion"];
-                        $telefono = $_POST["telefono"];
-                        if (isset($_POST["aforo"])) {
-                            $aforo = $_POST["aforo"];
-                        }
-                        if (isset($_POST["nombrelocal"])) {
-                            $nombrelocal = $_POST["nombrelocal"];
-                        }
-                        if (isset($_POST['imagen'])) {
-                            $imagen = $_POST["imagen"];
-                        }
-                        $web = $_POST["web"];
-                        if (isset($_POST["nombreartistico"])) {
-                            $nombreartistico = $_POST["nombreartistico"];
-                        }
-                        if (isset($_POST["genero"])) {
-                            $genero = $_POST["genero"];
-                        } else {
-                            $genero = "NULL";
-                        }
-                        if (isset($_POST['descripcion'])) {
-                            $descripcion = $_POST['descripcion'];
-                        } else {
-                            $descripcion = "NULL";
-                        }
-                        if (isset($_POST["componentes"])) {
-                            $componentes = $_POST["componentes"];
-                        }
-                        if (empty($apellido))
-                            $apellido = "NULL";
-                        if (empty($imagen))
-                            $imagen = "NULL";
-                        if (empty($web))
-                            $web = "NULL";
+            <div class="center">
+                <div class="inline">
+                    <div id="Labels" class="inline text_align_left ">
+                        <?php
+                        require_once 'bbdd.php';
 
-                        switch ($_SESSION['tipo']) {
-                            case "Fan":
-                                if (empty($ubicacion))
-                                    $ubicacion = "NULL";
-                                if (empty($telefono))
-                                    $telefono = "NULL";
-                                $nombrelocal = "NULL";
-                                $aforo = "NULL";
-                                $nombreartistico = "NULL";
-                                $componentes = "NULL";
-                                check();
-                                break;
-                            case "Local":
-                                $nombreartistico = "NULL";
-                                $componentes = "NULL";
+                        function check() {
+                            switch ($_SESSION['tipo']) {
+                                case "Local":
+                                    if (!existTelefono($_POST["telefono"])) {
+                                        showAlert("El telefono ya existe");
+                                    } elseif (!existNombreLocal($_POST["nombrelocal"])) {
+                                        showAlert("Ya existe este local");
+                                    } else {
+                                        $_POST["valoresok"] = "submit";
+                                    }
+                                    break;
+                                case "Musico":
+                                    if (!existTelefono($_POST["telefono"])) {
+                                        showAlert("El telefono ya existe");
+                                    } elseif (!existNombreArtistico($_POST["nombreartistico"])) {
+                                        showAlert("Ya existe este nombre artistico");
+                                    } else {
+                                        $_POST["valoresok"] = "submit";
+                                    }
+                                    break;
+                                case "Fan":
+                                    if (!existTelefono($_POST["telefono"])) {
+                                        showAlert("El telefono ya existe");
+                                    } else {
+                                        $_POST["valoresok"] = "submit";
+                                    }
+                                    break;
+                            }
+                        }
+
+                        $tipo = $_SESSION['tipo'];
+                        $mail = $_SESSION['mail'];
+                        $nombre = $_SESSION['nombre'];
+                        $apellido = $_SESSION['apellido'];
+                        $pas = $_SESSION['pas'];
+                        $pregunta = $_SESSION['pregunta'];
+                        $respuesta = $_SESSION['respuesta'];
+
+                        if (isset($_POST["enviar"])) {
+                            $ciudad = $_POST["ciudad"];
+                            $ubicacion = $_POST["ubicacion"];
+                            $telefono = $_POST["telefono"];
+                            if (isset($_POST["aforo"])) {
+                                $aforo = $_POST["aforo"];
+                            }
+                            if (isset($_POST["nombrelocal"])) {
+                                $nombrelocal = $_POST["nombrelocal"];
+                            }
+                            if (isset($_POST['imagen'])) {
+                                $imagen = $_POST["imagen"];
+                            }
+                            $web = $_POST["web"];
+                            if (isset($_POST["nombreartistico"])) {
+                                $nombreartistico = $_POST["nombreartistico"];
+                            }
+                            if (isset($_POST["genero"])) {
+                                $genero = $_POST["genero"];
+                            } else {
                                 $genero = "NULL";
-                                check();
-                                break;
-                            case "Musico":
-                                if (empty($ubicacion))
-                                    $ubicacion = "NULL";
-                                $nombrelocal = "NULL";
-                                $aforo = "NULL";
-                                check();
-                                break;
+                            }
+                            if (isset($_POST['descripcion'])) {
+                                $descripcion = $_POST['descripcion'];
+                            } else {
+                                $descripcion = "NULL";
+                            }
+                            if (isset($_POST["componentes"])) {
+                                $componentes = $_POST["componentes"];
+                            }
+                            if (empty($apellido))
+                                $apellido = "NULL";
+                            if (empty($imagen))
+                                $imagen = "NULL";
+                            if (empty($web))
+                                $web = "NULL";
+
+                            switch ($_SESSION['tipo']) {
+                                case "Fan":
+                                    if (empty($ubicacion))
+                                        $ubicacion = "NULL";
+                                    if (empty($telefono))
+                                        $telefono = "NULL";
+                                    $nombrelocal = "NULL";
+                                    $aforo = "NULL";
+                                    $nombreartistico = "NULL";
+                                    $componentes = "NULL";
+                                    check();
+                                    break;
+                                case "Local":
+                                    $nombreartistico = "NULL";
+                                    $componentes = "NULL";
+                                    $genero = "NULL";
+                                    check();
+                                    break;
+                                case "Musico":
+                                    if (empty($ubicacion))
+                                        $ubicacion = "NULL";
+                                    $nombrelocal = "NULL";
+                                    $aforo = "NULL";
+                                    check();
+                                    break;
+                            }
                         }
-                    }
-                    if (isset($_POST["valoresok"])) {
-                        $resultado = Registro($tipo, $nombre, $apellido, $mail, $pas, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes, $pregunta, $respuesta, $descripcion);
-                        if (isset($_FILES["fileToUpload"])) {
+                        if (isset($_POST["valoresok"])) {
+                            $resultado = Registro($tipo, $nombre, $apellido, $mail, $pas, $nombrelocal, $ciudad, $ubicacion, $telefono, $aforo, $imagen, $web, $nombreartistico, $genero, $componentes, $pregunta, $respuesta, $descripcion);
                             $result = fileUpload($mail);
                             if ($result != 1) {
                                 showAlert($result);
                             }
-                        }
-                        if ($resultado == "true") {
-                            if ($tipo == "Musico") {
-                                TraceEvent("REGISTRO", $nombreartistico, true, "NUEVO MUSICO", "NULL");
+                            if ($resultado == "true") {
+                                echo'<h1><span class="color_rojo_general">Usuario </span>dado de alta <span class="color_rojo_general">Correctamente</span></h1>';
+                                if ($tipo == "Musico") {
+                                    TraceEvent("REGISTRO", $nombreartistico, true, "NUEVO MUSICO", "NULL");
+                                }
+                                if ($tipo == "Local") {
+                                    TraceEvent("REGISTRO", $nombrelocal, true, "NUEVO LOCAL", "NULL");
+                                }
+                                if ($tipo == "Fan") {
+                                    TraceEvent("REGISTRO", $mail, true, "NUEVO FAN", "NULL");
+                                }
+                                header("refresh:2;url=HomePage.php");
+                            } else {
+                                showAlert($resultado);
                             }
-                            if ($tipo == "Local") {
-                                TraceEvent("REGISTRO", $nombrelocal, true, "NUEVO LOCAL", "NULL");
-                            }
-                            if ($tipo == "Fan") {
-                                TraceEvent("REGISTRO", $email, true, "NUEVO FAN", "NULL");
-                            }
-
-                            echo "Usuario registrado correctamente";
-                            echo '<script type="text/javascript">$("#result").html("");</script>';
-                            echo '</br></br><div>Volviendo al menú principal...</div>';
-                            header("refresh:3;url=HomePage.php");
                         } else {
-                            showAlert($resultado);
-                        }
-                    } else {
-                        switch ($_SESSION['tipo']) {
-                            case "Local":
-                                echo ' 
+                            switch ($_SESSION['tipo']) {
+                                case "Local":
+                                    echo ' 
+                                        <h1> <span class="color_rojo_general">Registrate </span>en Music and Seek</h1>
         <form action = "" method = "POST" enctype="multipart/form-data" id="msform">
                     <div id="Nombre" class="padding5 text_align_left">
                     <label style="color:red;">* </label>Nombre local :<input type = "text" name = "nombrelocal" maxlength="20" minlength="5" required>
                     </div>
                     <div id="Ciudad" class="padding text_align_left"> Ciudad:';
-                                $ciudades = ListaCiudades();
-                                echo'<label style="color:red;">* </label><select name = "ciudad" required>';
-                                while ($fila2 = mysqli_fetch_array($ciudades)) {
-                                    extract($fila2);
-                                    echo"<option value=$ID_CIUDAD>$NOMBRE</option>";
-                                }echo'</select></div>
+                                    $ciudades = ListaCiudades();
+                                    echo'<label style="color:red;">* </label><select name = "ciudad" required>';
+                                    while ($fila2 = mysqli_fetch_array($ciudades)) {
+                                        extract($fila2);
+                                        echo"<option value=$ID_CIUDAD>$NOMBRE</option>";
+                                    }echo'</select></div>
                     <div id="Ubicacion" class="text_align_left">
                     <label style="color:red;">* </label>Ubicación :<input type = "text" name = "ubicacion" maxlength="50" minlength="3" required>
                     </div>
@@ -200,17 +198,18 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
             <input style="width:400px" type="submit" class="submit action-button" name = "enviar" value = "Siguiente">             
             </div>
         </form>';
-                                break;
-                            case "Fan":
-                                echo ' 
+                                    break;
+                                case "Fan":
+                                    echo ' 
+                                        <h1> <span class="color_rojo_general">Registrate </span>en Music and Seek</h1>
                     <form action = "" method = "POST" enctype="multipart/form-data" id="msform">
                    <div id="Ciudad" class="padding text_align_left">  <label style="color:red;">* </label>Ciudad:';
-                                $ciudades = ListaCiudades();
-                                echo'<select name = "ciudad" required>';
-                                while ($fila2 = mysqli_fetch_array($ciudades)) {
-                                    extract($fila2);
-                                    echo"<option value=$ID_CIUDAD>$NOMBRE</option>";
-                                }echo' </select></div>
+                                    $ciudades = ListaCiudades();
+                                    echo'<select name = "ciudad" required>';
+                                    while ($fila2 = mysqli_fetch_array($ciudades)) {
+                                        extract($fila2);
+                                        echo"<option value=$ID_CIUDAD>$NOMBRE</option>";
+                                    }echo' </select></div>
                     <div id="Ubicacion" class="text_align_left">
                     Ubicación :<input type = "text" name = "ubicacion" maxlength="50" minlength="3">
                     </div>
@@ -233,29 +232,30 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
             <input style="width:400px" type="submit" class="submit action-button" name = "enviar" value = "Siguiente">             
             </div>
         </form>';
-                                break;
-                            case "Musico":
-                                echo ' 
+                                    break;
+                                case "Musico":
+                                    echo ' 
+                                        <h1> <span class="color_rojo_general">Registrate </span>en Music and Seek</h1>
         <form action = "" method = "POST" enctype="multipart/form-data" id="msform">
                     <div id="Nombre" class="padding5 text_align_left">
                     <label style="color:red;">* </label>Nombre artistico :<input type = "text" name = "nombreartistico" maxlength="20" minlength="5" required>
                     </div>
                     <div id="Genero" class="padding text_align_left"> <label style="color:red;">* </label>Genero:';
-                                $generos = ListaGeneros();
-                                echo'<select name="genero" required>';
-                                while ($fila2 = mysqli_fetch_array($generos)) {
-                                    extract($fila2);
-                                    echo"<option value=$ID_GENERO>$NOMBRE</option>";
-                                }
-                                echo'</select></div>';
-                                echo'
+                                    $generos = ListaGeneros();
+                                    echo'<select name="genero" required>';
+                                    while ($fila2 = mysqli_fetch_array($generos)) {
+                                        extract($fila2);
+                                        echo"<option value=$ID_GENERO>$NOMBRE</option>";
+                                    }
+                                    echo'</select></div>';
+                                    echo'
                            <div id = "Ciudad" class = "padding text_align_left"> <label style="color:red;">* </label>Ciudad:';
-                                $ciudades = ListaCiudades();
-                                echo'<select name = "ciudad" required>';
-                                while ($fila2 = mysqli_fetch_array($ciudades)) {
-                                    extract($fila2);
-                                    echo"<option value=$ID_CIUDAD>$NOMBRE</option>";
-                                }echo' </select></div>
+                                    $ciudades = ListaCiudades();
+                                    echo'<select name = "ciudad" required>';
+                                    while ($fila2 = mysqli_fetch_array($ciudades)) {
+                                        extract($fila2);
+                                        echo"<option value=$ID_CIUDAD>$NOMBRE</option>";
+                                    }echo' </select></div>
                             <div id = "Ubicacion" class = "text_align_left">
                             Ubicación :<input type = "text" name = "ubicacion" maxlength = "50" minlength = "3">
                             </div>
@@ -281,13 +281,13 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                             <input style="width:400px" type="submit" class="submit action-button" name = "enviar" value = "Siguiente">
                             </div>
                             </form>';
-                                break;
+                                    break;
+                            }
                         }
-                    }
-                    ?>
+                        ?>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div id="footer"></div>
+            <div id="footer"></div>
     </body>
 </html>
