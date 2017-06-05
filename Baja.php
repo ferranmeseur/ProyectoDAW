@@ -3,8 +3,12 @@
     <head>
         <?php
         session_start();
+        require_once'bbdd.php';
         if (isset($_SESSION['pass'])) {
-            echo'           
+
+            $result = darBaja($_SESSION['email']);
+            if ($result) {
+                echo'           
         <title>Baja Usuario</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,8 +29,8 @@
         <div id="footer"></div>
     </body>
 </html>';
-            darBaja($_SESSION['email']);
-            header("refresh:0; url=Logout.php");
+                header("refresh:2; url=Logout.php");
+            }
         } else {
             header("refresh:0; url=HomePage.php");
         }

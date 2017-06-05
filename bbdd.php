@@ -1800,6 +1800,7 @@ function informacionLocal($info) {
 }
 
 function informacionFan($info) {
+
     if (isset($_POST['enviar'])) {
         $nuevoNombre = $_POST['nombre'];
         $nuevoApellido = $_POST['apellido'];
@@ -1814,8 +1815,11 @@ function informacionFan($info) {
             echo 'fallo';
         }
     } else {
+
         $descripcion = str_replace("<pre>", "", $info['DESCRIPCION']);
         $imagen = getImageEmail($_SESSION['email']);
+        $mensaje = "Seguro que quieres darte de baja?";
+        echo '<a href="Baja.php" class="action-button" onclick="return confirm(' . $mensaje . ');">Darse de baja</a>';
         echo '<h1>Perfil <span class="color_rojo_general"> Fan</span></h1>';
         echo'<div id = "div1" class = "inline center" style = "vertical-align:top;width: 15%; height: 100%">
                         <div style = "width:250px; float:left">
@@ -2014,7 +2018,6 @@ function informacionMusico($info) {
                 cancelarConcierto($idconcierto);
                 redirectURL('Perfil.php');
             }
-            
         } else {
             echo 'No hay conciertos<br><br>';
         }
@@ -2146,6 +2149,7 @@ function darBaja($email) {
         return true;
     } else {
         return false;
+        echo mysqli_error($conexion);
     }
     desconectar($conexion);
 }
