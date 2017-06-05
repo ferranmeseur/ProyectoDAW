@@ -1781,7 +1781,7 @@ function informacionLocal($info) {
                 echo '<div class = "pull-left meta">';
                 echo '<div class = "title h5">';
                 echo '<b>' . $lista['NOMBRE'] . ' ' . $lista['APELLIDOS'] . '</b>';
-                echo 'ha realizado un comentario';
+                echo ' ha realizado un comentario';
                 echo '</div>';
                 echo '<h6 class = "text-muted time">El ' . getNombreFecha(date("w-d-m-Y", strtotime($lista['FECHA']))) . '</h6>';
                 echo '</div>';
@@ -2109,7 +2109,7 @@ function informacionMusico($info) {
                 echo '<div class="pull-left meta">';
                 echo '<div class="title h5">';
                 echo '<b>' . $lista['NOMBRE'] . ' ' . $lista['APELLIDOS'] . '</b>';
-                echo 'ha realizado un comentario';
+                echo ' ha realizado un comentario';
                 echo '</div>';
                 echo '<h6 class="text-muted time">El ' . getNombreFecha(date("w-d-m-Y", strtotime($lista['FECHA']))) . '</h6>';
                 echo '</div>';
