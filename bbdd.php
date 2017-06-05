@@ -1576,7 +1576,7 @@ function informacionFan($info) {
         $nuevaUbicacion = $_POST['ubicacion'];
         $nuevadescripcion = $_POST['descripcion'];
         $nuevoNumeroContacto = $_POST['numeroContacto'];
-        if (modificarDatosFan($_SESSION['email'], $nuevoNombre, $nuevoApellido, $nuevaUbicacion, $nuevadescripcion,$nuevoNumeroContacto)) {
+        if (modificarDatosFan($_SESSION['email'], $nuevoNombre, $nuevoApellido, $nuevaUbicacion, $nuevadescripcion, $nuevoNumeroContacto)) {
             echo '<h1 class=center">Datos <span class="color_rojo_general">Modificados</span> con Éxito</h1>';
             header("refresh:1; url=Perfil.php");
         } else {
@@ -1969,11 +1969,11 @@ function informacionMusico($info) {
 //        AQUI ACABA
         echo'</div>';
         echo'</div>';
-        echo'<div id = "div4" class = "center" style = "width:60%;margin:auto auto 100px auto;">
-                <h3><span class="color_rojo_general">Comentarios : </span></h3>';
+        echo'<div id = "div4" class = "center" style = "width:60%;margin:auto auto 100px auto;">';
         $comentarios = comentariosGrupo($info['ID_USUARIO']);
         if ($comentarios != false) {
-            echo '<div class="container">';
+            echo '<div class="container center" style="width:500px">
+            <h3><span class="color_rojo_general">Comentarios : </span></h3>';
             while ($lista = $comentarios->fetch_assoc()) {
                 $imagen = getImageID($lista['ID_USUARIO']);
                 echo '<div class="row center">';
@@ -2243,11 +2243,11 @@ function informacionLocal($info) {
         echo'</div>';
 
         echo'</div>';
-        echo'<div id = "div4" class = "center" style = "width:60%;margin:auto auto 100px auto">
-        <h3><span class="color_rojo_general">Comentarios : </span></h3>';
+        echo'<div id = "div4" class = "center" style = "width:60%;margin:auto auto 100px auto">';
         $comentarios = comentariosGrupo($info['ID_USUARIO']);
         if ($comentarios != false) {
-            echo '<div class = "container">';
+            echo '<div class="container center" style="width:500px">
+            <h3><span class="color_rojo_general">Comentarios : </span></h3>';
             while ($lista = $comentarios->fetch_assoc()) {
                 $imagen = getImageID($lista['ID_USUARIO']);
                 echo '<div class = "row center">';
