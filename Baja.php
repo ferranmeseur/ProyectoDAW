@@ -63,6 +63,6 @@
 </html>';
             header("refresh:2; url=Logout.php");
         } else {
-            header("refresh:0; url=HomePage.php");
+            header("refresh:0; url=Login.php");
         }
         ?>
