@@ -67,13 +67,13 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                 <input type="text" name="oldpassword" placeholder="Contraseña actual" required/>
                 <input type="text" name="newpassword1" placeholder="Nueva contraseña" required/>
                 <input type="text" name="newpassword2" placeholder="Repetir nueva contraseña" required/>
-                <input type="submit" style="margin:auto auto auto auto"  class=" action-button" name="modificar" value="MODIFICAR" required>
+               <button style="width:400px" type="submit" class="submit action-button"  name = "modidificar">Modificar Contraseña</button>
             </form>
         </div>';
             }
             ?>
         </div>
-        <div class="margin_top_200px" id="footer"></div>
+        <div id="footer"></div>
 
 
     </body>
