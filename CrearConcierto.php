@@ -27,7 +27,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
     <body>
         <div id="header"></div>
 
-        <div style="height: 20px"></div>
+        <div class="content center">
 
         <div id="contenedor" class="center">
             <?php
@@ -217,7 +217,8 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
             ?>
 
         </div>
-        <div class="margin_top_200px" id="footer"></div>
+        </div>
+        <div id="footer"></div>
     </body>
 </html>
 

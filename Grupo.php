@@ -18,7 +18,7 @@
     <body>
         <div id="header"></div>
         <div class="content center">
-            <div id="Search" class="height_40">
+            <div id="Search">
                 <form class="form-wrapper cf" action="Busqueda.php" method="GET">
                     <input type="text" name="busqueda" placeholder="Busca músicos o locales" required>
                     <button class="button-form" type="submit" value="submit" name="submit">GO!</button>
@@ -100,7 +100,7 @@
                                 echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:left;vertical-align:top">';
                                 echo '<a class="fontblack a_concierto" href=InfoGrupo.php?nombre=' . $nombre_artistico . '>';
                                 echo '<div class="inline">';
-                                echo '<img id="img_lista_img" class="inline" src="'.$imagen.'">';
+                                echo '<img id="img_lista_img" class="inline" src="' . $imagen . '">';
                                 echo '<b id="h4_lista_img">' . $lista['NOMBRE_ARTISTICO'] . '</b>';
                                 $average = votosGrupo($lista['ID_USUARIO']);
                                 mostrarEstrellasPuntuacionLocal($average, $i);
