@@ -661,9 +661,9 @@ function TraceEvent($tipo, $valor, $resultado, $comentario, $id_concierto) {
 function TrendingBusqueda($tipo) {
     $conexion = conectar();
     if ($tipo == "grupo") {
-        $sql = "SELECT COUNT(VALOR) AS 'VECES', VALOR AS NOMBRE FROM TRACE WHERE COMENTARIO = 'MUSICO' GROUP BY VALOR ORDER BY VECES DESC LIMIT 5";
+        $sql = "SELECT COUNT(VALOR) AS 'VECES', VALOR AS NOMBRE FROM TRACE WHERE COMENTARIO = 'MUSICO' GROUP BY VALOR ORDER BY VECES DESC LIMIT 3";
     } else if ($tipo == "local") {
-        $sql = "SELECT COUNT(VALOR) AS 'VECES', VALOR AS NOMBRE FROM TRACE WHERE COMENTARIO='LOCAL' GROUP BY VALOR ORDER BY VECES DESC LIMIT 5";
+        $sql = "SELECT COUNT(VALOR) AS 'VECES', VALOR AS NOMBRE FROM TRACE WHERE COMENTARIO='LOCAL' GROUP BY VALOR ORDER BY VECES DESC LIMIT 3";
     } else if ($tipo == "concierto") {
         
     }
@@ -1472,7 +1472,8 @@ function getInfoConcierto($id) {
 function votarComentarNoConcierto($fan, $votado, $puntos, $comentario) {
     $conexion = conectar();
     $comentario = '<pre>' . $comentario;
-    $sql = "INSERT INTO VOTAR_COMENTAR values (null,'$fan','$votado','$puntos',0,'$comentario',now(),'A')";
+    $sql = "INSERT INTO VOTAR_COMENTAR values (null,$fan,$votado,$puntos,0,'$comentario',now(),'A')";
+    echo $puntos.'hola';
     if (mysqli_query($conexion, $sql)) {
         return true;
     } else {
