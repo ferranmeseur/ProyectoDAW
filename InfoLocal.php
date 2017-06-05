@@ -91,7 +91,7 @@
             echo '<div class="container">';
             while ($lista = $comentarios->fetch_assoc()) {
                 $imagen = getImageID($lista['ID_USUARIO']);
-                echo '<div class="row center">';
+                echo '<div class="row center" style="padding-bottom:20px">';
                 echo '<div class="col-sm-8">';
                 echo '<div class="panel panel-white post panel-shadow">';
                 echo '<div class="post-heading">';
