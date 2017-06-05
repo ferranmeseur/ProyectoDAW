@@ -76,8 +76,8 @@
             
         echo '</div></div>';
 
-        if (isset($_POST["enviar"])) {
-            $check = 1;
+        if (isset($_POST["enviar"]) && $_SESSION['check'] == 0) {
+            $_SESSION['check'] = 1;
             $puntos = $_POST["rating2"];
             $comentario = $_POST["comentario"];
             $user = getInfoUser($_SESSION['email']);
@@ -87,9 +87,9 @@
         }
         if (isset($_SESSION['email'])) {
             $user = getInfoUser($_SESSION['email']);
-            $check = checkVotar($resultado['ID_USUARIO'], $user['ID_USUARIO']);
+            $_SESSION['check'] = checkVotar($resultado['ID_USUARIO'], $user['ID_USUARIO']);
         }
-        if (isset($_SESSION['pass']) && $user['TIPO_USUARIO'] == "Fan" && $check == 0) {
+        if (isset($_SESSION['pass']) && $user['TIPO_USUARIO'] == "Fan" && $_SESSION['check'] == 0) {
             echo '<div style="text-align:center">';
             echo'<h2>Deja tu comentario:</h2>';
             echo'<form action = "" method = "POST" id="msform">';
