@@ -48,6 +48,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                     $('#aplicarCambiosButton').prop('hidden', true);
                     $('#modificarContraseña').prop('hidden', true);
                     $('#image-upload').prop('disabled', true);
+                    $('#guardarimagen').prop('hidden', true);
                     enabled = false;
                 } else {
                     enabled = true
@@ -56,6 +57,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                     $('#image-label').removeAttr('hidden');
                     $('#aplicarCambiosButton').removeAttr('hidden');
                     $('#modificarContraseña').removeAttr('hidden');
+                    $('#guardarimagen').removeAttr('hidden');
                 }
             }
             function roundToHalf(value) {
@@ -75,13 +77,14 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
         <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
         <link href="Estilos/RegistrationForm.css" rel="stylesheet" type="text/css"/>
         <link href="Estilos/StarRating.css" rel="stylesheet" type="text/css"/>
+        <link href="Estilos/Comments.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div id="header"></div>
         <div class="center content">
         </div>
     </div>
-    <div class="center" style="width: 100%; height: 500px">
+    <div class="center" style="width: 100%; height: 100%">
         <?php
         require_once 'bbdd.php';
         $info = getInfoUser($_SESSION['email']);
@@ -96,9 +99,11 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
                 informacionMusico($info);
                 break;
         }
+
+        
         ?>
     </div>
-    <div id="footer" style="margin-top: 500px"></div>
+    <div id="footer"></div>
 
 
 </body>

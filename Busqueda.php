@@ -37,13 +37,14 @@
 
 
         <!-- RESULTADOS DE BUSQUEDA ARTISTAS | LOCALES | CONCIERTOS -->
+        <div class="margin_top_100px"></div>
         <div class="width_100 center">
-            <div id="resultadoArtistas" class="inline width_48 center">
+            <div id="resultadoArtistas" class="inline width_48 center color_rojo_general" style="vertical-align:top">
                 <H2>ARTISTAS</h2>
             </div>
-            <div id="resultadoLocales" class="inline width_48 center"><H2>LOCALES</h2>
+            <div id="resultadoLocales" class="inline width_48 center color_rojo_general" style="vertical-align:top">
+                <H2>LOCALES</h2>
             </div>
-            <div id="resultadoConciertos" class="inline width_50"></div>
         </div>
         <?php
         require_once'bbdd.php';
@@ -64,7 +65,7 @@
                     while ($row = $locales->fetch_assoc()) {
                         $imagen = getImageID($row['ID_USUARIO']);
                         $nombre_local = str_replace(" ", "+", $row['NOMBRE_LOCAL']);
-                        $var2 = "<div style='width:300px'><a class='fontblack' href=InfoLocal.php?nombre=" . $nombre_local . "&b=true><div class='inline'><img id='img_resultado_busqueda' src='".$imagen."'><div class='inline'><h4>" . $row['NOMBRE_LOCAL'] . "</h4><i>DESCRIPCION</i></a></div></div></div>";
+                    $var2 = "<div style='width:100%'><a class='fontblack' href=InfoLocal.php?nombre=" . $nombre_local . "&b=true><div class='inline' style='width:50%'><img id='img_resultado_busqueda' src='" . $imagen . "'><div class='inline'><h4>" . $row['NOMBRE_LOCAL'] . "</h4></div><textarea disabled style='border:0;overflow:hidden;resize: none;height:45px;width:100%'>".$row['DESCRIPCION']."</textarea></a></div></div>";
                         echo'<script language="javascript">$("#resultadoLocales").append("' . $var2 . '");</script>';
                     }
                 } else {
@@ -72,39 +73,15 @@
                 }
                 if (isset($artistas)) {
                     while ($row = $artistas->fetch_assoc()) {
-                                                $imagen = getImageID($row['ID_USUARIO']);
+                        $imagen = getImageID($row['ID_USUARIO']);
                         $nombre_artistico = str_replace(" ", "+", $row['NOMBRE_ARTISTICO']);
-                        $var2 = "<div style='width:300px'><a class='fontblack' href=InfoGrupo.php?nombre=" . $nombre_artistico . "&b=true><div class='inline'><img id='img_resultado_busqueda' src='".$imagen."'><div class='inline'><h4>" . $row['NOMBRE_ARTISTICO'] . "</h4><i>" . $row['NOMBRE_GENERO'] . "</i></a></div></div></div>";
+                        $var2 = "<div style='width:100%'><a class='fontblack' href=InfoGrupo.php?nombre=" . $nombre_artistico . "&b=true><div class='inline' style='width:50%'><img id='img_resultado_busqueda' src='" . $imagen . "'><div class='inline'><h4>" . $row['NOMBRE_ARTISTICO'] . " </h4></div> - <div class='inline'>  <i class='color_rojo_general'>  ".$row['NOMBRE_GENERO']."</div><textarea disabled style='border:0;overflow:hidden;resize: none;height:45px;width:100%'>".$row['DESCRIPCION']."</textarea></a></div></div>";
                         echo'<script language="javascript">$("#resultadoArtistas").append("' . $var2 . '");</script>';
                     }
                 } else {
                     echo'<script language="javascript">$("#resultadoArtistas").empty(); $("#resultadoArtistas").width(0);</script>';
                 }
-//                if (isset($conciertoLocal)) {
-//                    echo "<div id='div_lista'>";
-//                    echo '<h2 id="h2_lista">Conciertos en ' . $busqueda . '</h2>';
-//                    echo'<ul id="ul_lista">';
-//
-//                    while ($row = $conciertoLocal->fetch_assoc()) {
-//                        echo "<li id='li_lista'><a div='a_lista' class='fontblack' href=InfoGrupo.php?nombre=" . $row['NOMBRE_ARTISTICO'] . "&b=true>" . $row['NOMBRE_ARTISTICO'] . " " . $row['FECHA'] . "</a></li>";
-//                        echo "</ul></div>";
-//                    }
-//                }else{
-//                    echo'<script language="javascript">$("#resultadoConciertoLocal").empty();</script>';
-//                }
-//                if (isset($conciertoArtista)) {
-//                    echo "<div id='div_lista'>";
-//                    echo '<h2 id="h2_lista">Conciertos de ' . $busqueda . '</h2>';
-//                    echo '<ul id="ul_lista">';
-//                    while ($row = $conciertoArtista->fetch_assoc()) {
-//                        list($año, $mes, $dia, $hora, $minuto) = split('[-:]', $row['FECHA']);
-//                        $nombre_local = str_replace(" ", "+", $row['NOMBRE_LOCAL']);
-//                        echo "<li id='li_lista'><a id='a_lista' class='fontblack' href=InfoLocal.php?nombre=" . $nombre_local . "&b=true>" . $row['NOMBRE_LOCAL'] . " el día $dia de $mes de $año a las $hora:$minuto</a></li>";
-//                        echo "</ul></div>";
-//                    }
-//                }else{
-//                    echo'<script language="javascript">$("#resultadoConciertoArtista").empty();</script>';
-//                }
+
                 TrendingResultados();
             }
         } else {
