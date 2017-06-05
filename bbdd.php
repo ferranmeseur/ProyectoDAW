@@ -1011,13 +1011,13 @@ function verificarUser($userEmail, $pass) {
     desconectar($conexion);
 }
 
-function modificarDatosFan($usuario, $nuevoNombre, $nuevoApellido, $nuevaUbicacion, $nuevadescripcion) {
+function modificarDatosFan($usuario, $nuevoNombre, $nuevoApellido, $nuevaUbicacion, $nuevadescripcion, $nuevaImagen) {
     $conexion = conectar();
     $nuevadescripcion = '<pre>' . $nuevadescripcion;
     $query = "SELECT * FROM USUARIO WHERE EMAIL = '$usuario'";
     $result = $conexion->query($query);
     if ($result->num_rows > 0) {
-        $queryUpdate = "UPDATE USUARIO SET NOMBRE='$nuevoNombre', APELLIDOS='$nuevoApellido', UBICACION='$nuevaUbicacion', DESCRIPCION='$nuevadescripcion' WHERE EMAIL ='$usuario'";
+        $queryUpdate = "UPDATE USUARIO SET IMAGEN= '$nuevaImagen' NOMBRE='$nuevoNombre', APELLIDOS='$nuevoApellido', UBICACION='$nuevaUbicacion', DESCRIPCION='$nuevadescripcion' WHERE EMAIL ='$usuario'";
         if (mysqli_query($conexion, $queryUpdate)) {
             return true;
         } else {
@@ -1568,7 +1568,7 @@ function informacionLocal($info) {
             echo 'fallo';
         }
     } else {
-        $descripcion = str_replace("<pre>", "", $info['DESCRIPCION']);       
+        $descripcion = str_replace("<pre>", "", $info['DESCRIPCION']);
         $imagen = getImageEmail($_SESSION['email']);
         echo '<h1>Perfil <span class="color_rojo_general"> Local</span></h1>';
         echo'<div id = "div1" class = "inline center" style = "vertical-align:top;width: 15%; height: 150%">
@@ -1766,10 +1766,38 @@ function informacionLocal($info) {
         echo'</div>';
         echo'</div>';
 
-        echo'</div>
-<div id = "div4" class = "center" style = "width:85.6%;height:400px;margin:auto auto auto auto">
-</div>
-';
+        echo'</div>';
+        echo'<div id = "div4" class = "center" style = "width:60%;margin:auto auto 100px auto">';
+        $comentarios = comentariosGrupo($info['ID_USUARIO']);
+        if ($comentarios != false) {
+            echo '<div class = "container">';
+            while ($lista = $comentarios->fetch_assoc()) {
+                $imagen = getImageID($lista['ID_USUARIO']);
+                echo '<div class = "row center">';
+                echo '<div class = "col-sm-8">';
+                echo '<div class = "panel panel-white post panel-shadow">';
+                echo '<div class = "post-heading">';
+                echo '<div class = "pull-left image">';
+                echo '<img src = "' . $imagen . '" class = "img-circle avatar" alt = "user profile image">';
+                echo '</div>';
+                echo '<div class = "pull-left meta">';
+                echo '<div class = "title h5">';
+                echo '<b>' . $lista['NOMBRE'] . ' ' . $lista['APELLIDOS'] . '</b>';
+                echo 'ha realizado un comentario';
+                echo '</div>';
+                echo '<h6 class = "text-muted time">El ' . getNombreFecha(date("w-d-m-Y", strtotime($lista['FECHA']))) . '</h6>';
+                echo '</div>';
+                echo '</div>';
+                echo '<div class = "post-description">';
+                echo '<p> ' . $lista['COMENTARIO'] . '</p>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+            }
+            echo'</div>';
+        }
+        echo'</div>';
     }
 }
 
@@ -1789,7 +1817,7 @@ function informacionMusico($info) {
             echo 'fallo';
         }
     } else {
-        $descripcion = str_replace("<pre>", "", $info['DESCRIPCION']);       
+        $descripcion = str_replace("<pre>", "", $info['DESCRIPCION']);
         $imagen = showImage($_SESSION['email']);
         echo '<h1>Perfil <span class="color_rojo_general"> Musico</span></h1>';
         echo'<div id = "div1" class = "inline center" style = "vertical-align:top;width: 15%; height: 150%">
@@ -1986,10 +2014,38 @@ function informacionMusico($info) {
         }
         echo'</div>';
         echo'</div>';
-
-        echo'</div>
-                <div id = "div4" class = "center" style = "width:85.6%;height:400px;margin:auto auto auto auto">
-                </div>';
+        echo'</div>';
+        echo'<div id = "div4" class = "center" style = "width:60%;margin:auto auto 100px auto">';
+        $comentarios = comentariosGrupo($info['ID_USUARIO']);
+        if ($comentarios != false) {
+            echo '<div class="container">';
+            while ($lista = $comentarios->fetch_assoc()) {
+                $imagen = getImageID($lista['ID_USUARIO']);
+                echo '<div class="row center">';
+                echo '<div class="col-sm-8">';
+                echo '<div class="panel panel-white post panel-shadow">';
+                echo '<div class="post-heading">';
+                echo '<div class="pull-left image">';
+                echo '<img src="' . $imagen . '" class="img-circle avatar" alt="user profile image">';
+                echo '</div>';
+                echo '<div class="pull-left meta">';
+                echo '<div class="title h5">';
+                echo '<b>' . $lista['NOMBRE'] . ' ' . $lista['APELLIDOS'] . '</b>';
+                echo 'ha realizado un comentario';
+                echo '</div>';
+                echo '<h6 class="text-muted time">El ' . getNombreFecha(date("w-d-m-Y", strtotime($lista['FECHA']))) . '</h6>';
+                echo '</div>';
+                echo '</div>';
+                echo '<div class="post-description">';
+                echo '<p> ' . $lista['COMENTARIO'] . '</p>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+            }
+            echo'</div>';
+        }
+        echo'</div>';
     }
 }
 
@@ -1999,22 +2055,23 @@ function informacionFan($info) {
         $nuevoApellido = $_POST['apellido'];
         $nuevaUbicacion = $_POST['ubicacion'];
         $nuevadescripcion = $_POST['descripcion'];
-        if (modificarDatosFan($_SESSION['email'], $nuevoNombre, $nuevoApellido, $nuevaUbicacion, $nuevadescripcion)) {
+        $nuevaImagen = '';
+        if (modificarDatosFan($_SESSION['email'], $nuevoNombre, $nuevoApellido, $nuevaUbicacion, $nuevadescripcion, $nuevaImagen)) {
             echo '<h1 class=center">Datos <span class="color_rojo_general">Modificados</span> con Éxito</h1>';
             header("refresh:1; url=Perfil.php");
         } else {
             echo 'fallo';
         }
     } else {
-        $descripcion = str_replace("<pre>", "", $info['DESCRIPCION']);       
-        $imagen = showImage($_SESSION['email']);
+        $descripcion = str_replace("<pre>", "", $info['DESCRIPCION']);
+        $imagen = getImageEmail($_SESSION['email']);
         echo '<h1>Perfil <span class="color_rojo_general"> Fan</span></h1>';
         echo'<div id = "div1" class = "inline center" style = "vertical-align:top;width: 15%; height: 100%">
                         <div style = "width:250px; float:left">
                         <div id = "divConImagen" style = "border:1px solid gray">';
+                echo $imagen.'aqui';
 
-        $urlDefaultImage = 'Imagenes/image.jpeg';
-        echo '<div id="image-preview" style="background-image: url(' . $urlDefaultImage . ');background-size:cover">
+        echo '<div id="image-preview" style="background-image: url(' . $imagen . ');background-size:cover">
                             <label hidden for="image-upload" id="image-label">Escoger foto</label>
                             <input type="file" name="image" disabled id="image-upload"/>
                         </div>';
