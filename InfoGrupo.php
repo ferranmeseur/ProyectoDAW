@@ -40,16 +40,15 @@
                 $nombre = $_GET['nombre'];
                 TraceEvent("BUSQUEDA", $nombre, "NULL", "MUSICO", "NULL");
             }
-             $resultado = getInfoGrupoName($_GET['nombre']);
+            $resultado = getInfoGrupoName($_GET['nombre']);
             $puntuacion = votosGrupo($resultado['ID_USUARIO']);
             $comentarios = comentariosGrupo($resultado['ID_USUARIO']);
             $imagen = getImageID($resultado['ID_USUARIO']);
-            echo $imagen;
             echo'<div class="center content">';
             echo'<div class="inline center" style="vertical-align:top">';
-            echo'<img src="'.$imagen.'" alt="" style="width:250px"/>';
+            echo'<img src="' . $imagen . '" alt="" style="width:250px"/>';
             echo'</div>';
-            echo '<div class="inline" style="height:auto;background-color:blue">';
+            echo '<div class="inline" style="height:auto">';
             echo '<h1>' . $resultado['NOMBRE_ARTISTICO'] . '</h1>';
             echo'<b style="color:#d83c3c">GRUPO RATING</b><i id="puntuacion" hidden>' . $puntuacion . '</i><br>';
             echo '<fieldset class="rating_fixed">
@@ -73,27 +72,55 @@
             if ($resultado['DESCRIPCION'] != null) {
                 echo '<div class="center">Descripción : ' . $resultado['DESCRIPCION'] . '</div>';
             } echo '</div>';
-            
-        echo '</div></div>';
+            if ($comentarios != false) {
+                echo '</div>';
+                echo '<div style="margin:auto auto auto auto;width:500px">';
+                echo '<div class="container">';
+                while ($lista = $comentarios->fetch_assoc()) {
+                    $imagen = getImageID($lista['ID_USUARIO']);
+                    echo '<div class="row center">';
+                    echo '<div class="col-sm-8">';
+                    echo '<div class="panel panel-white post panel-shadow">';
+                    echo '<div class="post-heading">';
+                    echo '<div class="pull-left image">';
+                    echo '<img src="' . $imagen . '" class="img-circle avatar" alt="user profile image">';
+                    echo '</div>';
+                    echo '<div class="pull-left meta">';
+                    echo '<div class="title h5">';
+                    echo '<b>' . $lista['NOMBRE'] . ' ' . $lista['APELLIDOS'] . '</b>';
+                    echo ' ha realizado un comentario';
+                    echo '</div>';
+                    echo '<h6 class="text-muted time">El ' . getNombreFecha(date("w-d-m-Y", strtotime($lista['FECHA']))) . '</h6>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '<div class="post-description">';
+                    echo '<p> ' . str_replace("<pre>", "", $lista['COMENTARIO']) . '</p>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
+                }
+                echo'</div>';
+                echo'</div>';
+            }
+            echo '</div></div>';
 
-        if (isset($_POST["enviar"]) && $_SESSION['check'] == 0) {
-            $_SESSION['check'] = 1;
-            $puntos = $_POST["rating2"];
-            $comentario = $_POST["comentario"];
-            $user = getInfoUser($_SESSION['email']);
-            votarComentarNoConcierto($user['ID_USUARIO'], $resultado['ID_USUARIO'], $puntos, $comentario);
-            if ($check == 0)
-                redirectURL ('InfoLocal.php');
-        }
-        if (isset($_SESSION['email'])) {
-            $user = getInfoUser($_SESSION['email']);
-            $_SESSION['check'] = checkVotar($resultado['ID_USUARIO'], $user['ID_USUARIO']);
-        }
-        if (isset($_SESSION['pass']) && $user['TIPO_USUARIO'] == "Fan" && $_SESSION['check'] == 0) {
-            echo '<div style="text-align:center">';
-            echo'<h2>Deja tu comentario:</h2>';
-            echo'<form action = "" method = "POST" id="msform">';
-            echo'<div style="width:200px" class="rating">
+            if (isset($_POST["enviar"]) && $_SESSION['check'] == 0) {
+                $_SESSION['check'] = 1;
+                $puntos = $_POST["rating2"];
+                $comentario = $_POST["comentario"];
+                $user = getInfoUser($_SESSION['email']);
+                votarComentarNoConcierto($user['ID_USUARIO'], $resultado['ID_USUARIO'], $puntos, $comentario);
+            }
+            if (isset($_SESSION['email'])) {
+                $user = getInfoUser($_SESSION['email']);
+                $_SESSION['check'] = checkVotar($resultado['ID_USUARIO'], $user['ID_USUARIO']);
+            }
+            if (isset($_SESSION['pass']) && $user['TIPO_USUARIO'] == "Fan" && $_SESSION['check'] == 0) {
+                echo '<div style="text-align:center">';
+                echo'<h2>Deja tu comentario:</h2>';
+                echo'<form action = "" method = "POST" id="msform">';
+                echo'<div style="width:200px" class="rating">
     <input type="radio" id="estrella5" name="rating2" value="5" /><label class = "full" for="estrella5" title="Awesome - 5 estrellas"></label>
     <input type="radio" id="estrella4medio" name="rating2" value="4.5" /><label class="half" for="estrella4medio" title="Pretty good - 4.5 estrellas"></label>
     <input type="radio" id="estrella4" name="rating2" value="4" /><label class = "full" for="estrella4" title="Pretty good - 4 estrellas"></label>
@@ -105,46 +132,13 @@
     <input type="radio" id="estrella1" name="rating2" value="1" /><label class = "full" for="estrella1" title="Sucks big time - 1 estrella"></label>
     <input type="radio" id="estrellamedio" name="rating2" value="medio" /><label class="half" for="estrellamedio" title="Sucks big time - 0.5 estrellas"></label>
 </div> ';
-            echo ' <div  class="center">
+                echo ' <div  class="center">
                     <textarea name="comentario" maxlength="255" rows="5" cols="50"></textarea>
                     </div>
             <button style="width:400px" type="submit" class="submit action-button"  name = "enviar">Enviar Comentario</button>
-       </form>';
-        }
-        
-        if ($comentarios != false) {
-            echo '</div>';
-            echo '<div style="margin:auto auto auto auto;width:500px">';
-            echo '<div class="container">';
-            while ($lista = $comentarios->fetch_assoc()) {
-                $imagen = getImageID($lista['ID_USUARIO']);
-                echo '<div class="row center">';
-                echo '<div class="col-sm-8">';
-                echo '<div class="panel panel-white post panel-shadow">';
-                echo '<div class="post-heading">';
-                echo '<div class="pull-left image">';
-                echo '<img src="' . $imagen . '" class="img-circle avatar" alt="user profile image">';
-                echo '</div>';
-                echo '<div class="pull-left meta">';
-                echo '<div class="title h5">';
-                echo '<b>' . $lista['NOMBRE'] . ' ' . $lista['APELLIDOS'] . '</b>';
-                echo ' ha realizado un comentario';
-                echo '</div>';
-                echo '<h6 class="text-muted time">El ' . getNombreFecha(date("w-d-m-Y", strtotime($lista['FECHA']))) . '</h6>';
-                echo '</div>';
-                echo '</div>';
-                echo '<div class="post-description">';
-                echo '<p> ' .str_replace("<pre>", "", $lista['COMENTARIO']). '</p>';
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
+       </form></div></div></div></div>';
             }
-            echo'</div>';
-            echo'</div>';
-        }
-        echo'</div></div></div></div>';
-        ?>
+            ?>
             <div id="footer" class="margin_top_200px"></div>
     </body>
 </html>
