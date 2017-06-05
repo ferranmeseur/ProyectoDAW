@@ -134,7 +134,7 @@
                 echo '</div>';
                 echo '</div>';
                 echo '<div class="post-description">';
-                echo '<p> ' . $lista['COMENTARIO'] . '</p>';
+                echo '<p> ' .str_replace("<pre>", "", $lista['COMENTARIO']). '</p>';
                 echo '</div>';
                 echo '</div>';
                 echo '</div>';

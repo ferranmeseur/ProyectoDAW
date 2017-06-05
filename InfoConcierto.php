@@ -99,7 +99,7 @@
                     </div>
                 </div> 
                 <div class="post-description"> 
-                   <p> ' . $lista['COMENTARIO'] . '</p>
+                   <p> ' . str_replace("<pre>", "", $lista['COMENTARIO']). '</p>
                     </div>
                 </div>
             </div>
