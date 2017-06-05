@@ -92,7 +92,7 @@
                     </div>
                     <div class="pull-left meta">
                     <div class="title h5">
-                    <b>' . $lista['NOMBRE'] . ' ' . $lista['APELLIDOS'] . '</b>
+                    <b>' . $lista['NOMBRE'] . ' ' . $lista['APELLIDOS'] . ' </b>
                             ha realizado un comentario
                         </div>
                         <h6 class="text-muted time">El ' . getNombreFecha(date("w-d-m-Y", strtotime($lista['FECHA']))) . '</h6>
@@ -110,21 +110,19 @@
             }
             echo '</div></div>';
 
-            if (isset($_POST["enviar"])) {
-                $check = 1;
+            if (isset($_POST["enviar"]) && $_SESSION['check'] == 0) {
+                $_SESSION['check'] = 1;
                 $puntos = $_POST["rating2"];
                 echo $puntos;
                 $comentario = $_POST["comentario"];
                 $user = getInfoUser($_SESSION['email']);
                 votarComentarConcierto($user['ID_USUARIO'], $resultado['ID_USUARIO'], $puntos, $comentario);
-                if ($check == 0)
-                    redirectURL('InfoConcierto.php');
             }
             if (isset($_SESSION['email'])) {
                 $user = getInfoUser($_SESSION['email']);
-                $check = checkVotar($resultado['ID_USUARIO'], $user['ID_USUARIO']);
+                $_SESSION['check']  = checkVotar($resultado['ID_USUARIO'], $user['ID_USUARIO']);
             }
-            if (isset($_SESSION['pass']) && $user['TIPO_USUARIO'] == "Fan" && $check == 0) {
+            if (isset($_SESSION['pass']) && $user['TIPO_USUARIO'] == "Fan" && $_SESSION['check'] == 0) {
                 echo ' <div  class="center">';
                 echo'<h2>Deja tu comentario:</h2>';
                 echo'<form action = "" method = "POST" id="msform">';
