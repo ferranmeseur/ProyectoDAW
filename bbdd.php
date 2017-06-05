@@ -820,7 +820,7 @@ function ShowNoticiasMusico() {
     echo '<a class="a_noticia" href="InfoGrupo.php?nombre=' . $nombre_grupo . '">';
     echo '<div style = "height:250px;background-image:' . $url . ';background-size:cover;background-position:center">';
     echo '<div style="position: relative;top: 0;background-color:rgba(0, 0, 0, 0.8)">';
-    echo '<b style="color:white;font-size:30px">Un nuevo grupo se acaba de unir</b>';
+    echo '<b style="color:white;font-size:30px">Un nuevo <b class="color_rojo_general">grupo</b> se acaba de unir</b>';
     echo '</div>';
     echo '<div style="position: relative;bottom: 0;background-color:rgba(0, 0, 0, 0.8)">';
     echo '<h1>' . $nuevoGrupo['VALOR'] . '</h1>';
@@ -838,7 +838,7 @@ function ShowNoticiasLocal() {
         echo '<a class="a_noticia" href="InfoLocal.php?nombre=' . $nombre_local . '">';
         echo '<div style = "height:250px;background-image:' . $url . ';background-size:cover;background-position:center">';
         echo '<div style="position: relative;top: 0;background-color:rgba(0, 0, 0, 0.8)">';
-        echo '<b style="color:white;font-size:30px">Un nuevo local se acaba de unir</b>';
+        echo '<b style="color:white;font-size:30px">Un nuevo <b class="color_rojo_general">local</b> se acaba de unir</b>';
         echo '</div>';
         echo '<div style="position: relative;bottom: 0;background-color:rgba(0, 0, 0, 0.8)">';
         echo '<h1>' . $nuevoLocal['VALOR'] . '</h1>';
@@ -862,7 +862,7 @@ function ShowNoticiasConcierto() {
     echo '<a class="a_noticia" href="InfoConcierto.php?idcon=' . $nuevoConcierto['ID_CONCIERTO'] . '">';
     echo '<div style = "height:250px;background-image:' . $url . ';background-size:cover;background-position:center">';
     echo '<div style="position: relative;top: 0;background-color:rgba(0, 0, 0, 0.8)">';
-    echo '<b style="color:white;font-size:30px">Nuevo concierto</b>';
+    echo '<b style="color:white;font-size:30px">Nuevo <b class="color_rojo_general">concierto</b></b>';
     echo '</div>';
     echo '<div style="position: relative;top: 50%;transform: translateY(-50%);background-color:rgba(0, 0, 0, 0.8)">';
     echo '<b style="font-size:40px">' . $nombres[0] . '</b>';
