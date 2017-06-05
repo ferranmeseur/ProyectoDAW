@@ -25,7 +25,7 @@
                 </form>
             </div>
             <!-- TRENDING SEARCH -->
-            <div class="trending_search">
+            <div class="trending_search" style="display:inline-block;width:auto">
                 <div id="trendingSearchGrupos">
                     <b><p class="color_rojo_general inline">GRUPOS MAS BUSCADOS</p></b>
                 </div>
@@ -37,13 +37,13 @@
 
 
         <!-- RESULTADOS DE BUSQUEDA ARTISTAS | LOCALES | CONCIERTOS -->
-        <div class="margin_top_100px"></div>
+        <div style="margin-top: 50px"></div>
         <div class="width_100 center">
             <div id="resultadoArtistas" class="inline width_48 center color_rojo_general" style="vertical-align:top">
-                <H2>ARTISTAS</h2>
+                <H2 style="margin-bottom:50px">ARTISTAS</h2>
             </div>
             <div id="resultadoLocales" class="inline width_48 center color_rojo_general" style="vertical-align:top">
-                <H2>LOCALES</h2>
+                <H2 style="margin-bottom:50px">LOCALES</h2>
             </div>
         </div>
         <?php
@@ -56,7 +56,7 @@
             $conciertoLocal = BusquedaConciertoPorLocal($busqueda);
             $conciertoArtista = BusquedaConciertoPorArtista($busqueda);
             if (!(isset($conciertoArtista)) && !(isset($conciertoLocal)) && !(isset($artistas)) && !(isset($locales))) {
-                echo "<div class='padding20 center cursiva'>No se ha encontrado ninguna coincidencia con <u>$busqueda</u></div>";
+                echo "<div class='center cursiva'>No se ha encontrado ninguna coincidencia con <u>$busqueda</u></div>";
                 echo'<script language="javascript">$("#resultadoArtistas").empty(); $("#resultadoArtistas").width(0);</script>';
                 echo'<script language="javascript">$("#resultadoLocales").empty(); $("#resultadoLocales").width(0);</script>';
                 TrendingResultados();
@@ -65,7 +65,7 @@
                     while ($row = $locales->fetch_assoc()) {
                         $imagen = getImageID($row['ID_USUARIO']);
                         $nombre_local = str_replace(" ", "+", $row['NOMBRE_LOCAL']);
-                    $var2 = "<div style='width:100%'><a class='fontblack' href=InfoLocal.php?nombre=" . $nombre_local . "&b=true><div class='inline' style='width:50%'><img id='img_resultado_busqueda' src='" . $imagen . "'><div class='inline'><h4>" . $row['NOMBRE_LOCAL'] . "</h4></div><textarea disabled style='border:0;overflow:hidden;resize: none;height:45px;width:100%'>".$row['DESCRIPCION']."</textarea></a></div></div>";
+                        $var2 = "<div style='width:100%'><a class='fontblack' href=InfoLocal.php?nombre=" . $nombre_local . "&b=true><div class='inline' style='width:50%'><img id='img_resultado_busqueda' style='width:100px' src='" . $imagen . "'><div class='inline' style='vertical-align:top'><h2>" . $row['NOMBRE_LOCAL'] . "</h2><i class='color_rojo_general'>" . $row['NOMBRE_GENERO'] . "</i></div><textarea disabled style='border:0;overflow:hidden;resize: none;height:45px;width:100%'>" . $row['DESCRIPCION'] . "</textarea></a></div></div>";
                         echo'<script language="javascript">$("#resultadoLocales").append("' . $var2 . '");</script>';
                     }
                 } else {
@@ -75,7 +75,7 @@
                     while ($row = $artistas->fetch_assoc()) {
                         $imagen = getImageID($row['ID_USUARIO']);
                         $nombre_artistico = str_replace(" ", "+", $row['NOMBRE_ARTISTICO']);
-                        $var2 = "<div style='width:100%'><a class='fontblack' href=InfoGrupo.php?nombre=" . $nombre_artistico . "&b=true><div class='inline' style='width:50%'><img id='img_resultado_busqueda' src='" . $imagen . "'><div class='inline'><h4>" . $row['NOMBRE_ARTISTICO'] . " </h4></div> - <div class='inline'>  <i class='color_rojo_general'>  ".$row['NOMBRE_GENERO']."</div><textarea disabled style='border:0;overflow:hidden;resize: none;height:45px;width:100%'>".$row['DESCRIPCION']."</textarea></a></div></div>";
+                        $var2 = "<div style='width:100%'><a class='fontblack' href=InfoGrupo.php?nombre=" . $nombre_artistico . "&b=true><div class='inline' style='width:50%'><img id='img_resultado_busqueda' style='width:100px' src='" . $imagen . "'><div class='inline' style='vertical-align:top'><h2>" . $row['NOMBRE_ARTISTICO'] . " </h2><i class='color_rojo_general'>  " . $row['NOMBRE_GENERO'] . "</i></div><textarea disabled style='border:0;overflow:hidden;resize: none;height:45px;width:100%'>" . $row['DESCRIPCION'] . "</textarea></a></div></div>";
                         echo'<script language="javascript">$("#resultadoArtistas").append("' . $var2 . '");</script>';
                     }
                 } else {

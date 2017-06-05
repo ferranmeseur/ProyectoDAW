@@ -1,5 +1,6 @@
 CREATE database musicandseek;
 use musicandseek;
+
 create table USUARIO( 
 ID_USUARIO int(10) not null auto_increment,
 TIPO_USUARIO char(10) not null,
@@ -70,7 +71,7 @@ create table VOTAR_COMENTAR(
 ID_VOTO int(10) not null auto_increment primary key,
 ID_FAN int(10) not null,
 ID_VOTADO int(10) not null,
-PUNTOS int(2) not null,
+PUNTOS DECIMAL(2,2) not null,
 VOTO_CONCIERTO boolean not null,
 COMENTARIO char(140),
 FECHA datetime not null,

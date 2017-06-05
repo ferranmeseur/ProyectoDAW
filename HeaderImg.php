@@ -37,6 +37,7 @@
         <div class="topnav z_index10" style="position:fixed;top:650px;width:100%" id="theFixed">
             <div class="center" style="width:100%">
                 <a class="inline fonts" href="HomePage.php">INICIO</a>
+                <a id='busqueda' class="inline fonts" href="Busqueda.php">BÚSQUEDA</a>
                 <a id='ranking' class="inline fonts" href="Ranking.php">RANKING</a>
                 <a class="inline fonts" href="Concierto.php">CONCIERTOS</a>
                 <a class="inline fonts" href="Grupo.php">GRUPOS</a>

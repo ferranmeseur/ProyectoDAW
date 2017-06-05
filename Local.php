@@ -87,7 +87,6 @@
                                 echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:left;vertical-align:top">';
                                 echo '<a class="fontblack a_concierto" href=InfoLocal.php?nombre=' . $nombre_local . '>';
                                 echo '<div class="inline" id="div_img">';
-                                echo $imagen;
                                 echo '<img id="img_lista_img" class="inline" src="'.$imagen.'">';
                                 echo '</div>';
                                 echo '<div class="inline" style="vertical-align:top">';
