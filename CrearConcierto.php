@@ -31,7 +31,6 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
 
         <div id="contenedor" class="center">
             <?php
-            require_once'BusquedaMusicos.php';
             $miInformacion = getInfoUser($_SESSION['email']);
             $local = $miInformacion['ID_USUARIO'];
             if (isset($_GET['local']) && !isset($_GET['idgrupo'])) {
