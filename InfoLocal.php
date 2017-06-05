@@ -115,7 +115,7 @@
             $user = getInfoUser($_SESSION['email']);
             votarComentarNoConcierto($user['ID_USUARIO'], $resultado['ID_USUARIO'], $puntos, $comentario);
             if ($check == 0)
-                header("Refresh:0");
+                redirectURL ('InfoLocal.php');
         }
         if (isset($_SESSION['email'])) {
             $user = getInfoUser($_SESSION['email']);

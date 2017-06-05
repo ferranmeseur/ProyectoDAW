@@ -32,7 +32,7 @@
         <div id="header"></div> 
         <div class="center">
             <?php
-                    session_start();
+            session_start();
             require_once'bbdd.php';
             if (isset($_GET['b'])) {
                 $nombre = $_GET['nombre'];
@@ -47,7 +47,7 @@
             echo'<div class="center content">';
             echo '<h1 class="center">' . $fecha . ' - ' . $local['NOMBRE_LOCAL'] . '</h1>';
             echo'<div class="inline center" style="vertical-align:top">';
-            echo'<img src="'.$imagen.'" alt="" style="width:250px"/>';
+            echo'<img src="' . $imagen . '" alt="" style="width:250px"/>';
             echo'</div>';
             echo '<div class="inline center">';
             echo'<b style="color:#d83c3c">CONCIERTO RATING</b><i id="puntuacion" hidden>' . $puntuacion . '</i><br>';
@@ -74,20 +74,21 @@
             echo '<div class="center">Contacto : ';
             if ($resultado['WEB'] != null) {
                 echo $local['WEB'] . ' , ';
-            } 
-            echo'</div>';            echo'</div>';
+            }
+            echo'</div>';
+            echo'</div>';
 
             echo $local['EMAIL'] . ', ' . $local['NUMERO_CONTACTO'] . '</div>';
             if ($comentarios != false) {
-               echo '</br></br><div class="container">';
-            while ($lista = $comentarios->fetch_assoc()) {
-                $image = getImageID($lista['ID_USUARIO']);
-                echo'<div class="row center">
+                echo '</br></br><div class="container">';
+                while ($lista = $comentarios->fetch_assoc()) {
+                    $image = getImageID($lista['ID_USUARIO']);
+                    echo'<div class="row center">
                     <div class="col-sm-8">
                     <div class="panel panel-white post panel-shadow">
                     <div class="post-heading">
                     <div class="pull-left image">
-                        <img src="'.$imagen.'" class="img-circle avatar" alt="user profile image">
+                        <img src="' . $imagen . '" class="img-circle avatar" alt="user profile image">
                     </div>
                     <div class="pull-left meta">
                     <div class="title h5">
@@ -104,25 +105,27 @@
             </div>
         </div>
         </div>';
+                }
+                echo'</div>';
             }
-         echo'</div>';
-        }
-        echo '</div></div>';
+            echo '</div></div>';
 
             if (isset($_POST["enviar"])) {
                 $check = 1;
                 $puntos = $_POST["rating2"];
+                echo $puntos;
                 $comentario = $_POST["comentario"];
                 $user = getInfoUser($_SESSION['email']);
                 votarComentarConcierto($user['ID_USUARIO'], $resultado['ID_USUARIO'], $puntos, $comentario);
-                if($check == 0 )header("Refresh:0");
+                if ($check == 0)
+                    redirectURL('InfoConcierto.php');
             }
             if (isset($_SESSION['email'])) {
                 $user = getInfoUser($_SESSION['email']);
                 $check = checkVotar($resultado['ID_USUARIO'], $user['ID_USUARIO']);
             }
             if (isset($_SESSION['pass']) && $user['TIPO_USUARIO'] == "Fan" && $check == 0) {
-                 echo ' <div  class="center">';
+                echo ' <div  class="center">';
                 echo'<h2>Deja tu comentario:</h2>';
                 echo'<form action = "" method = "POST" id="msform">';
                 echo'<div style="width:200px" class="rating">
@@ -145,7 +148,8 @@
             }
             echo'</div>';
             echo'</div>';
-            echo'</div>';echo'</div>';
+            echo'</div>';
+            echo'</div>';
             ?>
             <div id="footer"></div>
     </body>

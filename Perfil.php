@@ -75,13 +75,14 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
         <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
         <link href="Estilos/RegistrationForm.css" rel="stylesheet" type="text/css"/>
         <link href="Estilos/StarRating.css" rel="stylesheet" type="text/css"/>
+        <link href="Estilos/Comments.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div id="header"></div>
         <div class="center content">
         </div>
     </div>
-    <div class="center" style="width: 100%; height: 500px">
+    <div class="center" style="width: 100%; height: 100%">
         <?php
         require_once 'bbdd.php';
         $info = getInfoUser($_SESSION['email']);
@@ -98,7 +99,7 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['email'])) {
         }
         ?>
     </div>
-    <div id="footer" style="margin-top: 500px"></div>
+    <div id="footer"></div>
 
 
 </body>
