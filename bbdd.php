@@ -1,6 +1,6 @@
 <?php
 
-$rutaImagen = '../ImagenesSubidas/';
+$GLOBALS['rutaImagen'] = 'Imagenes/';
 
 function conectar() {
     $conexion = mysqli_connect('localhost', 'root', '', 'musicandseek')
@@ -720,11 +720,12 @@ function ArtistasAlza($genero, $ciudad, $titulo) {
     echo $titulo . '<br>';
     echo '<div id="div_parent_ranking">';
     while ($row = $result->fetch_assoc()) {
+        $imagen = getImageID($row['ID_USUARIO']);
         $nombre_artistico = str_replace(" ", "+", $row['NOMBRE']);
         echo '<div id="musicoRanking' . $i . '" style="margin-bottom:20px">';
         echo '<div class="div_peque_ranking"></div>';
         echo '<div class="div_ranking">';
-        echo '<img class="img_div_ranking inline" src="Imagenes/image.jpeg">';
+        echo '<img class="img_div_ranking inline" src="'.$imagen.'">';
         echo '<div class="nombre_artista inline vertical_top" style="padding-top:10px;padding-left:10px;text-align:left"><a href="InfoGrupo.php?nombre=' . $nombre_artistico . '"><b class="fontblack a_concierto" style="font-size:25px">' . $row['NOMBRE'] . '</b><br><i class="color_rojo_general"> ' . $row['NOMBRE_GENERO'] . ' - ' . $row['NOMBRE_CIUDAD'] . '</i></a></div>';
         echo '</div>';
         echo '<img class="img_ranking_numero" src="Imagenes/ranking' . $i . '.png">';
@@ -748,11 +749,12 @@ function LocalesAlza($ciudad, $titulo) {
     echo'<i>' . $titulo . '</i><br>';
     echo '<div id="div_parent_ranking">';
     while ($row = $result->fetch_assoc()) {
+        $imagen = getImageID($row['ID_USUARIO']);
         $nombre_local = str_replace(" ", "+", $row['NOMBRE_LOCAL']);
         echo '<div id="musicoRanking' . $i . '" style="margin-bottom:20px">';
         echo '<div class="div_peque_ranking"></div>';
         echo '<div class="div_ranking">';
-        echo '<img class="img_div_ranking inline" src="Imagenes/image.jpeg">';
+        echo '<img class="img_div_ranking inline" src="'.$imagen.'">';
         echo '<div class="nombre_artista inline vertical_top" style="padding-top:10px;padding-left:10px"><a href="InfoLocal.php?nombre=' . $nombre_local . '"><b class="fontblack a_concierto" style="font-size:25px">' . $row['NOMBRE'] . '</b><br><i style="float:left" class="color_rojo_general"> ' . $row['NOMBRE_CIUDAD'] . '</i></a></div>';
         echo '</div>';
         echo '<img class="img_ranking_numero" src="Imagenes/ranking' . $i . '.png">';
@@ -1511,16 +1513,32 @@ function votarComentarConcierto($fan, $votado, $puntos, $comentario) {
     desconectar($conexion);
 }
 
-function getImage($id) {
+function getImageID($id) {
     $conexion = conectar();
     $sql = "SELECT * FROM USUARIO WHERE ID_USUARIO = '$id'";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         if ($row['IMAGEN'] != null) {
-            return $rutaImagen + $result['IMAGEN'];
+            return $GLOBALS['rutaImagen']. $result['IMAGEN'];
         } else {
-            return 'Imagenes/image.jpeg';
+            return $GLOBALS['rutaImagen'].'/image.jpeg';
+        }
+    } else {
+        return false;
+    }
+    desconectar($conexion);
+}
+function getImageEmail($email) {
+    $conexion = conectar();
+    $sql = "SELECT * FROM USUARIO WHERE EMAIL = '$email'";
+    $result = $conexion->query($sql);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        if ($row['IMAGEN'] != null) {
+            return $GLOBALS['rutaImagen']. $result['IMAGEN'];
+        } else {
+            return $GLOBALS['rutaImagen'].'/image.jpeg';
         }
     } else {
         return false;
@@ -1543,15 +1561,14 @@ function informacionLocal($info) {
             echo 'fallo';
         }
     } else {
-        $imagen = showImage($_SESSION['email']);
+        $imagen = getImageEmail($_SESSION['email']);
         echo '<h1>Perfil <span class="color_rojo_general"> Local</span></h1>';
         echo'<div id = "div1" class = "inline center" style = "vertical-align:top;width: 15%; height: 150%">
                         <h1 class="fs-title">MIS DATOS</h1>
                         <div style = "width:250px; float:left">
                         <div id = "divConImagen" style = "border:1px solid gray">';
 
-        $urlDefaultImage = 'Imagenes/image.jpeg';
-        echo '<div id="image-preview" style="background-image: url(' . $urlDefaultImage . ');background-size:cover">
+        echo '<div id="image-preview" style="background-image: url(' . $imagen . ');background-size:cover">
                             <label hidden for="image-upload" id="image-label">Escoger foto</label>
                             <input type="file" name="image" disabled id="image-upload"/>
                         </div>';

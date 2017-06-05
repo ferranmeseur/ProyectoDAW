@@ -53,12 +53,12 @@
                             while ($lista = $result->fetch_assoc()) {
                                 $nombre_artistico = str_replace(" ", "+", $lista['NOMBRE_ARTISTICO']);
                                 $nombre_local = str_replace(" ", "+", $lista['NOMBRE_LOCAL']);
-
+                                $imagen = getImageID($lista['ID_USUARIO']);
                                 echo '<tr>';
                                 echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:left;vertical-align:top">';
                                 echo '<a class="fontblack a_concierto" href=InfoConcierto.php?idcon=' . $lista['ID_CONCIERTO'] . '>';
                                 echo '<div class="inline">';
-                                echo "<img id='img_lista_img' class='inline' src='Imagenes/image.jpeg'>";
+                                echo "<img id='img_lista_img' class='inline' src='".$imagen."'>";
                                 echo "<b id='h4_lista_img'>" . $lista['NOMBRE_ARTISTICO'] . "</b><br>";
                                 echo "<i>" . $lista['GENERO'] . "</i>";
                                 echo '</div>';

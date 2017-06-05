@@ -43,10 +43,11 @@
             $fecha = getNombreFecha(date("w-d-m-Y", strtotime($resultado['FECHA'])));
             $comentarios = comentariosConcierto($_GET['idcon']);
             $local = getNombreLocal(($resultado['ID_LOCAL']));
+            $imagen = getImageID($resultado['ID_USUARIO']);
             echo'<div class="center content">';
             echo '<h1 class="center">' . $fecha . ' - ' . $local['NOMBRE_LOCAL'] . '</h1>';
             echo'<div class="inline center">';
-            echo'<img src="Imagenes/image.jpeg" alt=""/>';
+            echo'<img src="'.$imagen.'" alt=""/>';
             echo'</div>';
             echo '<div class="inline center">';
             echo'<b style="color:#d83c3c">CONCIERTO RATING</b><i id="puntuacion" hidden>' . $puntuacion . '</i><br>';
@@ -80,13 +81,13 @@
             if ($comentarios != false) {
                echo '</br></br><div class="container">';
             while ($lista = $comentarios->fetch_assoc()) {
-                
+                $image = getImageID($lista['ID_USUARIO']);
                 echo'<div class="row center">
                     <div class="col-sm-8">
                     <div class="panel panel-white post panel-shadow">
                     <div class="post-heading">
                     <div class="pull-left image">
-                        <img src="Imagenes/image.jpeg" class="img-circle avatar" alt="user profile image">
+                        <img src="'.$imagen.'" class="img-circle avatar" alt="user profile image">
                     </div>
                     <div class="pull-left meta">
                     <div class="title h5">

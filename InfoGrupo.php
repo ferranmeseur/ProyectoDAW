@@ -40,14 +40,15 @@
                 $nombre = $_GET['nombre'];
                 TraceEvent("BUSQUEDA", $nombre, "NULL", "MUSICO", "NULL");
             }
-            echo'<div class="center content">';
-            echo'<div class="inline center">';
-            echo'<img src="Imagenes/image.jpeg" alt=""/>';
-            echo'</div>';
-            echo '<div class="inline">';
-            $resultado = getInfoGrupoName($_GET['nombre']);
+             $resultado = getInfoGrupoName($_GET['nombre']);
             $puntuacion = votosGrupo($resultado['ID_USUARIO']);
             $comentarios = comentariosGrupo($resultado['ID_USUARIO']);
+            $imagen = getImageID($resultado['ID_USUARIO']);
+            echo'<div class="center content">';
+            echo'<div class="inline center">';
+            echo'<img src="'.$imagen.'" alt=""/>';
+            echo'</div>';
+            echo '<div class="inline">';
             echo '<h1>' . $resultado['NOMBRE_ARTISTICO'] . '</h1>';
             echo'<b style="color:#d83c3c">GRUPO RATING</b><i id="puntuacion" hidden>' . $puntuacion . '</i><br>';
             echo '<fieldset class="rating_fixed">
@@ -74,12 +75,13 @@
             if ($comentarios != false) {
                 echo '</br></br><div class=" center container">';
                 while ($lista = $comentarios->fetch_assoc()) {
-                    echo'<div class="row">
+                  $image = getImageID($lista['ID_USUARIO']);
+                echo'<div class="row center">
                     <div class="col-sm-8">
                     <div class="panel panel-white post panel-shadow">
                     <div class="post-heading">
                     <div class="pull-left image">
-                        <img src="Imagenes/image.jpeg" class="img-circle avatar" alt="user profile image">
+                        <img src="'.$imagen.'" class="img-circle avatar" alt="user profile image">
                     </div>
                     <div class="pull-left meta">
                     <div class="title h5">

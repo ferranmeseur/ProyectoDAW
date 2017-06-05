@@ -62,8 +62,9 @@
             } else {
                 if (isset($locales)) {
                     while ($row = $locales->fetch_assoc()) {
+                        $imagen = getImageID($row['ID_USUARIO']);
                         $nombre_local = str_replace(" ", "+", $row['NOMBRE_LOCAL']);
-                        $var2 = "<div style='width:300px'><a class='fontblack' href=InfoLocal.php?nombre=" . $nombre_local . "&b=true><div class='inline'><img id='img_resultado_busqueda' src='Imagenes/image.jpeg'><div class='inline'><h4>" . $row['NOMBRE_LOCAL'] . "</h4><i>DESCRIPCION</i></a></div></div></div>";
+                        $var2 = "<div style='width:300px'><a class='fontblack' href=InfoLocal.php?nombre=" . $nombre_local . "&b=true><div class='inline'><img id='img_resultado_busqueda' src='".$imagen."'><div class='inline'><h4>" . $row['NOMBRE_LOCAL'] . "</h4><i>DESCRIPCION</i></a></div></div></div>";
                         echo'<script language="javascript">$("#resultadoLocales").append("' . $var2 . '");</script>';
                     }
                 } else {
@@ -71,8 +72,9 @@
                 }
                 if (isset($artistas)) {
                     while ($row = $artistas->fetch_assoc()) {
+                                                $imagen = getImageID($row['ID_USUARIO']);
                         $nombre_artistico = str_replace(" ", "+", $row['NOMBRE_ARTISTICO']);
-                        $var2 = "<div style='width:300px'><a class='fontblack' href=InfoGrupo.php?nombre=" . $nombre_artistico . "&b=true><div class='inline'><img id='img_resultado_busqueda' src='Imagenes/image.jpeg'><div class='inline'><h4>" . $row['NOMBRE_ARTISTICO'] . "</h4><i>" . $row['NOMBRE_GENERO'] . "</i></a></div></div></div>";
+                        $var2 = "<div style='width:300px'><a class='fontblack' href=InfoGrupo.php?nombre=" . $nombre_artistico . "&b=true><div class='inline'><img id='img_resultado_busqueda' src='".$imagen."'><div class='inline'><h4>" . $row['NOMBRE_ARTISTICO'] . "</h4><i>" . $row['NOMBRE_GENERO'] . "</i></a></div></div></div>";
                         echo'<script language="javascript">$("#resultadoArtistas").append("' . $var2 . '");</script>';
                     }
                 } else {

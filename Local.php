@@ -82,11 +82,12 @@
                             while ($lista = $result->fetch_assoc()) {
                                 $nombre_local = str_replace(" ", "+", $lista['NOMBRE_LOCAL']);
                                 $nombreCiudad = getNombreCiudad($lista['ID_CIUDAD']);
+                                $imagen = getImageID($lista['ID_USUARIO']);
                                 echo '<tr>';
                                 echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:left;vertical-align:top">';
                                 echo '<a class="fontblack a_concierto" href=InfoLocal.php?nombre=' . $nombre_local . '>';
                                 echo '<div class="inline" id="div_img">';
-                                echo '<img id="img_lista_img" class="inline" src="Imagenes/image.jpeg">';
+                                echo '<img id="img_lista_img" class="inline" src="'.$imagen.'">';
                                 echo '</div>';
                                 echo '<div class="inline" style="vertical-align:top">';
                                 echo '<b id="h4_lista_img">' . $lista['NOMBRE_LOCAL'] . '</b>';

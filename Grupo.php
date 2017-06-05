@@ -95,12 +95,12 @@
                                 $nombre_artistico = str_replace(" ", "+", $lista['NOMBRE_ARTISTICO']);
                                 $nombreGenero = getNombreGenero($lista['ID_GENERO']);
                                 $nombreCiudad = getNombreCiudad($lista['ID_CIUDAD']);
-
+                                $imagen = getImageID($lista['ID_USUARIO']);
                                 echo '<tr>';
                                 echo '<td class="padding5" style="border-bottom:1px solid gray;text-align:left;vertical-align:top">';
                                 echo '<a class="fontblack a_concierto" href=InfoGrupo.php?nombre=' . $nombre_artistico . '>';
                                 echo '<div class="inline">';
-                                echo '<img id="img_lista_img" class="inline" src="Imagenes/image.jpeg">';
+                                echo '<img id="img_lista_img" class="inline" src="'.$imagen.'">';
                                 echo '<b id="h4_lista_img">' . $lista['NOMBRE_ARTISTICO'] . '</b>';
                                 $average = votosGrupo($lista['ID_USUARIO']);
                                 mostrarEstrellasPuntuacionLocal($average, $i);
