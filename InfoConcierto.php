@@ -46,8 +46,8 @@
             $imagen = getImageID($resultado['ID_USUARIO']);
             echo'<div class="center content">';
             echo '<h1 class="center">' . $fecha . ' - ' . $local['NOMBRE_LOCAL'] . '</h1>';
-            echo'<div class="inline center">';
-            echo'<img src="'.$imagen.'" alt=""/>';
+            echo'<div class="inline center" style="vertical-align:top">';
+            echo'<img src="'.$imagen.'" alt="" style="width:250px"/>';
             echo'</div>';
             echo '<div class="inline center">';
             echo'<b style="color:#d83c3c">CONCIERTO RATING</b><i id="puntuacion" hidden>' . $puntuacion . '</i><br>';

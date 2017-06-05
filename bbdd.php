@@ -274,7 +274,7 @@ function ListaConciertosFan($fechaConciertos, $genero, $ciudad, $grupo, $local, 
     desconectar($conexion);
 }
 
-function ListaConciertosMusico($fechaConciertos, $idgrupo,$estado) {
+function ListaConciertosMusico($fechaConciertos, $idgrupo, $estado) {
     $conexion = conectar();
     $sql = "SELECT *, (SELECT NOMBRE_ARTISTICO FROM USUARIO WHERE ID_USUARIO = ID_GRUPO) AS NOMBRE_ARTISTICO, (SELECT NOMBRE_LOCAL FROM USUARIO WHERE ID_USUARIO = ID_LOCAL) AS NOMBRE_LOCAL, (SELECT UBICACION FROM USUARIO WHERE ID_USUARIO = ID_LOCAL) AS UBICACION, (SELECT ID_CIUDAD FROM USUARIO WHERE ID_USUARIO = ID_LOCAL) AS CIUDAD FROM CONCIERTO WHERE ID_GRUPO = $idgrupo AND ESTADO = $estado AND VISIBLE = 1 AND FECHA='$fechaConciertos'";
     $result = $conexion->query($sql);
@@ -725,7 +725,7 @@ function ArtistasAlza($genero, $ciudad, $titulo) {
         echo '<div id="musicoRanking' . $i . '" style="margin-bottom:20px">';
         echo '<div class="div_peque_ranking"></div>';
         echo '<div class="div_ranking">';
-        echo '<img class="img_div_ranking inline" src="'.$imagen.'">';
+        echo '<img class="img_div_ranking inline" src="' . $imagen . '">';
         echo '<div class="nombre_artista inline vertical_top" style="padding-top:10px;padding-left:10px;text-align:left"><a href="InfoGrupo.php?nombre=' . $nombre_artistico . '"><b class="fontblack a_concierto" style="font-size:25px">' . $row['NOMBRE'] . '</b><br><i class="color_rojo_general"> ' . $row['NOMBRE_GENERO'] . ' - ' . $row['NOMBRE_CIUDAD'] . '</i></a></div>';
         echo '</div>';
         echo '<img class="img_ranking_numero" src="Imagenes/ranking' . $i . '.png">';
@@ -1517,14 +1517,15 @@ function votarComentarConcierto($fan, $votado, $puntos, $comentario) {
 
 function getImageID($id) {
     $conexion = conectar();
-    $sql = "SELECT * FROM USUARIO WHERE ID_USUARIO = '$id'";
+    $sql = "SELECT * FROM USUARIO WHERE ID_USUARIO = $id";
     $result = $conexion->query($sql);
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         if ($row['IMAGEN'] != null) {
-            return $GLOBALS['rutaImagen']. $result['IMAGEN'];
+            $imagen = $GLOBALS['rutaImagen'].''.$row['IMAGEN'];
+            return $imagen;
         } else {
-            return $GLOBALS['rutaImagen'].'/image.jpeg';
+            return $GLOBALS['rutaImagen'] . 'image.jpeg';
         }
     } else {
         return false;
@@ -1538,9 +1539,9 @@ function getImageEmail($email) {
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         if ($row['IMAGEN'] != null) {
-            return $GLOBALS['rutaImagen']. $result['IMAGEN'];
+            return $GLOBALS['rutaImagen'] .''. $result['IMAGEN'];
         } else {
-            return $GLOBALS['rutaImagen'].'/image.jpeg';
+            return $GLOBALS['rutaImagen'] . 'image.jpeg';
         }
     } else {
         return false;

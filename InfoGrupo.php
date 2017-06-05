@@ -44,9 +44,10 @@
             $puntuacion = votosGrupo($resultado['ID_USUARIO']);
             $comentarios = comentariosGrupo($resultado['ID_USUARIO']);
             $imagen = getImageID($resultado['ID_USUARIO']);
+
             echo'<div class="center content">';
-            echo'<div class="inline center">';
-            echo'<img src="'.$imagen.'" alt=""/>';
+            echo'<div class="inline center" style="vertical-align:top">';
+            echo'<img src="'.$imagen.'" alt="" style="width:250px"/>';
             echo'</div>';
             echo '<div class="inline">';
             echo '<h1>' . $resultado['NOMBRE_ARTISTICO'] . '</h1>';
