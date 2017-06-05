@@ -2144,7 +2144,7 @@ function darBaja($id) {
     if (mysqli_query($conexion, $sql)) {
         return true;
     } else {
-        return false
+        return false;
     }
     desconectar($conexion);
 }
