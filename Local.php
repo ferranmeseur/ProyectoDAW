@@ -47,7 +47,6 @@
                 <div id="grupos" class="inline" style="width:40%;padding-right:100px">
                     <?php
                     require_once 'bbdd.php';
-                    require_once'BusquedaMusicos.php';
                     if (isset($_POST['ciudad'])) {
                         $ciudad = $_POST['ciudad'];
                     } else {

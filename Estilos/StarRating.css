@@ -6,7 +6,6 @@
 
 .rating_fixed { 
   border: none;
-  float: right;
   pointer-events:none;
 }
 
@@ -28,7 +27,6 @@
 
 .rating_fixed > label { 
   color: #ddd; 
- float: right; 
 }
 
 

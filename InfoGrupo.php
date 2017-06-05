@@ -63,6 +63,7 @@
                         <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
                         <input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
                         </fieldset> ';
+            echo '<table>';
             echo '<div class="center">Componentes : ' . $resultado['NUMERO_COMPONENTES'] . '</div>';
             echo '<div class="center">Genero : ' . getNombreGenero(($resultado['ID_GENERO'])) . '</div>';
             echo '<div class="center">Ciudad : ' . getNombreCiudad($resultado['ID_CIUDAD']) . '</div>';

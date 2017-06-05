@@ -45,67 +45,71 @@
             $local = getNombreLocal(($resultado['ID_LOCAL']));
             $imagen = getImageID($resultado['ID_USUARIO']);
             echo'<div class="center content">';
-            echo '<h1 class="center">' . $fecha . ' - ' . $local['NOMBRE_LOCAL'] . '</h1>';
-            echo'<div class="inline center" style="vertical-align:top">';
+            echo '<h1 class="center">' . $fecha . ' - <span class="color_rojo_general">' . $resultado['NOMBRE_ARTISTICO'] . '</span> en <span class="color_rojo_general">' . $local['NOMBRE_LOCAL'] . '</span></h1>';
+            echo'<div  class="inline center" style="vertical-align:top">';
             echo'<img src="' . $imagen . '" alt="" style="width:250px"/>';
             echo'</div>';
-            echo '<div class="inline center">';
-            echo'<b style="color:#d83c3c">CONCIERTO RATING</b><i id="puntuacion" hidden>' . $puntuacion . '</i><br>';
-            echo '<fieldset class="center rating_fixed"style="float:none">
-                        <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
-                        <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
-                        <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
-                        <input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
-                        <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
-                        <input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="No muy bueno - 2.5 stars"></label>
-                        <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title=" - 2 stars"></label>
-                        <input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
-                        <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
-                        <input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
-                        </fieldset> ';
-            echo '<h1>' . $resultado['NOMBRE_ARTISTICO'] . '</h1>';
-            echo'<div class="center">Fecha : ' . $fecha . '</div>';
-            echo'<div class="center">Precio de la entrada : ' . $resultado['PRECIO_ENTRADA'] . ' €</div>';
-            echo'<div class="center">Grupo : ' . $resultado['NOMBRE'] . '</div>';
-            echo'<div class="center">Ciudad : ' . getNombreCiudad($resultado['ID_CIUDAD']) . '</div>';
-            echo'<div class="center">Local : ' . $local['NOMBRE_LOCAL'] . '</div>';
-            echo '<div class="center"> Calle : ' . $local['UBICACION'] . '</div>';
-            echo'<div class="center">Genero : ' . getNombreGenero(($resultado['ID_GENERO'])) . '</div>';
-            echo '<div class="center">Contacto : ';
+            echo '<div class="inline center" style="width:450px">';
+            echo '<div>';
+            echo'<b style="color:#d83c3c">CONCIERTO RATING</b><i id="puntuacion" hidden>' . $puntuacion . '</i>';
+            echo '</div>';
+            echo '<div class="rating_fixed" style="width:35%;margin:auto 145px auto auto">
+                <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Fantástico - 5 stars"></label>
+                <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Bastante bien - 4.5 stars"></label>
+                <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Bastante bien - 4 stars"></label>
+                <input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+                <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                <input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="No muy bueno - 2.5 stars"></label>
+                <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title=" - 2 stars"></label>
+                <input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+                <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                <input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+                </div> ';
+            echo '<br><table cellspacing="20" style="text-align:left">';
+            echo'<tr><td>Precio de la entrada : </td><td>' . $resultado['PRECIO_ENTRADA'] . ' €</td></tr>';
+            echo'<tr><td>Grupo : </td><td>' . $resultado['NOMBRE'] . '</td></tr>';
+            echo'<tr><td>Ciudad : </td><td>' . getNombreCiudad($resultado['ID_CIUDAD']) . '</td></tr>';
+            echo'<tr><td>Local : </td><td>' . $local['NOMBRE_LOCAL'] . '</td></tr>';
+            echo '<tr><td> Calle : </td><td>' . $local['UBICACION'] . '</td></tr>';
+            echo'<tr><td>Genero : </td><td>' . getNombreGenero(($resultado['ID_GENERO'])) . '</td></tr>';
             if ($resultado['WEB'] != null) {
-                echo $local['WEB'] . ' , ';
+                echo'<tr><td>Web : </td><td>' . $local['WEB'] . '</td></tr>';
             }
+            echo '<tr><td>Email :</td><td>' . $local['EMAIL'] . '</td></tr>';
+            echo '<tr><td>Contacto :</td><td>' . $local['NUMERO_CONTACTO'] . '</td></tr>';
+            echo'</table>';
             echo'</div>';
             echo'</div>';
 
-            echo $local['EMAIL'] . ', ' . $local['NUMERO_CONTACTO'] . '</div>';
             if ($comentarios != false) {
-                echo '</br></br><div class="container">';
+                echo '</div>';
+                echo '<div style="margin:auto auto auto auto;width:500px">';
+                echo '<div class="container">';
                 while ($lista = $comentarios->fetch_assoc()) {
-                    $image = getImageID($lista['ID_USUARIO']);
-                    echo'<div class="row center">
-                    <div class="col-sm-8">
-                    <div class="panel panel-white post panel-shadow">
-                    <div class="post-heading">
-                    <div class="pull-left image">
-                        <img src="' . $imagen . '" class="img-circle avatar" alt="user profile image">
-                    </div>
-                    <div class="pull-left meta">
-                    <div class="title h5">
-                    <b>' . $lista['NOMBRE'] . ' ' . $lista['APELLIDOS'] . ' </b>
-                            ha realizado un comentario
-                        </div>
-                        <h6 class="text-muted time">El ' . getNombreFecha(date("w-d-m-Y", strtotime($lista['FECHA']))) . '</h6>
-                    </div>
-                </div> 
-                <div class="post-description"> 
-                   <p> ' . str_replace("<pre>", "", $lista['COMENTARIO']). '</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>';
+                    $imagen = getImageID($lista['ID_USUARIO']);
+                    echo '<div class="row center">';
+                    echo '<div class="col-sm-8">';
+                    echo '<div class="panel panel-white post panel-shadow">';
+                    echo '<div class="post-heading">';
+                    echo '<div class="pull-left image">';
+                    echo '<img src="' . $imagen . '" class="img-circle avatar" alt="user profile image">';
+                    echo '</div>';
+                    echo '<div class="pull-left meta">';
+                    echo '<div class="title h5">';
+                    echo '<b>' . $lista['NOMBRE'] . ' ' . $lista['APELLIDOS'] . '</b>';
+                    echo ' ha realizado un comentario';
+                    echo '</div>';
+                    echo '<h6 class="text-muted time">El ' . getNombreFecha(date("w-d-m-Y", strtotime($lista['FECHA']))) . '</h6>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '<div class="post-description">';
+                    echo '<p> ' . str_replace("<pre>", "", $lista['COMENTARIO']) . '</p>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
                 }
+                echo'</div>';
                 echo'</div>';
             }
             echo '</div></div>';
@@ -113,17 +117,16 @@
             if (isset($_POST["enviar"]) && $_SESSION['check'] == 0) {
                 $_SESSION['check'] = 1;
                 $puntos = $_POST["rating2"];
-                echo $puntos;
                 $comentario = $_POST["comentario"];
                 $user = getInfoUser($_SESSION['email']);
-                votarComentarConcierto($user['ID_USUARIO'], $resultado['ID_USUARIO'], $puntos, $comentario);
+                votarComentarNoConcierto($user['ID_USUARIO'], $resultado['ID_USUARIO'], $puntos, $comentario);
             }
             if (isset($_SESSION['email'])) {
                 $user = getInfoUser($_SESSION['email']);
-                $_SESSION['check']  = checkVotar($resultado['ID_USUARIO'], $user['ID_USUARIO']);
+                $_SESSION['check'] = checkVotar($resultado['ID_USUARIO'], $user['ID_USUARIO']);
             }
             if (isset($_SESSION['pass']) && $user['TIPO_USUARIO'] == "Fan" && $_SESSION['check'] == 0) {
-                echo ' <div  class="center">';
+                echo '<div style="text-align:center">';
                 echo'<h2>Deja tu comentario:</h2>';
                 echo'<form action = "" method = "POST" id="msform">';
                 echo'<div style="width:200px" class="rating">
@@ -142,13 +145,10 @@
                     <textarea name="comentario" maxlength="255" rows="5" cols="50"></textarea>
                     </div>
             <button style="width:400px" type="submit" class="submit action-button"  name = "enviar">Enviar Comentario</button>
-       </form></div></div></div></div></div>';
+       </form></div></div></div></div>';
             }
-            echo'</div>';
-            echo'</div>';
-            echo'</div>';
-            echo'</div>';
             ?>
-            <div id="footer"></div>
+
+            <div id="footer" class="margin_top_200px"></div>
     </body>
 </html>
