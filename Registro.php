@@ -16,8 +16,8 @@
     </head>
     <body>
         <div id="header"></div>
-        <div class="center"></br>
-            Introduce los siguientes datos para darte de alta en Music and Seek:</br></br>
+        <div class="center content"></br>
+           <h1> <span class="color_rojo_general">Registrate </span>en Music and Seek</h1>
             <div id="Registro" class="inline">
                 <div id="Labels" class="inline text_align_left ">
                     <?php
@@ -67,7 +67,7 @@
                         header("Location:RegistroExtra.php");
                     } else {
                         echo ' 
-                <form action = "" method = "POST">
+                <form action = "" method = "POST" id="msform">
                     <div id="Rol" class="center">
                         Tipo de usuario : 
                         <select name="tipo">
@@ -76,36 +76,34 @@
                             <option value="Fan">Fan</option>
                         </select>                        
                     </div>
-                    <div id="Nombre" class="align_right">
+                    <div id="Nombre" class="text_align_left">
                     <label style="color:red;">* </label>Nombre :<input type = "text" name = "nombre" maxlength="20" minlength="3" required>
                     </div>
-                    <div id="Apellido" class="padding5 align_right">
+                    <div id="Apellido" class="padding5 text_align_left">
                     Apellido :<input type = "text" name = "apellido" maxlength="20" minlength="3">
                     </div>
-                    <div id="Mail" class="padding5 align_right">
+                    <div id="Mail" class="padding5 text_align_left">
                     <label style="color:red;">* </label>Email :<input type = "text" name = "mail1" maxlength="50" minlength="5" required>
                     </div>
-                    <div id="Mail2" class="padding5 align_right">
+                    <div id="Mail2" class="padding5 text_align_left">
                     <label style="color:red;">* </label> Confirma Email :<input type = "text" name = "mail2" maxlength="50" minlength="5" required>
                     </div>
-                    <div id="Pass" class="padding5 align_right">
+                    <div id="Pass" class="padding5 text_align_left">
                     <label style="color:red;">* </label>Contraseña :<input type = "password" name = "pas1" maxlength="10" minlength="5" required>
                     </div>
-                    <div id="Pass2" class="padding align_right">
+                    <div id="Pass2" class="padding text_align_left">
                     <label style="color:red;">* </label>Confirma la contraseña : <input type = "password" name = "pas2" maxlength="10" minlength="5" required>
                     </div>
-                    <div id="Mail" class="padding5 align_right">
+                    <div id="Mail" class="padding5 text_align_left">
                     <label style="color:red;">* </label>Pregunta de Seguridad: <input type = "text" name = "pregunta" maxlength="40" minlength="5" required>
                     </div>
-                    <div id="Mail" class="padding5 align_right">
+                    <div id="Mail" class="padding5 text_align_left">
                     <label style="color:red;">* </label>Respuesta de Seguridad : <input type = "text" name = "respuesta" maxlength="20" minlength="5" required>
                     </div>
                 </div>
-                </br>
-                </br><div style="color:red;font-size:10px;">* Campos obligatorios</div>
-                            <input type = "submit" name = "enviar" value="Siguiente" class="register-button">
-
-            </div></br></br>
+                <h3 class="color_rojo_general">* Campos obligatorios</h3>
+                <input style="width:400px" type="submit" class="submit action-button"name = "enviar" value="Siguiente" class="register-button">
+            </div>
             </div>
         </form>';
                     }

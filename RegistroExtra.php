@@ -22,18 +22,17 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
             });
         </script> 
         <link href="Estilos/Estilos.css" rel="stylesheet" type="text/css"/>
+        <link href="Estilos/RegistrationForm.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div id="header"></div>
-        </br><div id="result" class="center">
-            Introduce los siguientes datos para darte de alta en Music and Seek:</div>
-        </br></br>
+        </br><div id="result" class="center content">
+        <h1> <span class="color_rojo_general">Registrate </span>en Music and Seek</h1>
         <div class="center">
             <div class="inline">
                 <div id="Labels" class="inline text_align_left ">
                     <?php
                     require_once 'bbdd.php';
-
                     function check() {
                         switch ($_SESSION['tipo']) {
                             case "Local":
@@ -63,7 +62,6 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                                 break;
                         }
                     }
-
                     $tipo = $_SESSION['tipo'];
                     $mail = $_SESSION['mail'];
                     $nombre = $_SESSION['nombre'];
@@ -166,83 +164,83 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                         switch ($_SESSION['tipo']) {
                             case "Local":
                                 echo ' 
-        <form action = "" method = "POST" enctype="multipart/form-data">
-                    <div id="Nombre" class="padding5 align_right">
+        <form action = "" method = "POST" enctype="multipart/form-data" id="msform">
+                    <div id="Nombre" class="padding5 text_align_left">
                     <label style="color:red;">* </label>Nombre local :<input type = "text" name = "nombrelocal" maxlength="20" minlength="5" required>
                     </div>
-                    <div id="Ciudad" class="padding align_right"> Ciudad:';
+                    <div id="Ciudad" class="padding text_align_left"> Ciudad:';
                                 $ciudades = ListaCiudades();
                                 echo'<label style="color:red;">* </label><select name = "ciudad" required>';
                                 while ($fila2 = mysqli_fetch_array($ciudades)) {
                                     extract($fila2);
                                     echo"<option value=$ID_CIUDAD>$NOMBRE</option>";
                                 }echo'</select></div>
-                    <div id="Ubicacion" class="align_right">
+                    <div id="Ubicacion" class="text_align_left">
                     <label style="color:red;">* </label>Ubicación :<input type = "text" name = "ubicacion" maxlength="50" minlength="3" required>
                     </div>
-                    <div id="Telefono" class="padding5 align_right">
+                    <div id="Telefono" class="padding5 text_align_left">
                     <label style="color:red;">* </label>Telefono :<input type = "number" name = "telefono" maxlength="11" minlength="9" required>
                     </div>
-                    <div id="Aforo" class="padding5 align_right">
+                    <div id="Aforo" class="padding5 text_align_left">
                     <label style="color:red;">* </label>Aforo :<input type = "number" name = "aforo" maxlength="5" minlength="1" required>
                     </div>
-                    <div id="Imagen" class="padding5 align_right">
-                    Imagen :<input type="file" name="fileToUpload">
+                    <div id="Imagen" class="padding5 text_align_left">
+                    Imagen :<input type="file" name="fileToUpload" >
                     </div>
-                    <div id="Web" class="padding5 align_right">
+                    <div id="Web" class="padding5 text_align_left">
                     Web :<input type = "text" name = "web" maxlength="20" minlength="5" >
                     </div>
-                   <div id="Descripcion" class="padding5 align_right">
+                   <div id="Descripcion" class="padding5 text_align_left">
                     Descripción :<textarea name="descripcion" maxlength="255" rows="5" cols="50"></textarea>
                     </div>
                 </div>
                 </br>
-                </br><div style="color:red;font-size:10px;">* Campos obligatorios</div>
+                <h3 class="color_rojo_general">* Campos obligatorios</h3>
             </div></br></br>
-            <input type = "submit" name = "enviar" value = "Siguiente">             
+            <input style="width:400px" type="submit" class="submit action-button" name = "enviar" value = "Siguiente">             
             </div>
         </form>';
                                 break;
                             case "Fan":
                                 echo ' 
-                    <form action = "" method = "POST" enctype="multipart/form-data">
-                   <div id="Ciudad" class="padding align_right">  <label style="color:red;">* </label>Ciudad:';
+                    <form action = "" method = "POST" enctype="multipart/form-data" id="msform">
+                   <div id="Ciudad" class="padding text_align_left">  <label style="color:red;">* </label>Ciudad:';
                                 $ciudades = ListaCiudades();
                                 echo'<select name = "ciudad" required>';
                                 while ($fila2 = mysqli_fetch_array($ciudades)) {
                                     extract($fila2);
                                     echo"<option value=$ID_CIUDAD>$NOMBRE</option>";
                                 }echo' </select></div>
-                    <div id="Ubicacion" class="align_right">
+                    <div id="Ubicacion" class="text_align_left">
                     Ubicación :<input type = "text" name = "ubicacion" maxlength="50" minlength="3">
                     </div>
-                    <div id="Telefono" class="padding5 align_right">
+                    <div id="Telefono" class="padding5 text_align_left">
                     Telefono :<input type = "number" name = "telefono" maxlength="11" minlength="9">
                     </div>
-                    <div id="Imagen" class="padding5 align_right">
+                    <div id="Imagen" class="padding5 text_align_left">
                     Imagen :<input type="file" name="fileToUpload">
                     </div>
-                    <div id="Web" class="padding5 align_right">
+                    <div id="Web" class="padding5 text_align_left">
                     Web :<input type = "text" name = "web" maxlength="20" minlength="5" >
                     </div>
-                    <div id="Descripcion" class="padding5 align_right">
+                    <div id="Descripcion" class="padding5 text_align_left">
                     Descripción :<textarea name="descripcion" maxlength="255" rows="5" cols="50"></textarea>
                     </div>
                 </div>
                  </br>
-                </br><div style="color:red;font-size:10px;">* Campos obligatorios</div>
-            </div></br></br>
-            <input type = "submit" name = "enviar" value = "Siguiente">             
+                <h3 class="color_rojo_general">* Campos obligatorios</h3>
+            </div></br>
+            <input style="width:400px" type="submit" class="submit action-button" name = "enviar" value = "Siguiente">             
             </div>
         </form>';
                                 break;
                             case "Musico":
                                 echo ' 
-        <form action = "" method = "POST" enctype="multipart/form-data">
-                    <div id="Nombre" class="padding5 align_right">
+        <form action = "" method = "POST" enctype="multipart/form-data" id="msform">
+                    <div id="Nombre" class="padding5 text_align_left">
                     <label style="color:red;">* </label>Nombre artistico :<input type = "text" name = "nombreartistico" maxlength="20" minlength="5" required>
                     </div>
-                    <div id="Genero" class="padding align_right"> <label style="color:red;">* </label>Genero:';
+                    <div id="Genero" class="padding text_align_left"> <label style="color:red;">* </label>Genero:';
                                 $generos = ListaGeneros();
                                 echo'<select name="genero" required>';
                                 while ($fila2 = mysqli_fetch_array($generos)) {
@@ -251,36 +249,36 @@ if (isset($_SESSION['tipo']) && isset($_SESSION['mail'])) {
                                 }
                                 echo'</select></div>';
                                 echo'
-                           <div id = "Ciudad" class = "padding align_right"> <label style="color:red;">* </label>Ciudad:';
+                           <div id = "Ciudad" class = "padding text_align_left"> <label style="color:red;">* </label>Ciudad:';
                                 $ciudades = ListaCiudades();
                                 echo'<select name = "ciudad" required>';
                                 while ($fila2 = mysqli_fetch_array($ciudades)) {
                                     extract($fila2);
                                     echo"<option value=$ID_CIUDAD>$NOMBRE</option>";
                                 }echo' </select></div>
-                            <div id = "Ubicacion" class = "align_right">
+                            <div id = "Ubicacion" class = "text_align_left">
                             Ubicación :<input type = "text" name = "ubicacion" maxlength = "50" minlength = "3">
                             </div>
-                            <div id = "Telefono" class = "padding5 align_right">
+                            <div id = "Telefono" class = "padding5 text_align_left">
                             <label style="color:red;">* </label>Telefono :<input type = "number" name = "telefono" maxlength = "11" minlength = "9" required>
                             </div>
-                            <div id = "Componentes" class = "padding5 align_right">
+                            <div id = "Componentes" class = "padding5 text_align_left">
                             <label style="color:red;">* </label>Componentes :<input type = "number" name = "componentes" maxlength = "5" minlength = "1" required>
                             </div>
-                            <div id = "Imagen" class = "padding5 align_right">
+                            <div id = "Imagen" class = "padding5 text_align_left">
                             Imagen :<input type="file" name="fileToUpload" maxlength = "50" minlength = "5">
                             </div>
-                            <div id = "Web" class = "padding5 align_right">
+                            <div id = "Web" class = "padding5 text_align_left">
                             Web :<input type = "text" name = "web" maxlength = "20" minlength = "5" >
                             </div>
-                            <div id="Descripcion" class="padding5 align_right">
+                            <div id="Descripcion" class="padding5 text_align_left">
                     Descripción :<textarea name="descripcion" maxlength="255" rows="5" cols="50"></textarea>
                     </div>
                             </div>
                              </br>
-                </br><div style="color:red;font-size:10px;">* Campos obligatorios</div>
-                            </div></br></br>
-                            <input type = "submit" name = "enviar" value = "Siguiente">
+                <h3 class="color_rojo_general">* Campos obligatorios</h3>
+                            </div></br>
+                            <input style="width:400px" type="submit" class="submit action-button" name = "enviar" value = "Siguiente">
                             </div>
                             </form>';
                                 break;
